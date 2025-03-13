@@ -1,0 +1,23 @@
+# Ignore Windows and system files
+/AppData/
+/Cookies/
+/Documents/
+/Recent/
+/Downloads/
+/VirtualBox VMs/
+/ntuser.*
+/Saved Games/
+/Searches/
+/Videos/
+
+# Ignore system and IDE config files
+/.vscode/
+/.idea/
+/.gradle/
+/.android/
+/.ipython/
+/.cache/
+/.VirtualBox/
+/ntuser.*
+
+.DS_Store
