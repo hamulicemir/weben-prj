@@ -21,7 +21,7 @@
         </div>
 
         <!-- Brand/Logo -->
-        <a class="navbar-brand position-absolute start-50 translate-middle-x" href="#" style="font-size: 24px; font-weight: bold">ICONIQ</a>
+        <a class="navbar-brand position-absolute start-50 translate-middle-x" href="../pages/index.php" style="font-size: 24px; font-weight: bold">ICONIQ</a>
 
         <!-- Suchleiste und Icons -->
         <div class="d-flex align-items-center">
@@ -61,7 +61,7 @@
 </nav>
 
 <script>
-    // JavaScript, um das Suchfeld ein- und auszublenden
+    // JavaScript, um das Suchfeld ein- und auszublenden im Mobile-Modus
     document.getElementById('searchIcon').addEventListener('click', function(event) {
         event.preventDefault(); // Verhindert das Standardverhalten des Links
         const searchBox = document.getElementById('searchBox');
@@ -86,10 +86,8 @@
 
     .form-control {
         font-family: 'Roboto Flex', sans-serif;
-        text-transform: uppercase;
-        /* Text in Großbuchstaben */
-        font-size: 12px;
-        /* Kleinere Schriftgröße */
+        text-transform: uppercase; /* Text in Großbuchstaben */
+        font-size: 12px; /* Kleinere Schriftgröße */
     }
 
     /* Globale Schriftart für die Navbar */
@@ -98,10 +96,8 @@
     .nav-link,
     .offcanvas-title {
         font-family: 'Roboto Flex', sans-serif;
-        text-transform: uppercase;
-        /* Text in Großbuchstaben */
-        font-size: 12px;
-        /* Kleinere Schriftgröße */
+        text-transform: uppercase; /* Text in Großbuchstaben */
+        font-size: 12px; /* Kleinere Schriftgröße */
     }
 
     .navbar {
@@ -129,7 +125,6 @@
     .cursor-hover {
         cursor: pointer;
     }
-
 
     .navbar-toggler {
         border: none;

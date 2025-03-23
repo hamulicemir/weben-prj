@@ -67,6 +67,13 @@
         font-family: 'Roboto Flex', sans-serif;
         font-size: 10px;
         /* Kleinere Schriftgröße */
+        margin-top: auto; /* Sticky Footer */
+
+    }
+    html, body { /* Sticky Footer */
+        height: 100%;
+        display: flex;
+        flex-direction: column;
     }
 
     h1 {
@@ -77,7 +84,6 @@
         font-family: 'Roboto Flex', sans-serif;
         font-size: 11px;
     }
-
 
     footer a:hover {
         text-decoration: underline;
