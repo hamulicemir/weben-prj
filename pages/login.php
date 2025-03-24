@@ -12,6 +12,10 @@
             margin: 0;
             overflow: hidden; /* Verhindert Scrollen */
         }
+        .form-check-input:checked {
+            background-color: black;
+            border-color: black;
+        }
     </style>
 </head>
 <body>
@@ -24,14 +28,14 @@
                     <div class="col-12">
                         <div class="mb-4 text-center">
                             <p class="navbar-brand mb-1" style="font-size: 32px; font-weight: bold">ICONIQ</p>
-                            <p class="mb-0" style="font-size: 26px; font-weight: bold">Sign Up</p>
+                            <p class="mb-0" style="font-size: 26px; font-weight: bold">Log In</p>
                         </div>
                     </div>
                 </div>
                 <form action="#!">
                     <div class="row gy-3 overflow-hidden">
                         <div class="col-12">
-                            <div class="form-floating mb-2">
+                            <div class="form-floating mb-2"> <!-- Eventuell ändern auf E-Mail oder Username-->
                                 <input type="email" class="form-control" name="email" id="email" placeholder="name@example.com" required>
                                 <label for="email" class="form-label">E-Mail</label>
                             </div>
@@ -52,7 +56,7 @@
                         </div>
                         <div class="col-12">
                             <div class="d-grid">
-                                <button class="btn btn-outline-dark btn-lg" type="submit">Log in</button>
+                                <button class="btn btn-outline-dark btn-lg fw-bold" type="submit">Log in</button>
                             </div>
                         </div>
                     </div>
@@ -60,8 +64,8 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="d-flex justify-content-between gap-2 gap-md-4 flex-column flex-md-row mt-4">
-                            <a class="text-muted" href="#!">Forgot password?</a>
-                            <a class="text-muted" href="#!">Don't have an account?</a>
+                            <a class="text-muted fw-bold" href="#!">Forgot password?</a>
+                            <a class="text-muted fw-bold" href="../pages/signup.php">Don't have an account?</a>
                         </div>
                     </div>
                 </div>
