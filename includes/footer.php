@@ -41,7 +41,6 @@
 
 
             <hr class="my-4">
-
             <!-- Footer Bottom -->
             <div class="row">
                 <div class="col-6">
