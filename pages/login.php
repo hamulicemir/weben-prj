@@ -24,7 +24,7 @@
                     <div class="col-12">
                         <div class="mb-4 text-center">
                             <p class="navbar-brand mb-1" style="font-size: 32px; font-weight: bold">ICONIQ</p>
-                            <p class="mb-0" style="font-size: 28px; font-weight: bold">Sign Up</p>
+                            <p class="mb-0" style="font-size: 26px; font-weight: bold">Sign Up</p>
                         </div>
                     </div>
                 </div>
@@ -33,7 +33,7 @@
                         <div class="col-12">
                             <div class="form-floating mb-2">
                                 <input type="email" class="form-control" name="email" id="email" placeholder="name@example.com" required>
-                                <label for="email" class="form-label">Email</label>
+                                <label for="email" class="form-label">E-Mail</label>
                             </div>
                         </div>
                         <div class="col-12">
@@ -52,7 +52,7 @@
                         </div>
                         <div class="col-12">
                             <div class="d-grid">
-                                <button class="btn btn-primary btn-lg" type="submit">Log in</button>
+                                <button class="btn btn-outline-dark btn-lg" type="submit">Log in</button>
                             </div>
                         </div>
                     </div>
