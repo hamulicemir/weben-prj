@@ -1,5 +1,6 @@
 <?php
 session_start();
+header('Content-Type: application/json');
 $loginError = $_SESSION['loginError'] ?? null;
 unset($_SESSION['loginError']);
 ?>
@@ -13,6 +14,9 @@ unset($_SESSION['loginError']);
     <title>ICONIQ - Login</title>
     <link rel="shortcut icon" href="../assets/fonts/favicon.ico" type="image/x-icon"/>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="../components/jquery-3.7.1.min.js"></script>
+    <script src="../assets/js/login.js"></script>
+
     <style>
         html, body {
             height: 100%;
@@ -38,24 +42,18 @@ unset($_SESSION['loginError']);
                         </div>
                     </div>
                 </div>
-                <form action="../includes/login-handler.php" method="POST">
+                <form id="loginForm">
                     <div class="row gy-3 overflow-hidden">
                         <div class="col-12">
                             <div class="form-floating mb-2"> <!-- Eventuell ändern auf E-Mail ODER Username-->
-                                <input type="email" class="form-control <?= $loginError ? 'is-invalid' : '' ?>" name="email" id="email" placeholder="name@example.com" required>
+                                <input type="email" class="form-control" name="email" id="email" placeholder="name@example.com" required>
                                 <label for="email" class="form-label">E-Mail</label>
-                                <?php if ($loginError): ?>
-                                    <div class="invalid-feedback">E-Mail oder Passwort falsch.</div>
-                                <?php endif; ?>
                             </div>
                         </div>
                         <div class="col-12">
                             <div class="form-floating mb-2">
-                                <input type="password" class="form-control <?= $loginError ? 'is-invalid' : '' ?>" name="password" id="password" placeholder="Password" required>
+                                <input type="password" class="form-control" name="password" id="password" placeholder="Password" required>
                                 <label for="password" class="form-label">Password</label>
-                                <?php if ($loginError): ?>
-                                    <div class="invalid-feedback">E-Mail oder Passwort falsch.</div>
-                                <?php endif; ?>
                             </div>
                         </div>
                         <div class="col-12">
@@ -85,6 +83,50 @@ unset($_SESSION['loginError']);
         </div>
     </div>
 </section>
+<script>
+    $(document).ready(function(){
+        $("#loginForm").submit(function(e){
+            e.preventDefault();
+            let email = $("#email");
+            let password = $("#password");
+
+            // Reset invalid classes
+            email.removeClass("is-invalid");
+            password.removeClass("is-invalid");
+
+            // Validate inputs
+            let isValid = true;
+            if(password.val().length < 6){
+                password.addClass("is-invalid");
+                isValid = false;
+            }
+            if(!email.val().includes("@")){
+                email.addClass("is-invalid");
+                isValid = false;
+            }
+
+            if(!isValid) return;
+
+            let formData = $(this).serialize();
+            $.post("../includes/login.php", formData, function(response){
+                if(response.success){
+                    window.location.href = "../pages/index.php";
+                }
+                else{
+                    // Error Cases
+                    if(response.errors && response.errors.email){
+                        email.addClass("is-invalid");
+                    }
+                    if(response.errors && response.errors.password){
+                        password.addClass("is-invalid");
+                    }
+                }
+            }, "json").fail(function(){
+                alert("Login failed.");
+            });
+        });
+    });
+</script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>
