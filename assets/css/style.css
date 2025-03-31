@@ -40,12 +40,12 @@ body {
     font-family: 'Roboto Flex', sans-serif;
     font-size: var(--font-size-small);
     border-radius: var(--border-radius);
-    border: none;
-    border-bottom: 1px solid #000;
-    border-radius: 0;
+    border: none !important;
+    border-bottom: 1px solid #000 !important;
+    border-radius: 0 !important;
     padding-left: 0;
-    background-color: transparent;
-    box-shadow: none;
+    background-color: transparent !important;
+    box-shadow: none !important;
 }
 
 .form-control:focus {
@@ -140,21 +140,54 @@ h2 {
 /* Floating Label Positionierung */
 .form-group label {
     position: absolute;
-    top: 10px;
+    top: -8px;
     left: 0;
     color: #999;
-    font-size: 11px;
+    font-size: 10px;
     transition: all 0.2s ease-in-out;
     pointer-events: none;
+    background-color: white; /* sorgt dafür, dass nix durchscheint */
+    padding: 0 4px; /* Abstand links/rechts zur Linie */
 }
 
 .form-control:focus + label,
 .form-control:not(:placeholder-shown) + label {
-    top: -12px;
+    top: -20px;
     font-size: 10px;
     color: #000;
 }
 
+.form-check {
+    display: flex;
+    align-items: center;
+    gap: 6px; /* kleiner Abstand zwischen Kreis und Text */
+    margin-right: 1.5rem;
+    padding: 0;
+}
+
+.form-check-inline {
+    display: flex;
+    align-items: center;
+    gap: 5px; /* optional, Abstand zwischen Kreis & Text */
+    margin-right: 1rem; /* Abstand zum nächsten Radio */
+}
+
+.form-check-input {
+    margin-top: 0 !important; /* Kreis vertikal ausrichten */
+    transform: translateY(-1px); /* optional: 1px nach oben verschieben */
+}
+
+.form-check-label {
+    margin: 0;
+    padding: 0;
+    line-height: 1; /* gleicht vertikale Abstände aus */
+    font-size: var(--font-size-small); /* einheitlich zur restlichen Form */
+}
+
+.form-check-input,
+.form-check-label {
+    vertical-align: middle;
+}
 
 @media (max-width: 425px) {
     #searchIcon {
