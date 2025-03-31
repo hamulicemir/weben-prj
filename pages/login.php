@@ -45,7 +45,7 @@ unset($_SESSION['loginError']);
                                 <input type="email" class="form-control <?= $loginError ? 'is-invalid' : '' ?>" name="email" id="email" placeholder="name@example.com" required>
                                 <label for="email" class="form-label">E-Mail</label>
                                 <?php if ($loginError): ?>
-                                    <div class="invalid-feedback"></div>
+                                    <div class="invalid-feedback">E-Mail oder Passwort falsch.</div>
                                 <?php endif; ?>
                             </div>
                         </div>

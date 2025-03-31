@@ -15,9 +15,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $user = $result->fetch_assoc();
 
     // Wenn gehashtes password dann stattdessen:
-    // if ($user && password_verify($password, $user['password'])) {
+        if ($user && password_verify($password, $user['password'])) {
 
-    if ($user && $password === $user['password']) {
         // Session starten
         $_SESSION['user'] = [
             'id' => $user['id'],

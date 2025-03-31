@@ -38,7 +38,7 @@
             </section>
             <section class="col-12 col-md-6">
                 <h1>KUNDENKONTO ERSTELLEN</h1>
-                <form action="../includes/signup_process.php" method="post">
+                <form action="../includes/signup-process.php" method="post">
                     <div class="form-row pt-3">
                         <div class="col-12 mb-3">
                             <div class="form-check form-check-inline">
