@@ -6,7 +6,7 @@ if (session_status() === PHP_SESSION_NONE) {
 $servername = "localhost";
 $username = "weben-prj";
 $password = "weben-prj";
-$dbname = "weben_prj";
+$dbname = "weben-prj";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
