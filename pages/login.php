@@ -27,7 +27,6 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="mb-4 text-center">
-                            <p class="navbar-brand mb-1" style="font-size: 32px; font-weight: bold">ICONIQ</p>
                             <p class="mb-0" style="font-size: 26px; font-weight: bold">Log In</p>
                         </div>
                     </div>

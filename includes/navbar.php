@@ -85,7 +85,6 @@
 
     .form-control {
         font-family: 'Roboto Flex', sans-serif;
-        text-transform: uppercase; /* Text in Großbuchstaben */
         font-size: 12px; /* Kleinere Schriftgröße */
     }
 

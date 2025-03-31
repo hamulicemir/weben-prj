@@ -1,18 +1,163 @@
-body {
-    font-family: 'Roboto Flex', sans-serif;
-}
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,100..1000&display=swap');
 
 @font-face {
     font-family: 'Roboto Flex';
     src: url('assets/fonts/RobotoFlex-VariableFont.ttf') format('truetype');
-    font-weight: 100 1000; /* Gewichtsbereich */
-    font-stretch: 25% 151%; /* Breitenbereich */
-}
-
-body {
-    font-family: 'Roboto Flex', sans-serif;
+    font-weight: 100 1000;
+    /* Gewichtsbereich */
+    font-stretch: 25% 151%;
+    /* Breitenbereich */
 }
 
 h1 {
     font-variation-settings: 'wght' 700, 'wdth' 100;
+}
+
+label {
+    font-size: var(--font-size-small);
+    margin-top: 0.5rem;
+}
+
+:root {
+    --navbar-hover-color: #f8f9fa;
+    --navbar-icon-color: #333;
+    --primary-color: #000;
+    --font-size-small: 12px;
+    --border-radius: 20px;
+}
+
+html,
+body {
+    height: 100%;
+    margin: 0;
+    overflow-x: hidden;
+    font-family: 'Roboto Flex', sans-serif;
+    font-size: var(--font-size-small);
+
+}
+
+.form-control {
+    font-family: 'Roboto Flex', sans-serif;
+    font-size: var(--font-size-small);
+    border-radius: var(--border-radius);
+    border: none;
+    border-bottom: 1px solid #000;
+    border-radius: 0;
+    padding-left: 0;
+    background-color: transparent;
+    box-shadow: none;
+}
+
+.form-control:focus {
+    outline: none;
+    box-shadow: none;
+    border-color: #ccc;
+}
+
+/* Platzhalter ausblenden, damit Label sichtbar wird */
+.form-control::placeholder {
+    color: transparent;
+    transition: all 0.2s ease-in-out;
+}
+
+.form-control:focus::placeholder {
+    color: #999;
+}
+
+.navbar,
+.navbar-brand,
+.nav-link,
+.offcanvas-title {
+    font-family: 'Roboto Flex', sans-serif;
+    font-size: 12px;
+}
+
+.navbar {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.underline-hover {
+    position: relative;
+    display: inline-block;
+    text-decoration: none;
+}
+
+.underline-hover:hover::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -0.5px;
+    width: 100%;
+    height: 1px;
+    background-color: black;
+}
+
+.cursor-hover {
+    cursor: pointer;
+}
+
+.navbar-toggler {
+    border: none;
+}
+
+.offcanvas {
+    background-color: #fff;
+}
+
+.offcanvas-header {
+    border-bottom: 1px solid #e9ecef;
+}
+
+.offcanvas-title {
+    font-weight: bold;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border: none;
+    border-radius: var(--border-radius);
+    font-size: var(--font-size-small);
+}
+
+.btn-primary:hover {
+    background-color: #333;
+}
+
+ul.list-checked li {
+    margin-bottom: 0.5rem;
+}
+
+h1,
+h2 {
+    font-size: 1.2rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+/* Floating Label Positionierung */
+.form-group label {
+    position: absolute;
+    top: 10px;
+    left: 0;
+    color: #999;
+    font-size: 11px;
+    transition: all 0.2s ease-in-out;
+    pointer-events: none;
+}
+
+.form-control:focus + label,
+.form-control:not(:placeholder-shown) + label {
+    top: -12px;
+    font-size: 10px;
+    color: #000;
+}
+
+
+@media (max-width: 425px) {
+    #searchIcon {
+        display: none;
+    }
 }
