@@ -1,3 +1,10 @@
+<?php
+session_start();
+$loginError = $_SESSION['loginError'] ?? null;
+unset($_SESSION['loginError']);
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -31,18 +38,24 @@
                         </div>
                     </div>
                 </div>
-                <form action="#!">
+                <form action="../includes/login-handler.php" method="POST">
                     <div class="row gy-3 overflow-hidden">
                         <div class="col-12">
-                            <div class="form-floating mb-2"> <!-- Eventuell ändern auf E-Mail oder Username-->
-                                <input type="email" class="form-control" name="email" id="email" placeholder="name@example.com" required>
+                            <div class="form-floating mb-2"> <!-- Eventuell ändern auf E-Mail ODER Username-->
+                                <input type="email" class="form-control <?= $loginError ? 'is-invalid' : '' ?>" name="email" id="email" placeholder="name@example.com" required>
                                 <label for="email" class="form-label">E-Mail</label>
+                                <?php if ($loginError): ?>
+                                    <div class="invalid-feedback"></div>
+                                <?php endif; ?>
                             </div>
                         </div>
                         <div class="col-12">
                             <div class="form-floating mb-2">
-                                <input type="password" class="form-control" name="password" id="password" placeholder="Password" required>
+                                <input type="password" class="form-control <?= $loginError ? 'is-invalid' : '' ?>" name="password" id="password" placeholder="Password" required>
                                 <label for="password" class="form-label">Password</label>
+                                <?php if ($loginError): ?>
+                                    <div class="invalid-feedback">E-Mail oder Passwort falsch.</div>
+                                <?php endif; ?>
                             </div>
                         </div>
                         <div class="col-12">
