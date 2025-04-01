@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="shortcut icon" href="../assets/fonts/favicon.ico" type="image/x-icon" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="../assets/js/signup.js" defer></script>    
     <style>
         html,
         body {
@@ -38,7 +40,7 @@
             </section>
             <section class="col-12 col-md-6">
                 <h1>KUNDENKONTO ERSTELLEN</h1>
-                <form action="../includes/signup-process.php" method="post">
+                <form id="signupForm" action="../includes/signup-process.php" method="post">
                     <div class="form-row pt-3">
                         <div class="col-12 mb-3">
                             <div class="form-check form-check-inline">
