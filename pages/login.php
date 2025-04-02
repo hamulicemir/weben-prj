@@ -1,5 +1,11 @@
 <?php
 session_start();
+
+if (isset($_SESSION['user']['id'])) {
+    header("Location: ../pages/index.php");
+    exit();
+}
+
 //header('Content-Type: application/json');
 $loginError = $_SESSION['loginError'] ?? null;
 unset($_SESSION['loginError']);
