@@ -1,19 +1,21 @@
 
 // signup.js (AJAX Handler)
+// signup.js
 $(document).ready(function () {
     $('#signupForm').submit(function (e) {
         e.preventDefault();
-        const password1 = $('#passwort1').val();
-        const password2 = $('#passwort2').val();
-
         $('#errorMsg').hide();
 
+        const password1 = $('#password1').val();
+        const password2 = $('#password2').val();
+
         if (password1.length < 6) {
-            $('#errorMsg').text('Passwort muss mindestens 6 Zeichen lang sein.').show();
+            $('#errorMsg').text('Password must be at least 6 characters long.').show();
             return;
         }
+
         if (password1 !== password2) {
-            $('#errorMsg').text('Passwörter stimmen nicht überein.').show();
+            $('#errorMsg').text('Passwords do not match.').show();
             return;
         }
 
@@ -26,7 +28,30 @@ $(document).ready(function () {
                 $('#errorMsg').text(response.message).show();
             }
         }, 'json').fail(function () {
-            $('#errorMsg').text('Ein Fehler ist aufgetreten.').show();
+            $('#errorMsg').text('An error has occurred.').show();
         });
     });
 });
+
+function isValidIBAN(iban) {
+    iban = iban.replace(/\\s+/g, '').toUpperCase();
+    if (!/^\\w{15,34}$/.test(iban)) return false;
+    const rearranged = iban.slice(4) + iban.slice(0, 4);
+    const converted = rearranged.replace(/[A-Z]/g, ch => ch.charCodeAt(0) - 55);
+    let remainder = '';
+    for (let i = 0; i < converted.length; i++) {
+        remainder = (remainder + converted[i]) % 97;
+    }
+    return remainder == 1;
+}
+
+$('#signupForm').submit(function (e) {
+    const iban = $('#payment_info').val();
+    if (!isValidIBAN(iban)) {
+        e.preventDefault();
+        $('#errorMsg').text('Please enter a valid IBAN.').show();
+        return;
+    }
+});
+
+
