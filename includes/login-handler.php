@@ -1,10 +1,13 @@
 <?php
 session_start();
 require_once("config.php");
+include "functions.php";
 
 header('Content-Type: application/json');
 
 $response = ["success" => false, "errors" => []];
+
+// Funktion: Benutzer anhand der ID abrufen
 
 // Überprüfen, ob der Benutzer bereits eingeloggt ist
 if (isset($_SESSION['user'])) {
@@ -21,31 +24,10 @@ if (isset($_COOKIE['remember_me'])) {
         exit();
     }
 
-    // Benutzer anhand der ID aus der Datenbank abrufen
-    $stmt = $conn->prepare("SELECT * FROM users WHERE id = ?");
-    $stmt->bind_param("i", $userId);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $user = $result->fetch_assoc();
+    $user = getUserById($conn, $userId);
 
     if ($user) {
-        // Benutzer in der Session speichern
-        $_SESSION['user'] = [
-            'id' => $user['id'],
-            'role' => $user['role'],
-            'salutation' => $user['salutation'],
-            'first_name' => $user['first_name'],
-            'last_name' => $user['last_name'],
-            'address' => $user['address'],
-            'postal_code' => $user['postal_code'],
-            'city' => $user['city'],
-            'email' => $user['email'],
-            'username' => $user['username'],
-            'created_at' => $user['created_at'],
-            'updated_at' => $user['updated_at'],
-            'payment_info' => $user['payment_info']
-        ];
-
+        setUserSession($user);
         echo json_encode(["success" => true, "message" => "Automatisch eingeloggt."]);
         exit();
     } else {
@@ -65,12 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         exit();
     }
 
-    // User aus DB holen
-    $stmt = $conn->prepare("SELECT * FROM users WHERE email = ?");
-    $stmt->bind_param("s", $email);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $user = $result->fetch_assoc();
+    $user = getUserByEmail($conn, $email);
 
     if (!$user) {
         $response["errors"]["email"] = "Kein Benutzer mit dieser E-Mail-Adresse gefunden.";
@@ -84,22 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         exit();
     }
 
-    // Session starten
-    $_SESSION['user'] = [
-        'id' => $user['id'],
-        'role' => $user['role'],
-        'salutation' => $user['salutation'],
-        'first_name' => $user['first_name'],
-        'last_name' => $user['last_name'],
-        'address' => $user['address'],
-        'postal_code' => $user['postal_code'],
-        'city' => $user['city'],
-        'email' => $user['email'],
-        'username' => $user['username'],
-        'created_at' => $user['created_at'],
-        'updated_at' => $user['updated_at'],
-        'payment_info' => $user['payment_info']
-    ];
+    setUserSession($user);
 
     if ($remember) {
         // Sicherstellen, dass der Cookie sicher gesetzt wird
