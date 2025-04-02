@@ -40,6 +40,7 @@
             </section>
             <section class="col-12 col-md-6">
                 <h1>CREATE CUSTOMER ACCOUNT</h1>
+                <div id="errorMsg" class="alert alert-danger" style="display:none;"></div>
                 <form id="signupForm" action="../includes/signup-process.php" method="post">
                     <div class="form-row pt-3">
                         <div class="col-12 mb-3">
@@ -106,13 +107,6 @@
 
                         <div class="row">
                             <div class="form-group col-md-12">
-                                <input type="tel" class="form-control" id="phone" name="phone" placeholder="">
-                                <label for="phone">Phone Number (optional)</label>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="form-group col-md-12">
                                 <input type="text" class="form-control" id="username" name="username" placeholder="" required>
                                 <label for="username">Username</label>
                             </div>
@@ -128,7 +122,7 @@
                         <div class="row">
                             <div class="form-group col-md-12">
                                 <input type="text" class="form-control" id="payment_info" name="payment_info" placeholder="" required>
-                                <label for="payment_info">IBAN</label>
+                                <label for="payment_info">IBAN No for Direct Debit</label>
                             </div>
                         </div>
 

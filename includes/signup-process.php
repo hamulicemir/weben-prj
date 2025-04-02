@@ -3,7 +3,7 @@
 // signup-process.php
 require_once("config.php");
 header('Content-Type: application/json');
-session_start();
+
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // Required fields from form
@@ -14,14 +14,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $username = $_POST['username'];
     $password1 = $_POST['password1'];
     $password2 = $_POST['password2'];
-    $phone = $_POST['phone'] ?? '';
     $address = trim($_POST['street'] . ' ' . $_POST['no'] . ' ' . ($_POST['addressaddition'] ?? ''));
     $postal_code = $_POST['zip'];
     $city = $_POST['city'];
     $country = $_POST['country'];
     $payment_info = $_POST['payment_info'];
-    
-    
+
+
     // Password check
     if ($password1 !== $password2) {
         echo json_encode(['success' => false, 'message' => 'Passwords do not match.']);
@@ -52,13 +51,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $active = 1;
 
     // Insert user
-    $stmt = $conn->prepare("INSERT INTO users (role, salutation, first_name, last_name, address, postal_code, city, email, username, password_hash, payment_info, active) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("sssssssssssi", $role, $salutation, $first_name, $last_name, $address, $postal_code, $city, $email, $username, $hashedPassword, $payment_info, $active);
+    $stmt = $conn->prepare("INSERT INTO users (role, salutation, first_name, last_name, address, postal_code, city, country, email, username, password_hash, payment_info, active) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("ssssssssssssi", $role, $salutation, $first_name, $last_name, $address, $postal_code, $city, $country, $email, $username, $hashedPassword, $payment_info, $active);
 
     if ($stmt->execute()) {
         echo json_encode(['success' => true]);
     } else {
-        echo json_encode(['success' => false, 'message' => 'Error saving user: ' . $stmt->error]);
+        http_response_code(500);
+        echo json_encode(['success' => false, 'message' => 'SQL Error: ' . $stmt->error]);
+        
     }
 }
 ?>
