@@ -1,4 +1,5 @@
 <?php
+include 'functions.php';
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -17,18 +18,13 @@ if ($conn->connect_error) {
 // auto-login via cookie
 if (!isset($_SESSION['user']) && isset($_COOKIE['remember_me'])) {
     $userId = $_COOKIE['remember_me'];
-    $stmt = $conn->prepare("SELECT * FROM users WHERE id = ?");
-    $stmt->bind_param("i", $userId);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    if ($user = $result->fetch_assoc()) {
-        $_SESSION['user'] = [
-            'id' => $user['id'],
-
-            //muss an die datenbank angepasst werden, die wir im endeffekt verwenden werden + im signup formular auch benutzernamen feld einbauen
-            'role' => $user['rolle'],
-            'username' => $user['vorname']
-        ];
+    $userById = getUserById($conn, $userId);
+    if ($user = $userById) {
+        setUserSession($user);
+        $_SESSION['user']['remember_me'] = true;
+    } else {
+        // Cookie ist ungültig, also löschen
+        setcookie('remember_me', '', time() - 3600, '/');
     }
 }
 ?>
