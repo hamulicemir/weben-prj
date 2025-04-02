@@ -10,9 +10,9 @@
             <div class="col-12 col-md-4 col-xl-2 mb-3">
                 <h6 class="text-uppercase">About</h6>
                 <ul class="list-unstyled mt-2">
-                    <li><a href="#" class="text-decoration-none text-dark mb-1 d-block">The Brand</a></li>
-                    <li><a href="#" class="text-decoration-none text-dark mb-1 d-block">Stores</a></li>
-                    <li><a href="#" class="text-decoration-none text-dark d-block">Jobs</a></li>
+                    <li><a href="../pages/thebrand.php" class="text-decoration-none text-dark mb-1 d-block">The Brand</a></li>
+                    <li><a href="../pages/stores.php" class="text-decoration-none text-dark mb-1 d-block">Stores</a></li>
+                    <li><a href="../pages/jobs.php" class="text-decoration-none text-dark d-block">Jobs</a></li>
                 </ul>
             </div>
 
@@ -22,8 +22,7 @@
                 <ul class="list-unstyled mt-2">
                     <li><a href="#" class="text-decoration-none text-dark mb-1 d-block">Size Guide</a></li>
                     <li><a href="#" class="text-decoration-none text-dark mb-1 d-block">Newsletter</a></li>
-                    <li><a href="#" class="text-decoration-none text-dark mb-1 d-block">FAQ</a></li>
-                    <li><a href="#" class="text-decoration-none text-dark mb-1 d-block">Bezahlung</a></li>
+                    <li><a href="../pages/faq.php" class="text-decoration-none text-dark mb-1 d-block">FAQ</a></li>
                     <li><a href="#" class="text-decoration-none text-dark d-block">Retoure</a></li>
                 </ul>
             </div>
@@ -32,9 +31,8 @@
             <div class="col-12 col-md-4 col-xl-2 mb-3">
                 <h6 class="text-uppercase">Kontakt</h6>
                 <ul class="list-unstyled mt-2">
-                    <li><a href="mailto:support@myoakshop.com" class="text-decoration-none text-dark mb-1 d-block">support@iconiq.com</a></li>
+                    <li><a href="mailto:support@iconiq.com" class="text-decoration-none text-dark mb-1 d-block">support@iconiq.com</a></li>
                     <li class="text-muted small mb-1">Mo - Fr von 09:00 bis 18:00 Uhr</li>
-                    <li><a href="#" class="text-decoration-none text-dark d-block">Zum Kontaktformular</a></li>
                 </ul>
             </div>
 
@@ -45,10 +43,9 @@
                     <span>AT | <span class="text-capitalize">Deutsch</span></span>
                 </div>
                 <div class="col-6 text-end">
-                    <a href="#" class="text-decoration-none text-dark me-2">Cookie Einstellungen</a>
-                    <a href="#" class="text-decoration-none text-dark me-2">AGB</a>
-                    <a href="#" class="text-decoration-none text-dark me-2">Datenschutz</a>
-                    <a href="#" class="text-decoration-none text-dark">Impressum</a>
+                    <a href="../pages/agb.php" class="text-decoration-none text-dark me-2">AGB</a>
+                    <a href="../pages/dataprotection.php" class="text-decoration-none text-dark me-2">Datenschutz</a>
+                    <a href="../pages/imprint.php" class="text-decoration-none text-dark">Impressum</a>
                 </div>
             </div>
         </div>
