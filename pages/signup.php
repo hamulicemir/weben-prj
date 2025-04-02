@@ -105,37 +105,6 @@
                         </div>
 
                         <div class="row">
-                            <label for="birthday" class="form-label">Birthday (optional)</label>
-
-                            <div class="form-group col-md-4">
-                                <select class="form-control" id="birthday_day" name="birthday_day">
-                                    <option value="">DD</option>
-                                    <?php for ($i = 1; $i <= 31; $i++): ?>
-                                        <option value="<?= $i ?>"><?= str_pad($i, 2, '0', STR_PAD_LEFT) ?></option>
-                                    <?php endfor; ?>
-                                </select>
-                            </div>
-
-                            <div class="form-group col-md-4">
-                                <select class="form-control" id="birthday_month" name="birthday_month">
-                                    <option value="">MM</option>
-                                    <?php for ($i = 1; $i <= 12; $i++): ?>
-                                        <option value="<?= $i ?>"><?= str_pad($i, 2, '0', STR_PAD_LEFT) ?></option>
-                                    <?php endfor; ?>
-                                </select>
-                            </div>
-
-                            <div class="form-group col-md-4">
-                                <select class="form-control" id="birthday_year" name="birthday_year">
-                                    <option value="">YYYY</option>
-                                    <?php for ($i = date('Y'); $i >= 1950; $i--): ?>
-                                        <option value="<?= $i ?>"><?= $i ?></option>
-                                    <?php endfor; ?>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="row">
                             <div class="form-group col-md-12">
                                 <input type="tel" class="form-control" id="phone" name="phone" placeholder="">
                                 <label for="phone">Phone Number (optional)</label>
