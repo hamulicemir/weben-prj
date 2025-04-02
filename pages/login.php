@@ -6,11 +6,14 @@ if (isset($_SESSION['user']['id'])) {
     exit();
 }
 
-//header('Content-Type: application/json');
+if (isset($_COOKIE['remember_me'])) {
+    header("Location: ../includes/login-handler.php");
+    exit();
+}
+
 $loginError = $_SESSION['loginError'] ?? null;
 unset($_SESSION['loginError']);
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -119,6 +122,7 @@ unset($_SESSION['loginError']);
                 if (!isValid) return;
 
                 let formData = $(this).serialize();
+                // Send AJAX request
                 $.post("../includes/login-handler.php", formData, function(response) {
                     if (response.success) {
                         window.location.href = "../pages/index.php";

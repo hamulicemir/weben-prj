@@ -17,6 +17,7 @@ if ($conn->connect_error) {
 // auto-login via cookie
 if (!isset($_SESSION['user']) && isset($_COOKIE['remember_me'])) {
     $userId = $_COOKIE['remember_me'];
+    $userbyId = 
     $stmt = $conn->prepare("SELECT * FROM users WHERE id = ?");
     $stmt->bind_param("i", $userId);
     $stmt->execute();

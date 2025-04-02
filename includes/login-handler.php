@@ -1,10 +1,44 @@
 <?php
 session_start();
 require_once("config.php");
+include "functions.php";
+// Debugging aktivieren
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
 header('Content-Type: application/json');
 
 $response = ["success" => false, "errors" => []];
+
+// Funktion: Benutzer anhand der ID abrufen
+
+// Überprüfen, ob der Benutzer bereits eingeloggt ist
+if (isset($_SESSION['user'])) {
+    echo json_encode(["success" => true, "message" => "Bereits eingeloggt."]);
+    exit();
+}
+
+// Überprüfen, ob der remember_me-Cookie gesetzt ist
+if (isset($_COOKIE['remember_me'])) {
+    $userId = $_COOKIE['remember_me'];
+
+    if (!$conn) {
+        echo json_encode(["success" => false, "errors" => ["general" => "Datenbankverbindung fehlgeschlagen."]]);
+        exit();
+    }
+
+    $user = getUserById($conn, $userId);
+
+    if ($user) {
+        setUserSession($user);
+        echo json_encode(["success" => true, "message" => "Automatisch eingeloggt."]);
+        exit();
+    } else {
+        // Ungültiger Cookie, löschen
+        setcookie("remember_me", "", time() - 3600, "/");
+    }
+}
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $email = $_POST['email'];
@@ -17,12 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         exit();
     }
 
-    // User aus DB holen
-    $stmt = $conn->prepare("SELECT * FROM users WHERE email = ?");
-    $stmt->bind_param("s", $email);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $user = $result->fetch_assoc();
+    $user = getUserByEmail($conn, $email);
 
     if (!$user) {
         $response["errors"]["email"] = "Kein Benutzer mit dieser E-Mail-Adresse gefunden.";
@@ -36,25 +65,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         exit();
     }
 
-    // Session starten
-    $_SESSION['user'] = [
-        'id' => $user['id'],
-        'role' => $user['role'],
-        'salutation' => $user['salutation'],
-        'first_name' => $user['first_name'],
-        'last_name' => $user['last_name'],
-        'address' => $user['address'],
-        'postal_code' => $user['postal_code'],
-        'city' => $user['city'],
-        'email' => $user['email'],
-        'username' => $user['username'],
-        'created_at' => $user['created_at'],
-        'updated_at' => $user['updated_at'],
-        'payment_info' => $user['payment_info']
-    ];
+    setUserSession($user);
 
     if ($remember) {
-        setcookie("remember_me", $user['id'], time() + (86400 * 30), "/");
+        // Sicherstellen, dass der Cookie sicher gesetzt wird
+        setcookie("remember_me", $user['id'], time() + (86400 * 30), "/", "", true, true);
     }
 
     $response["success"] = true;
