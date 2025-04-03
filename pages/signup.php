@@ -43,27 +43,27 @@
                 <div id="errorMsg" class="alert alert-danger" style="display:none;"></div>
                 <form id="signupForm" action="../includes/signup-process.php" method="post">
                     <div class="form-row pt-3">
-                        <div class="col-12 mb-3">
+                        <div class="col-12 mb-3 radio-group">
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" id="Ms" type="radio" name="salutation" value="Ms" required>
                                 <label for="Ms" class="form-check-label">Ms</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="salutation" value="Mr" required>
-                                <label class="form-check-label">Mr</label>
+                                <input class="form-check-input" id="Mr" type="radio" name="salutation" value="Mr" required>
+                                <label for="Mr" class="form-check-label">Mr</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="salutation" value="Other" required>
-                                <label class="form-check-label">Other</label>
+                                <input class="form-check-input" id="Other" type="radio" name="salutation" value="Other" required>
+                                <label for="Other" class="form-check-label">Other</label>
                             </div>
                         </div>
 
                         <div class="row">
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-6 mt-3">
                                 <input type="text" class="form-control" id="firstname" name="firstname" placeholder="" required>
                                 <label for="firstname">First Name</label>
                             </div>
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-6 mt-3">
                                 <input type="text" class="form-control" id="lastname" name="lastname" placeholder="" required>
                                 <label for="lastname">Last Name</label>
                             </div>
@@ -141,7 +141,7 @@
                         </div>
 
                         <div class="row">
-                            <div class="form-group col-12">
+                            <div class="PP col-12">
                                 <input type="checkbox" class="form-check-input" id="policy" required>
                                 <label class="form-check-label" for="policy">
                                     I accept the <a href="#">privacy policy</a>
@@ -150,7 +150,7 @@
                         </div>
 
                         <div class="row">
-                            <div class="form-group col-12">
+                            <div class="PP col-12">
                                 <button type="submit" name="submit" class="btn btn-primary btn-block">Create Account</button>
                             </div>
                         </div>

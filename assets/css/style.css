@@ -112,17 +112,6 @@ body {
     font-weight: bold;
 }
 
-.btn-primary {
-    background-color: var(--primary-color);
-    border: none;
-    border-radius: var(--border-radius);
-    font-size: var(--font-size-small);
-}
-
-.btn-primary:hover {
-    background-color: #333;
-}
-
 ul.list-checked li {
     margin-bottom: 0.5rem;
 }
@@ -133,7 +122,7 @@ h2 {
 }
 
 .form-group {
-    margin-bottom: 1.5rem;
+    margin-bottom: 2.0rem;
     position: relative;
 }
 
@@ -146,48 +135,124 @@ h2 {
     font-size: 10px;
     transition: all 0.2s ease-in-out;
     pointer-events: none;
-    background-color: white; /* sorgt dafür, dass nix durchscheint */
-    padding: 0 4px; /* Abstand links/rechts zur Linie */
+    background-color: white;
+    /* sorgt dafür, dass nix durchscheint */
+    padding: 0 4px;
+    /* Abstand links/rechts zur Linie */
 }
 
-.form-control:focus + label,
-.form-control:not(:placeholder-shown) + label {
+.form-control:focus+label,
+.form-control:not(:placeholder-shown)+label {
     top: -20px;
     font-size: 10px;
     color: #000;
 }
 
-.form-check {
+
+/* Radio-Gruppe Anpassungen */
+.radio-group {
     display: flex;
     align-items: center;
-    gap: 6px; /* kleiner Abstand zwischen Kreis und Text */
-    margin-right: 1.5rem;
-    padding: 0;
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+    padding-top: 1rem;
+    /* Abstand nach oben */
 }
 
+/* Radio-Buttons und Labels nebeneinander ausrichten */
 .form-check-inline {
     display: flex;
     align-items: center;
-    gap: 5px; /* optional, Abstand zwischen Kreis & Text */
-    margin-right: 1rem; /* Abstand zum nächsten Radio */
+    margin-right: 0;
+    padding-left: 0;
+    min-height: 24px;
+    /* Feste Höhe für bessere Ausrichtung */
 }
 
-.form-check-input {
-    margin-top: 0 !important; /* Kreis vertikal ausrichten */
-    transform: translateY(-1px); /* optional: 1px nach oben verschieben */
+/* Radio-Button Styling */
+.form-check-input[type="radio"] {
+    width: 16px;
+    height: 16px;
+    margin: 0 8px 0 0;
+    /* Abstand zwischen Radio und Label */
+    border: 1px solid #000;
+    position: relative;
 }
 
+/* Schwarze Füllung für ausgewählte Radio-Buttons */
+.form-check-input[type="radio"]:checked {
+    background-color: #000;
+    border-color: #000;
+}
+
+.form-check-input[type="radio"]:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.3);
+    /* Weiche schwarze Umrandung */
+}
+
+/* Labels direkt neben den Radio-Buttons */
 .form-check-label {
     margin: 0;
     padding: 0;
-    line-height: 1; /* gleicht vertikale Abstände aus */
-    font-size: var(--font-size-small); /* einheitlich zur restlichen Form */
+    font-size: var(--font-size-small);
+    line-height: 1;
+    vertical-align: middle;
+    cursor: pointer;
 }
 
-.form-check-input,
-.form-check-label {
-    vertical-align: middle;
+/* Checkbox Container anpassen */
+.PP {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    /* Abstand zwischen Checkbox und Text */
+    padding: 8px 0;
+    /* Optional: Vertikaler Abstand */
 }
+
+/* Checkbox Styling */
+.form-check-input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    margin: 0;
+    /* Bootstrap Standard überschreiben */
+    border: 1px solid #000;
+    border-radius: 2px;
+}
+
+/* Checkbox ausgefüllt */
+.form-check-input[type="checkbox"]:checked {
+    background-color: #000;
+    border-color: #000;
+}
+
+.form-check-input[type="checkbox"]:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.3);
+    /* Weiche schwarze Umrandung */
+}
+
+/* Link im Label */
+.form-check-label a {
+    color: #000;
+    text-decoration: underline;
+}
+
+/* Button Styling */
+.PP .btn-primary {
+    background-color: #000;
+    border: none;
+    padding: 10px 20px;
+    font-weight: 500;
+    transition: background-color 0.3s;
+    margin-top: 1.5rem;
+}
+
+.PP .btn-primary:hover {
+    background-color: #333;
+}
+
 
 @media (max-width: 425px) {
     #searchIcon {
