@@ -45,15 +45,15 @@
                     <div class="form-row pt-3">
                         <div class="col-12 mb-3">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="title" value="ms" required>
+                                <input class="form-check-input" type="radio" name="salutation" value="Ms" required>
                                 <label class="form-check-label">Ms</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="title" value="mr" required>
+                                <input class="form-check-input" type="radio" name="salutation" value="Mr" required>
                                 <label class="form-check-label">Mr</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="title" value="other" required>
+                                <input class="form-check-input" type="radio" name="salutation" value="Other" required>
                                 <label class="form-check-label">Other</label>
                             </div>
                         </div>

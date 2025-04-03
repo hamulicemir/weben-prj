@@ -7,7 +7,7 @@ header('Content-Type: application/json');
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // Required fields from form
-    $salutation = $_POST['title'];
+    $salutation = $_POST['salutation'];
     $first_name = $_POST['firstname'];
     $last_name = $_POST['lastname'];
     $email = $_POST['email'];

@@ -45,6 +45,30 @@ unset($_SESSION['loginError']);
 
 <body>
     <?php include '../includes/navbar.php'; ?> <!-- navbar -->
+
+    <!--von Sign Up Succes Meldung-->
+    
+<?php if (isset($_GET['success']) && $_GET['success'] === 'true'): ?>
+    <div id="successMsg" class="alert alert-success text-center d-flex align-items-center justify-content-center gap-2">
+        🟢 <span>Your account was created successfully. Please log in.</span>
+    </div>
+<?php endif; ?>
+
+<script>
+    // Nur anzeigen, wenn es existiert
+    $(document).ready(function () {
+        const successBox = $('#successMsg');
+        if (successBox.length) {
+            setTimeout(function () {
+                successBox.fadeOut();
+                // Clean URL after delay
+                const newUrl = window.location.origin + window.location.pathname;
+                window.history.replaceState({}, document.title, newUrl);
+            }, 4000);
+        }
+    });
+</script>
+
     <section class="py-3 py-md-5 py-xl-8 d-flex justify-content-center align-items-center min-vh-100">
         <div class="col-12 col-md-6 col-xl-4">
             <div class="card border-0 rounded-4 shadow">

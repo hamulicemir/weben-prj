@@ -30,7 +30,8 @@ $(document).ready(function () {
 
         $.post('../includes/signup-process.php', formData, function (response) {
             if (response.success) {
-                window.location.href = '../pages/login.php';
+                window.location.href = window.location.origin + '/weben-prj/pages/login.php?success=true';
+
             } else {
                 $('#errorMsg').text(response.message).show();
             }
