@@ -36,6 +36,10 @@ body {
 
 }
 
+.card {
+    margin-top: 50px;
+}
+
 .form-control {
     font-family: 'Roboto Flex', sans-serif;
     font-size: var(--font-size-small);
