@@ -3,16 +3,16 @@
         <div class="row">
 
             <!-- Spalte 1: ICONIQ -->
-            <div class="col-12 col-xl-2 mb-3">
+            <div class="col-12 col-xl-6 mb-3">
                 <h1 class="fw-bold mb-3">ICONIQ</h1>
             </div>
 
             <!-- Leere Spalte zur Verschiebung -->
-            <div class="d-none d-xl-block col-xl-3"></div>
+            <!--<div class="d-none d-xl-block col-xl-3"></div>-->
 
              
             <!-- ABOUT -->
-            <div class="col-12 col-md-6 col-xl-2 mb-3">
+            <div class="col-12 col-md-2 col-xl-2 mb-3 text-xl-end">
                 <h6 class="text-uppercase">About</h6>
                 <ul class="list-unstyled mt-2">
                     <li><a href="../pages/thebrand.php" class="text-decoration-none text-dark mb-1 d-block">The Brand</a></li>
@@ -22,7 +22,7 @@
             </div>
 
             <!-- SERVICE -->
-            <div class="col-12 col-md-6 col-xl-2 mb-3">
+            <div class="col-12 col-md-2 col-xl-2 mb-3 text-xl-end">
                 <h6 class="text-uppercase">Service & Support</h6>
                 <ul class="list-unstyled mt-2">
                     <li><a href="#" class="text-decoration-none text-dark mb-1 d-block">Size Guide</a></li>
@@ -33,7 +33,7 @@
             </div>
 
             <!-- CONTACT -->
-            <div class="col-12 col-xl-3 mb-3 text-xl-end">
+            <div class="col-12 col-xl-2 mb-3 text-xl-end">
                 <h6 class="text-uppercase">Contact</h6>
                 <ul class="list-unstyled mt-2">
                     <li><a href="mailto:support@iconiq.com" class="text-decoration-none text-dark mb-1 d-block">support@iconiq.com</a></li>

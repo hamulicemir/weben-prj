@@ -64,7 +64,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     } else {
         http_response_code(500); // Fehlercode an Browser senden (Serverfehler)
         echo json_encode(['success' => false, 'message' => 'SQL Error: ' . $stmt->error]);
-        
     }
 }
 ?>
