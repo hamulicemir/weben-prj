@@ -57,9 +57,6 @@
         </div>
 </footer>
 
-
-
-
 <style>
     /* Roboto Flex von Google Fonts einbinden */
     @import url('https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,100..1000&display=swap');
