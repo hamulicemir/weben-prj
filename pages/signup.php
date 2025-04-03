@@ -36,10 +36,10 @@
                     <li>Manage invoices & personal data</li>
                 </ul>
             </section>
-            <section class="col-12 col-md-6">
+            <section class="col-12 col-md-6 ms-md-5">
                 <h1>CREATE CUSTOMER ACCOUNT</h1>
                 <div id="errorMsg" class="alert alert-danger" style="display:none;"></div>
-                <form id="signupForm" action="../includes/signup-process.php" method="post">
+                <form id="signupForm" method="post">
                     <div class="form-row pt-3">
                         <div class="col-12 mb-3 radio-group">
                             <div class="form-check form-check-inline">
@@ -154,6 +154,20 @@
                         </div>
                     </div>
                 </form>
+
+                <!-- Modal -->
+                <div class="modal fade" id="signupSuccessModal" tabindex="-1" aria-labelledby="signupSuccessLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content text-center">
+                            <div class="modal-header">
+                                <h5 class="modal-title w-100" id="signupSuccessLabel">Welcome to ICONIQ!</h5>
+                            </div>
+                            <div class="modal-body">
+                                Account created – you're logged in!
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </section>
         </div>
     </main>
