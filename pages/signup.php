@@ -45,8 +45,8 @@
                     <div class="form-row pt-3">
                         <div class="col-12 mb-3">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="salutation" value="Ms" required>
-                                <label class="form-check-label">Ms</label>
+                                <input class="form-check-input" id="Ms" type="radio" name="salutation" value="Ms" required>
+                                <label for="Ms" class="form-check-label">Ms</label>
                             </div>
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="salutation" value="Mr" required>
@@ -155,7 +155,6 @@
                             </div>
                         </div>
                     </div>
-
                 </form>
             </section>
         </div>
