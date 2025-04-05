@@ -14,9 +14,12 @@
 <main class="py-5">
 
   <div class="container">
+  <select id="categorySelect" class="form-select mb-3" style="max-width: 300px;">
+  </select>
+
     <div id="product-list" class="row"></div>
   </div>
-  
+
 </main>
 <?php include '../includes/footer.php'; ?> <!-- Footer -->
 
@@ -49,6 +52,7 @@ fetch('../includes/get-products.php')
     console.error(err);
   });
 </script>
+<script src="../assets/js/products.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>
