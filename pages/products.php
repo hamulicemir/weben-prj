@@ -11,12 +11,12 @@
 </head>
 <body>
 <?php include '../includes/navbar.php'; ?> <!-- navbar -->
-<main>
+<main class="py-5">
 
-
-<div id="product-list" class="row"></div>
-
-
+  <div class="container">
+    <div id="product-list" class="row"></div>
+  </div>
+  
 </main>
 <?php include '../includes/footer.php'; ?> <!-- Footer -->
 
