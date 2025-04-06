@@ -51,8 +51,8 @@ require_once("config.php");
             </a>
 
             <!-- Suchleiste (nur im Desktop-Modus sichtbar) -->
-            <form class="d-flex me-3 d-none d-md-block" role="search">
-                <input class="form-control" type="search" placeholder="Search" aria-label="Search">
+            <form id="searchForm" class="d-flex me-3 d-none d-md-block" role="search">
+                <input class="form-control" type="search" placeholder="Search" id="searchInput" aria-label="Search">
             </form>
 
             <!-- Benutzer-Login/Name -->
@@ -90,8 +90,8 @@ require_once("config.php");
 
     <!-- Zweite Zeile für das Suchfeld (nur im Mobile-Modus sichtbar) -->
     <div class="container-fluid d-md-none" id="searchBox" style="display: none;">
-        <form class="d-flex mt-2" role="search">
-            <input class="form-control" type="search" placeholder="Search" aria-label="Search">
+        <form id="searchForm" class="d-flex mt-2" role="search">
+            <input class="form-control" type="search" placeholder="Search" id="searchInput" aria-label="Search">
         </form>
     </div>
 </nav>
@@ -103,6 +103,28 @@ require_once("config.php");
         const searchBox = document.getElementById('searchBox');
         searchBox.style.display = (searchBox.style.display === 'none') ? 'block' : 'none';
     });
+
+    // Führt den Code aus, sobald das DOM vollständig geladen ist
+    document.addEventListener("DOMContentLoaded", function () {
+
+    // Holt das Suchformular und das Eingabefeld aus dem DOM
+    const searchForm = document.getElementById("searchForm");
+    const searchInput = document.getElementById("searchInput");
+
+    // Nur wenn das Formular existiert, wird der Submit-Handler registriert
+    if (searchForm) {
+      searchForm.addEventListener("submit", function (e) {
+        e.preventDefault(); // Verhindert das Standardverhalten (Seitenreload)
+
+        const query = searchInput.value.trim(); // Holt und bereinigt die Suchanfrage
+
+        // Falls eine Eingabe vorhanden ist, leite zur Produktseite mit Such-Query weiter
+        if (query) {
+          window.location.href = "../pages/products.php?search=" + encodeURIComponent(query);
+        }
+      });
+    }
+  });
 </script>
 
 <style>
