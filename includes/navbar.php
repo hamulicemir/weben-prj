@@ -78,7 +78,7 @@ require_once("config.php");
             <?php endif; ?>
 
             <!-- Warenkorb Icon -->
-            <a class="nav-link cursor-hover" href="../pages/cart.php">
+            <a class="nav-link cursor-hover" id="navbarCartIcon" href="../pages/cart.php">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-cart"
                     viewBox="0 0 16 16">
                     <path

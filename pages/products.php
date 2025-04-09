@@ -6,12 +6,14 @@ $searchQuery = isset($_GET['search']) ? htmlspecialchars($_GET['search']) : '';
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ICONIQ - Products</title>
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="shortcut icon" href="../assets/fonts/favicon.ico" type="image/x-icon" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 
@@ -27,6 +29,20 @@ $searchQuery = isset($_GET['search']) ? htmlspecialchars($_GET['search']) : '';
         </div>
 
     </main>
+
+    <!-- Modal -->
+    <div class="modal fade" id="productModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-body text-center">
+                    <img id="modalImage" class="img-fluid mb-3" alt="Produktbild">
+                    <h5 id="modalTitle"></h5>
+                    <p class="fw-bold" id="modalPrice"></p>
+                    <button class="btn btn-dark" id="addToCartBtn">In den Warenkorb</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <?php include '../includes/footer.php'; ?> <!-- Footer -->
 
 
