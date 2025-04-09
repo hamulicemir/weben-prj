@@ -63,7 +63,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
     if (!categorySelect) fetchProducts();
 
-    // 🧲 Drop-Ziel dynamisch erstellen
+    // Drop-Ziel dynamisch erstellen
     const dropZone = document.createElement("div");
     dropZone.id = "customDropZone";
     dropZone.className = "position-fixed end-0 top-50 translate-middle-y p-3 bg-light border rounded shadow text-center";
@@ -93,8 +93,9 @@ window.addEventListener("DOMContentLoaded", () => {
         dropZone.classList.remove("border-primary", "bg-white");
 
         const productId = e.dataTransfer.getData("text/plain");
+        addToCart(productId);
         console.log("Produkt per Drag & Drop in die Drop-Zone:", productId);
-        alert("Produkt wurde erfolgreich dem Warenkorb hinzugefügt!");
+        showCartToast("🛒 Product has been added to the cart!");
 
         hideDropZone();
     });
@@ -146,8 +147,9 @@ function createProductCard(product) {
     // Warenkorb-Button
     col.querySelector(".add-to-cart-btn").addEventListener("click", (e) => {
         e.stopPropagation();
+        addToCart(product.id);
         console.log("Produkt in Warenkorb:", product.id);
-        alert(`„${product.name}“ wurde zum Warenkorb hinzugefügt!`);
+        showCartToast(`„${product.name}“ has been added to the cart!`);
     });
 
     // Drag & Drop
@@ -164,6 +166,41 @@ function createProductCard(product) {
     return col;
 }
 
+async function addToCart(productId, quantity = 1) {
+    try {
+        const res = await fetch("../includes/cart-api.php", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                action: "add",
+                productId: productId,
+                quantity: quantity
+            })
+        }).catch(err => {
+            console.error("Fehler bei addToCart:", err);
+            fetch(apiUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ action: 'get' })
+            })
+            .then(res => res.text())
+            .then(txt => console.warn("Response war kein JSON:\n", txt));
+        });;
+
+        const result = await res.json();
+        console.log("Warenkorb-Update:", result);
+        if (result.status === "ok") {
+            showCartToast("✔️ Product has been added to the cart!");
+        } else {
+            alert("Fehler beim Hinzufügen zum Warenkorb.");
+        }
+    } catch (err) {
+        console.error("Fehler bei addToCart:", err);
+        alert("Fehler beim Hinzufügen zum Warenkorb.");
+    }
+}
 
 // Funktion: Produkt-Modal anzeigen
 function showProductModal(product) {
@@ -175,11 +212,26 @@ function showProductModal(product) {
     const modal = new bootstrap.Modal(document.getElementById("productModal"));
     modal.show();
 }
+function showCartToast(message = "Product has been added to the cart!") {
+    const toastEl = document.getElementById('cartToast');
+    if (!toastEl) {
+        console.warn("Toast-Element nicht gefunden!");
+        return;
+    }
+
+    toastEl.querySelector('.toast-body').textContent = message;
+
+    const toast = new bootstrap.Toast(toastEl);
+    toast.show();
+}
 
 
 // Warenkorb-Button im Modal
 document.getElementById("addToCartBtn").addEventListener("click", () => {
     const productId = document.getElementById("addToCartBtn").dataset.productId;
+    addToCart(productId);
     console.log("Produkt aus Modal in Warenkorb:", productId);
-    alert("Produkt wurde zum Warenkorb hinzugefügt!");
+    showCartToast("🛒 Produkt erfolgreich hinzugefügt!");
 });
+
+
