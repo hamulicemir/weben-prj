@@ -139,11 +139,14 @@
                         </div>
 
                         <div class="row">
-                            <div class="PP col-12">
+                            <div class="PP col-8">
                                 <input type="checkbox" class="form-check-input" id="policy" required>
                                 <label class="form-check-label" for="policy">
                                     I accept the <a href="#">privacy policy</a>
                                 </label>
+                            </div>
+                            <div class="PP col-4">
+                                Already have an account?<a href="login.php">Login</a>
                             </div>
                         </div>
 

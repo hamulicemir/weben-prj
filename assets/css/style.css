@@ -214,6 +214,10 @@ h2 {
     padding: 8px 0;
     /* Optional: Vertikaler Abstand */
 }
+.PP a{
+    color: #000;
+    text-decoration: underline;
+}
 
 /* Checkbox Styling */
 .form-check-input[type="checkbox"] {
@@ -250,7 +254,7 @@ h2 {
     padding: 10px 20px;
     font-weight: 500;
     transition: background-color 0.3s;
-    margin-top: 1.5rem;
+    margin-top: 0.5rem;
 }
 
 .PP .btn-primary:hover {
