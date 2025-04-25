@@ -46,7 +46,7 @@ function renderCart(products) {
     cartContainer.innerHTML = "";
 
     if (!products || products.length === 0) {
-        cartContainer.innerHTML = `<div class="alert alert-info text-center mt-4">🛒 Dein Warenkorb ist leer</div>`;
+        cartContainer.innerHTML = `<div class="alert alert-dark text-center mt-4">🛒 Dein Warenkorb ist leer</div>`;
         return;
     }
 
@@ -108,7 +108,7 @@ function renderCart(products) {
     const checkoutButton = document.createElement("div");
     checkoutButton.className = "d-flex justify-content-end mt-3";
     checkoutButton.innerHTML = `
-        <a href="../checkout.php" class="btn btn-dark">Zur Kasse</a>
+        <a href="../pages/checkout.php" class="btn btn-dark btn-lg">Proceed to Payment</a>
     `;
     cartContainer.appendChild(checkoutButton);
 }
