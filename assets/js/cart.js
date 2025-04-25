@@ -96,7 +96,6 @@ function renderCart(products) {
     </div>
 `;
 
-
         cartContainer.appendChild(card);
     });
 
@@ -105,6 +104,13 @@ function renderCart(products) {
     summary.className = "text-end mt-4 border-top pt-3 fw-bold fs-5";
     summary.innerHTML = `Gesamt: € ${total.toFixed(2)}`;
     cartContainer.appendChild(summary);
+
+    const checkoutButton = document.createElement("div");
+    checkoutButton.className = "d-flex justify-content-end mt-3";
+    checkoutButton.innerHTML = `
+        <a href="../checkout.php" class="btn btn-dark">Zur Kasse</a>
+    `;
+    cartContainer.appendChild(checkoutButton);
 }
 
 document.addEventListener("DOMContentLoaded", fetchCart);
