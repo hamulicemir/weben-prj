@@ -35,11 +35,18 @@ $searchQuery = isset($_GET['search']) ? htmlspecialchars($_GET['search']) : '';
     <div class="modal fade" id="productModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
-                <div class="modal-body text-center">
-                    <img id="modalImage" class="img-fluid mb-3" alt="Produktbild">
-                    <h5 id="modalTitle"></h5>
-                    <p class="fw-bold" id="modalPrice"></p>
-                    <button class="btn btn-dark" id="addToCartBtn">In den Warenkorb</button>
+                <div class="modal-body">
+                    <img id="modalImage" class="img-fluid mb-4 d-block mx-auto" alt="Produktbild">
+
+                    <div class="d-flex align-items-center justify-content-between">
+                        <h5 class="fs-4 mb-0" id="modalTitle">Produktname</h5>
+
+                        <p class="fw-bold fs-4 mb-0 text-center flex-grow-1" id="modalPrice">€99,99</p>
+
+                        <button class="btn btn-md btn-outline-dark" id="addToCartBtn">
+                            <i class="bi bi-cart"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

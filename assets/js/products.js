@@ -39,7 +39,6 @@ window.addEventListener("DOMContentLoaded", () => {
             });
     }
 
-    // Kategorie-Änderung
     if (categorySelect) {
         categorySelect.addEventListener("change", fetchProducts);
     }
@@ -125,14 +124,14 @@ function createProductCard(product) {
                  alt="${product.name}" data-id="${product.id}">
 
             <div class="pt-2 d-flex justify-content-between align-items-center mt-auto">
-                <a href="#" class="text-uppercase small text-decoration-none text-dark product-click" data-id="${product.id}">
+                <a href="#" class="text-uppercase small text-decoration-none text-dark product-click fs-5" data-id="${product.id}">
                     ${product.name}
                 </a>
-                <button class="btn btn-sm btn-outline-dark add-to-cart-btn" data-id="${product.id}" title="In den Warenkorb">
+                <button class="btn btn-md btn-outline-dark add-to-cart-btn" data-id="${product.id}" title="Add to the cart">
                     <i class="bi bi-cart"></i>
                 </button>
             </div>
-            <div class="text-end fw-medium">€ ${product.price}</div>
+            <div class="text-end fw-medium fs-5">€ ${product.price}</div>
         </div>
     `;
 
@@ -148,7 +147,6 @@ function createProductCard(product) {
     col.querySelector(".add-to-cart-btn").addEventListener("click", (e) => {
         e.stopPropagation();
         addToCart(product.id);
-        console.log("Produkt in Warenkorb:", product.id);
         showCartToast(`„${product.name}“ has been added to the cart!`);
     });
 
@@ -215,7 +213,6 @@ function showProductModal(product) {
 function showCartToast(message = "Product has been added to the cart!") {
     const toastEl = document.getElementById('cartToast');
     if (!toastEl) {
-        console.warn("Toast-Element nicht gefunden!");
         return;
     }
 
@@ -230,7 +227,6 @@ function showCartToast(message = "Product has been added to the cart!") {
 document.getElementById("addToCartBtn").addEventListener("click", () => {
     const productId = document.getElementById("addToCartBtn").dataset.productId;
     addToCart(productId);
-    console.log("Produkt aus Modal in Warenkorb:", productId);
     showCartToast("🛒 Produkt erfolgreich hinzugefügt!");
 });
 
