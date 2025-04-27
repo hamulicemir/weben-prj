@@ -8,6 +8,21 @@ async function fetchCart() {
     });
     const result = await res.json();
     renderCart(result.products);
+    await saveCart(); 
+}
+
+
+async function saveCart() {
+    const res = await fetch(apiUrl, {
+        method: 'POST',
+        body: JSON.stringify({ action: 'save' }),
+        headers: { 'Content-Type': 'application/json' }
+    });
+
+    const result = await res.json();
+    if (result.status !== "ok") {
+        console.error("Fehler beim Speichern des Warenkorbs!");
+    }
 }
 
 async function removeFromCart(productId) {
@@ -20,6 +35,7 @@ async function removeFromCart(productId) {
 
     if (result.status === "ok") {
         fetchCart(); 
+        await saveCart();
     }}
 
 async function updateCart(productId, quantity) {
@@ -36,7 +52,8 @@ async function updateCart(productId, quantity) {
 
     const result = await res.json();
     if (result.status === "ok") {
-        fetchCart(); // Neu rendern
+        fetchCart();
+        await saveCart();
     }
 }
 
@@ -64,38 +81,37 @@ function renderCart(products) {
 
         total += parseFloat(sum);
 
-const card = document.createElement("div");
-card.className = "card border-0 shadow-sm p-3 mb-4"; 
-card.style.minHeight = "120px";
+        const card = document.createElement("div");
+        card.className = "card border-0 shadow-sm p-3 mb-4"; 
+        card.style.minHeight = "120px";
 
-card.innerHTML = `
-    <div class="row g-3 align-items-center">
-        <div class="col-4 col-md-3 bg-light d-flex justify-content-center align-items-center p-3">
-            <img src="${image}" class="img-fluid rounded" alt="${name}" style="max-height: 140px;">
-        </div>
+        card.innerHTML = `
+            <div class="row g-3 align-items-center">
+                <div class="col-4 col-md-3 bg-light d-flex justify-content-center align-items-center p-3">
+                    <img src="${image}" class="img-fluid rounded" alt="${name}" style="max-height: 140px;">
+                </div>
 
-        <div class="col-7 col-md-8 p-2">
-            <h5 class="mb-2 fs-5">${name}</h5>
+                <div class="col-7 col-md-8 p-2">
+                    <h5 class="mb-2 fs-5">${name}</h5>
 
-            <div class="d-flex align-items-center mb-2">
-                <button class="btn btn-outline-dark btn-md me-2" onclick="updateCart(${id}, ${quantity - 1})">−</button>
-                <span class="fw-bold fs-5">${quantity}</span> 
-                <!-- Etwas größere Zahl (fs-5) -->
-                <button class="btn btn-outline-dark btn-md ms-2" onclick="updateCart(${id}, ${quantity + 1})">+</button>
+                    <div class="d-flex align-items-center mb-2">
+                        <button class="btn btn-outline-dark btn-md me-2" onclick="updateCart(${id}, ${quantity - 1})">−</button>
+                        <span class="fw-bold fs-5">${quantity}</span> 
+                        <!-- Etwas größere Zahl (fs-5) -->
+                        <button class="btn btn-outline-dark btn-md ms-2" onclick="updateCart(${id}, ${quantity + 1})">+</button>
+                    </div>
+
+                    <p class="mb-1 small text-muted">Price: € ${price.toFixed(2)}</p>
+                    <p class="mb-0 fw-bold">Subtotal: € ${sum}</p>
+                </div>
+
+                <div class="col-1 d-flex justify-content-center">
+                    <button class="btn btn-link btn-sm text-danger" onclick="removeFromCart(${id})" title="Produkt entfernen">
+                        <i class="bi bi-trash3-fill fs-4"></i>
+                    </button>
+                </div>
             </div>
-
-            <p class="mb-1 small text-muted">Price: € ${price.toFixed(2)}</p>
-            <p class="mb-0 fw-bold">Subtotal: € ${sum}</p>
-        </div>
-
-        <div class="col-1 d-flex justify-content-center">
-            <button class="btn btn-link btn-sm text-danger" onclick="removeFromCart(${id})" title="Produkt entfernen">
-                <i class="bi bi-trash3-fill fs-4"></i>
-            </button>
-        </div>
-    </div>
-`;
-
+        `;
 
         productList.appendChild(card);
     });
@@ -126,7 +142,7 @@ card.innerHTML = `
                     <span>€ ${(total + 5).toFixed(2)}</span>
                 </div>
                 <p class="text-muted small mb-4">incl. 20% VAT</p>
-                <a href="../pages/checkout.php" class="btn btn-dark w-100">Go to Checkout</a>
+                <a href="../pages/checkout_data.php" class="btn btn-dark w-100">Go to Checkout</a>
             </div>
         </div>
     `;
