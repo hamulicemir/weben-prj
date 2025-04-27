@@ -89,7 +89,7 @@ card.innerHTML = `
         </div>
 
         <div class="col-1 d-flex justify-content-center">
-            <button class="btn btn-link text-danger" onclick="removeFromCart(${id})" title="Produkt entfernen">
+            <button class="btn btn-link btn-sm text-danger" onclick="removeFromCart(${id})" title="Produkt entfernen">
                 <i class="bi bi-trash3-fill fs-4"></i>
             </button>
         </div>
