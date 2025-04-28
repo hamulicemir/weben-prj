@@ -23,6 +23,7 @@ require_once("config.php");
                         <li class="nav-item"><a class="nav-link underline-hover" href="../pages/products.php">Produkte</a></li>
                     <?php elseif ($_SESSION['user']['role'] === 'admin'): ?>
                         <li class="nav-item"><a class="nav-link underline-hover" href="../pages/index.php">Home</a></li>
+                        <li class="nav-item"><a class="nav-link underline-hover" href="../pages/products.php">Produkte</a></li>
                         <li class="nav-item"><a class="nav-link underline-hover" href="../pages/edit-products.php">Produkte bearbeiten</a></li>
                         <li class="nav-item"><a class="nav-link underline-hover" href="../pages/edit-users.php">Kunden bearbeiten</a></li>
                         <li class="nav-item"><a class="nav-link underline-hover" href="../pages/vouchers.php">Gutscheine verwalten</a></li>
