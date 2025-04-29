@@ -16,50 +16,16 @@ if (!isset($_SESSION['user']) || empty($_SESSION['user'])) {
     <link rel="shortcut icon" href="../assets/fonts/favicon.ico" type="image/x-icon"/>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src=""></script>
+    <link rel="stylesheet" href="../assets/css/checkout.css">
 </head>
 <body>
 <?php include '../includes/navbar.php'; ?> 
 
-<style>
-#checkout-steps {
-  gap: 0;
-}
-
-.step {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.circle {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-weight: bold;
-  font-size: 20px;
-}
-
-.active-step {
-  background-color: black;
-  color: white;
-  border-color: black;
-}
-
-.label {
-  margin-top: 10px;
-  font-size: 14px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-</style>
 
 <div class="container mt-5">
   <div class="d-flex justify-content-center" id="checkout-steps">
     <div class="step text-center flex-fill" data-step="1">
-      <div class="circle border mx-auto">1</div>
+      <div class="circle border mx-auto active-step">1</div>
       <div class="label mt-2">YOUR DATA</div>
     </div>
     <div class="step text-center flex-fill" data-step="2">
@@ -72,7 +38,7 @@ if (!isset($_SESSION['user']) || empty($_SESSION['user'])) {
     </div>
   </div>
 </div>
-
+<hr class="my-4">
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 <?php include '../includes/footer.php'; ?> <!-- Footer -->
