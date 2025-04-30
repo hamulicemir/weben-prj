@@ -39,6 +39,28 @@ window.addEventListener("DOMContentLoaded", () => {
             });
     }
 
+    // Live-Suche beim Tippen im Suchfeld
+    const searchInput = document.getElementById("searchInput");
+    if (searchInput) {
+        searchInput.addEventListener("input", () => {
+            const query = searchInput.value.trim();
+
+            // URL-Parameter aktualisieren (nur im Speicher)
+            const newParams = new URLSearchParams(window.location.search);
+            if (query) {
+                newParams.set("search", query);
+            } else {
+                newParams.delete("search");
+            }
+
+            // Pfad aktualisieren (kein Reload!)
+            const newUrl = window.location.pathname + "?" + newParams.toString();
+            window.history.replaceState(null, "", newUrl);
+
+            fetchProducts(); // Ergebnisse neu laden
+        });
+    }
+
     if (categorySelect) {
         categorySelect.addEventListener("change", fetchProducts);
     }
@@ -183,8 +205,8 @@ async function addToCart(productId, quantity = 1) {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ action: 'get' })
             })
-            .then(res => res.text())
-            .then(txt => console.warn("Response war kein JSON:\n", txt));
+                .then(res => res.text())
+                .then(txt => console.warn("Response war kein JSON:\n", txt));
         });;
 
         const result = await res.json();
