@@ -15,10 +15,17 @@ $types = ""; // Typen-String für bind_param (z. B. "ssi")
 
 // Wenn eine Sucheingabe vorhanden ist, erweitere die Abfrage um LIKE-Filter
 if ($search) {
-    $query .= " AND (name LIKE ? OR description LIKE ?)";
-    $params[] = $search; // Für name
-    $params[] = $search; // Für description
-    $types .= "ss"; // Zwei Strings
+    $query .= " AND (
+        name LIKE ? OR 
+        description LIKE ? OR 
+        colour LIKE ? OR 
+        gender LIKE ?
+    )";
+    $params[] = $search;
+    $params[] = $search;
+    $params[] = $search;
+    $params[] = $search;
+    $types .= "ssss";
 }
 
 // Wenn eine Kategorie-ID vorhanden ist, erweitere die Abfrage

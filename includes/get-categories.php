@@ -11,21 +11,15 @@ $sql = "SELECT id, name FROM categories ORDER BY id ASC";
 $result = $conn->query($sql);
 
 $categories = []; // Array für die Kategorien
-$defaultCategoryId = null; // Platzhalter für die erste Kategorie-ID (Default)
+$categories[] = ['id' => 0, 'name' => 'All Categories'];
 
 // Wenn Kategorien vorhanden sind, durchläuft jede Zeile
 if ($result && $result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
-        if (!$defaultCategoryId) {
-            $defaultCategoryId = $row['id']; // Speichert die erste ID als Standard-Kategorie
-        }
-        $categories[] = $row; // Fügt die Kategorie dem Array hinzu
+            $categories[] = $row;
     }
 }
 
 // Antwort als JSON: enthält die Default-ID und alle Kategorien
-echo json_encode([
-    "default" => $defaultCategoryId,
-    "categories" => $categories
-]);
+echo json_encode([ "categories" => $categories ]);
 ?>
