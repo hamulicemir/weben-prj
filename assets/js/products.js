@@ -156,6 +156,12 @@ function createProductCard(product) {
                 </button>
             </div>
             <div class="text-end fw-medium fs-5">€ ${product.price}</div>
+
+            <div class="d-flex justify-content-between align-items-center mt-1">
+    <small class="text-muted">${product.colour}</small>
+    <div class="text-warning small">Rating: ${getStars(product.rating)}</div>
+</div>
+        </div>
         </div>
     `;
 
@@ -187,6 +193,20 @@ function createProductCard(product) {
 
     return col;
 }
+
+// Bewertung
+function getStars(rating) {
+    const validRating = parseFloat(rating);
+    if (isNaN(validRating)) return "No rating";
+
+    const maxStars = 5;
+    const roundedStars = Math.round(validRating); // rundet auf volle Zahl
+
+    const stars = "★".repeat(roundedStars).padEnd(maxStars, "☆");
+    return `${validRating.toFixed(1)} ${stars}`;
+}
+
+
 
 async function addToCart(productId, quantity = 1) {
     try {
