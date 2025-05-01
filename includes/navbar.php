@@ -20,17 +20,17 @@ require_once("config.php");
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <?php if (!isset($_SESSION['user'])): ?>
                         <li class="nav-item"><a class="nav-link underline-hover" href="../pages/index.php">Home</a></li>
-                        <li class="nav-item"><a class="nav-link underline-hover" href="../pages/products.php">Produkte</a></li>
+                        <li class="nav-item"><a class="nav-link underline-hover" href="../pages/products.php">Products</a></li>
                     <?php elseif ($_SESSION['user']['role'] === 'admin'): ?>
                         <li class="nav-item"><a class="nav-link underline-hover" href="../pages/index.php">Home</a></li>
-                        <li class="nav-item"><a class="nav-link underline-hover" href="../pages/products.php">Produkte</a></li>
-                        <li class="nav-item"><a class="nav-link underline-hover" href="../pages/edit-products.php">Produkte bearbeiten</a></li>
-                        <li class="nav-item"><a class="nav-link underline-hover" href="../pages/edit-users.php">Kunden bearbeiten</a></li>
-                        <li class="nav-item"><a class="nav-link underline-hover" href="../pages/vouchers.php">Gutscheine verwalten</a></li>
+                        <li class="nav-item"><a class="nav-link underline-hover" href="../pages/products.php">Products</a></li>
+                        <li class="nav-item"><a class="nav-link underline-hover" href="../pages/edit-products.php">Edit Products</a></li>
+                        <li class="nav-item"><a class="nav-link underline-hover" href="../pages/edit-users.php"> Edit Users</a></li>
+                        <li class="nav-item"><a class="nav-link underline-hover" href="../pages/vouchers.php">Handle Vouchers</a></li>
                     <?php else: ?>
                         <li class="nav-item"><a class="nav-link underline-hover" href="../pages/index.php">Home</a></li>
-                        <li class="nav-item"><a class="nav-link underline-hover" href="../pages/products.php">Produkte</a></li>
-                        <li class="nav-item"><a class="nav-link underline-hover" href="../pages/user-account.php">Mein Konto</a></li>
+                        <li class="nav-item"><a class="nav-link underline-hover" href="../pages/products.php">Products</a></li>
+                        <li class="nav-item"><a class="nav-link underline-hover" href="../pages/user-account.php">My Account</a></li>
                     <?php endif; ?>
                 </ul>
             </div>
