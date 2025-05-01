@@ -1,12 +1,12 @@
 <?php
 // Service Layer
-require_once __DIR__ . '/ProductRepository.php';
+require_once __DIR__ . '/CartRepository.php';
 
 class CartService {
-    private $productRepository;
+    private $CartRepository;
 
     public function __construct($conn) {
-        $this->productRepository = new ProductRepository($conn);
+        $this->CartRepository = new CartRepository($conn);
     }
 
     public function addProduct($productId, $quantity) {
@@ -36,7 +36,7 @@ class CartService {
             return ['status' => 'empty'];
         }
 
-        $products = $this->productRepository->getProductsByIds(array_keys($_SESSION['cart']));
+        $products = $this->CartRepository->getProductsByIds(array_keys($_SESSION['cart']));
 
         $cart_info = [];
         $cart_info['products'] = [];
@@ -86,7 +86,7 @@ class CartService {
             return ['status' => 'ok', 'products' => []];
         }
 
-        $products = $this->productRepository->getProductsByIds(array_keys($_SESSION['cart']));
+        $products = $this->CartRepository->getProductsByIds(array_keys($_SESSION['cart']));
 
         foreach ($products as &$product) {
             $product['quantity'] = $_SESSION['cart'][$product['id']] ?? 1;

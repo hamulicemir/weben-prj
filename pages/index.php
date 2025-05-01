@@ -13,6 +13,7 @@
         p {
             font-size: 40 px;
         }
+
         .shop-section {
             margin-top: 2rem;
         }
@@ -96,10 +97,10 @@
                     <div class="form-group col-md-12">
                         <input type="email" class="form-control" name="email" placeholder="" required>
                         <label for="email">Email</label>
-                        </div>
-                        <div class="PP">
+                    </div>
+                    <div class="PP">
                         <button type="submit" class="btn btn-primary btn-block">SUBMIT</button>
-                        </div>
+                    </div>
                 </div>
                 <p class="newsletter-caption mt-3">
                     By submitting this form you accept our <a href="#">privacy policy</a>.

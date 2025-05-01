@@ -1,5 +1,6 @@
 <?php
 // Repository Layer
+
 class ProductRepository {
     private $conn;
 
@@ -7,23 +8,40 @@ class ProductRepository {
         $this->conn = $conn;
     }
 
-    public function getProductsByIds(array $ids) {
-        if (empty($ids)) {
-            return [];
+    public function getFilteredProducts($search = null, $categoryId = null) {
+        $query = "SELECT * FROM products WHERE 1=1";
+        $params = [];
+        $types = "";
+
+        if (!empty($search)) {
+            $searchWildcard = '%' . $search . '%';
+            $query .= " AND (
+                name LIKE ? OR
+                description LIKE ? OR
+                colour LIKE ? OR
+                gender LIKE ?
+            )";
+            $params = array_fill(0, 4, $searchWildcard);
+            $types .= "ssss";
         }
 
-        $placeholders = implode(',', array_fill(0, count($ids), '?'));
-        $types = str_repeat('i', count($ids));
-        $stmt = $this->conn->prepare("SELECT id, name, price, image FROM products WHERE id IN ($placeholders)");
-
-        if ($stmt === false) {
-            throw new Exception('Datenbankfehler beim Prepare.');
+        if (!empty($categoryId)) {
+            $query .= " AND category_id = ?";
+            $params[] = $categoryId;
+            $types .= "i";
         }
 
-        $stmt->bind_param($types, ...$ids);
+        $stmt = $this->conn->prepare($query);
+        if (!$stmt) {
+            throw new Exception("Fehler beim Vorbereiten der Abfrage: " . $this->conn->error);
+        }
+
+        if (!empty($params)) {
+            $stmt->bind_param($types, ...$params);
+        }
+
         $stmt->execute();
         $result = $stmt->get_result();
-
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 }

@@ -5,9 +5,11 @@ window.addEventListener("DOMContentLoaded", () => {
 
     // Produkte vom Server holen (ggf. mit Kategorie oder Suchbegriff)
     function fetchProducts() {
-        let url = "../includes/get-products.php";
+        let url = "../includes/product-api.php?action=getAll";
         const params = new URLSearchParams();
 
+
+        // hole Search und Category aus der URL
         const search = new URLSearchParams(window.location.search).get("search");
         const selectedCategory = categorySelect?.value;
 
@@ -15,7 +17,7 @@ window.addEventListener("DOMContentLoaded", () => {
         if (selectedCategory) params.append("category", selectedCategory);
 
         if ([...params].length > 0) {
-            url += "?" + params.toString();
+            url += "&" + params.toString();
         }
 
         fetch(url)
