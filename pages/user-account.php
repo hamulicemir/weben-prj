@@ -64,11 +64,11 @@ function maskIBAN($iban) {
                 <tr><th>Username:</th><td><?= htmlspecialchars($user['username']) ?></td></tr>
                 <tr><th>Payment method:</th>
                     <td><?= maskIBAN($user['payment_info']) ?>
-                        <a href="edit_account.php" class="btn btn-sm btn-outline-secondary ms-2">Edit</a>
+                        <!--<a href="edit_account.php" class="btn btn-sm btn-outline-secondary ms-2">Edit</a>   -> is das nötig? weil man tut das eh editen, wieso ein extra button?-->
                     </td>
                 </tr>
             </table>
-            <a href="edit_account.php" class="btn btn-dark">Edit Profile</a>
+            <a href="edit-profile.php" class="btn btn-dark">Edit Profile</a>
             </div>
         </div>
     </div>
