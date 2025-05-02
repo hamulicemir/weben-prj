@@ -23,7 +23,13 @@ async function saveCart() {
     if (result.status !== "ok") {
         console.error("Fehler beim Speichern des Warenkorbs!");
     }
+
+    // Warenkorb-Zähler aktualisieren
+    if (typeof window.updateCartCount === "function") {
+        window.updateCartCount();
+    }
 }
+
 
 async function removeFromCart(productId) {
     const res = await fetch(apiUrl, {

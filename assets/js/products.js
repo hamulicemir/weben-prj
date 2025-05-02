@@ -220,21 +220,17 @@ async function addToCart(productId, quantity = 1) {
                 productId: productId,
                 quantity: quantity
             })
-        }).catch(err => {
-            console.error("Fehler bei addToCart:", err);
-            fetch(apiUrl, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ action: 'get' })
-            })
-                .then(res => res.text())
-                .then(txt => console.warn("Response war kein JSON:\n", txt));
-        });;
+        });
 
         const result = await res.json();
         console.log("Warenkorb-Update:", result);
         if (result.status === "ok") {
             showCartToast("✔️ Product has been added to the cart!");
+
+            // ✅ Warenkorb-Zähler in Navbar aktualisieren
+            if (typeof window.updateCartCount === "function") {
+                window.updateCartCount();
+            }
         } else {
             alert("Fehler beim Hinzufügen zum Warenkorb.");
         }
@@ -243,6 +239,7 @@ async function addToCart(productId, quantity = 1) {
         alert("Fehler beim Hinzufügen zum Warenkorb.");
     }
 }
+
 
 // Funktion: Produkt-Modal anzeigen
 function showProductModal(product) {
