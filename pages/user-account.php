@@ -83,10 +83,11 @@ function maskIBAN($iban) {
                 <ul class="list-group list-group-item-light fs-5">
                     <?php foreach ($orders as $order): ?>
                         <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <div>
-                                <strong>Order #<?= $order['id'] ?></strong><br>
-                                <small><?= date("d.m.Y", strtotime($order['order_date'])) ?></small>
-                            </div>
+                        <div>
+                            <strong>Order #<?= $order['id'] ?></strong><br>
+                            <small><?= date("d.m.Y", strtotime($order['order_date'])) ?></small><br>
+                            <a href="generate-invoice.php?order_id=<?= $order['id'] ?>" target="_blank" class="btn btn-sm btn-outline-primary mt-2">Download Invoice</a>
+                        </div>
                             <span class="badge bg-dark rounded-pill">
                                 € <?= number_format($order['total_price'], 2, ',', '.') ?>
                             </span>
