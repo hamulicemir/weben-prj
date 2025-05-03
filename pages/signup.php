@@ -77,154 +77,152 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
     <main class="container py-5">
-        <div class="row">
-            <section class="col-12 col-md-4 offset-md-1 mb-4">
-                <h2>Your Benefits with an ICONIQ Account</h2>
-                <ul class="list-checked">
-                    <li>Shop faster</li>
-                    <li>Save your favorite items</li>
-                    <li>Track your order status</li>
-                    <li>Manage invoices & personal data</li>
-                </ul>
-            </section>
-            <section class="col-12 col-md-6 ms-md-5">
-                <h1>CREATE CUSTOMER ACCOUNT</h1>
-                <div id="errorMsg" class="alert alert-danger" style="display:none;"></div>
-                <form id="signupForm" method="post">
-                    <div class="form-row pt-3">
-                        <div class="col-12 mb-3 radio-group">
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" id="Ms" type="radio" name="salutation" value="Ms" required>
-                                <label for="Ms" class="form-check-label">Ms</label>
+    <div class="row d-flex align-items-start">
+
+        <!-- Benefits -->
+        <section class="col-12 col-md-4 offset-md-1 mb-4 d-flex flex-column justify-content-start">
+            <h2>Your Benefits with an ICONIQ Account</h2>
+            <ul class="list-checked">
+                <li>Shop faster</li>
+                <li>Save your favorite items</li>
+                <li>Track your order status</li>
+                <li>Manage invoices & personal data</li>
+            </ul>
+        </section>
+
+        <!-- Signup Form as Card -->
+        <section class="col-12 col-md-6 ms-md-5">
+            <div class="card shadow-sm mt-1">
+                <div class="card-body pt-1">
+                    <h1 class="card-title mb-4">Create Customer Account</h1>
+
+                    <form id="signupForm" method="post">
+                        <div class="mb-3">
+                            <?php foreach (["Ms", "Mr", "Other"] as $s): ?>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="salutation" id="salutation_<?= $s ?>" value="<?= $s ?>" required>
+                                    <label class="form-check-label" for="salutation_<?= $s ?>"><?= $s ?></label>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="firstname" class="form-label">First Name</label>
+                                <input type="text" class="form-control" id="firstname" name="firstname" required>
                             </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" id="Mr" type="radio" name="salutation" value="Mr" required>
-                                <label for="Mr" class="form-check-label">Mr</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" id="Other" type="radio" name="salutation" value="Other" required>
-                                <label for="Other" class="form-check-label">Other</label>
+                            <div class="col-md-6 mb-3">
+                                <label for="lastname" class="form-label">Last Name</label>
+                                <input type="text" class="form-control" id="lastname" name="lastname" required>
                             </div>
                         </div>
 
                         <div class="row">
-                            <div class="form-group col-md-6 mt-3">
-                                <input type="text" class="form-control" id="firstname" name="firstname" placeholder="" required>
-                                <label for="firstname">First Name</label>
+                            <div class="col-md-8 mb-3">
+                                <label for="street" class="form-label">Street</label>
+                                <input type="text" class="form-control" id="street" name="street" required>
                             </div>
-                            <div class="form-group col-md-6 mt-3">
-                                <input type="text" class="form-control" id="lastname" name="lastname" placeholder="" required>
-                                <label for="lastname">Last Name</label>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="form-group col-md-8">
-                                <input type="text" class="form-control" id="street" name="street" placeholder="" required>
-                                <label for="street">Street</label>
-                            </div>
-                            <div class="form-group col-md-4">
-                                <input type="text" class="form-control" id="no" name="no" placeholder="" required>
-                                <label for="no">No.</label>
+                            <div class="col-md-4 mb-3">
+                                <label for="no" class="form-label">No.</label>
+                                <input type="text" class="form-control" id="no" name="no" required>
                             </div>
                         </div>
 
-                        <div class="row">
-                            <div class="form-group col-md-12">
-                                <input type="text" class="form-control" id="addressaddition" name="addressaddition" placeholder="">
-                                <label for="addressaddition">Address Addition (optional)</label>
-                            </div>
+                        <div class="mb-3">
+                            <label for="addressaddition" class="form-label">Address Addition (optional)</label>
+                            <input type="text" class="form-control" id="addressaddition" name="addressaddition">
                         </div>
 
                         <div class="row">
-                            <div class="form-group col-md-4">
-                                <input type="text" class="form-control" id="zip" name="zip" placeholder="" required>
-                                <label for="zip">ZIP Code</label>
+                            <div class="col-md-4 mb-3">
+                                <label for="zip" class="form-label">ZIP Code</label>
+                                <input type="text" class="form-control" id="zip" name="zip" required>
                             </div>
-                            <div class="form-group col-md-8">
-                                <input type="text" class="form-control" id="city" name="city" placeholder="" required>
-                                <label for="city">City</label>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="form-group col-md-12">
-                                <input type="text" class="form-control" id="country" name="country" placeholder="" required>
-                                <label for="country">Country</label>
+                            <div class="col-md-8 mb-3">
+                                <label for="city" class="form-label">City</label>
+                                <input type="text" class="form-control" id="city" name="city" required>
                             </div>
                         </div>
 
-                        <div class="row">
-                            <div class="form-group col-md-12">
-                                <input type="text" class="form-control" id="username" name="username" placeholder="" required>
-                                <label for="username">Username</label>
+                        <div class="mb-3">
+                            <label for="country" class="form-label">Country</label>
+                            <input type="text" class="form-control" id="country" name="country" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Username</label>
+                            <input type="text" class="form-control" id="username" name="username" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email Address</label>
+                            <input type="email" class="form-control" id="email" name="email" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="payment_info" class="form-label">IBAN No. for Direct Debit</label>
+                            <input type="text" class="form-control" id="payment_info" name="payment_info" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="password1" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="password1" name="password1" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="password2" class="form-label">Repeat Password</label>
+                            <input type="password" class="form-control" id="password2" name="password2" required>
+                        </div>
+
+                        <div class="row align-items-center mb-3">
+                            <div class="col-md-8">
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="policy" required>
+                                    <label class="form-check-label" for="policy">
+                                        I accept the <a href="#">privacy policy</a>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-4 text-end">
+                                Already have an account? <a href="login.php">Login</a>
                             </div>
                         </div>
 
-                        <div class="row">
-                            <div class="form-group col-md-12">
-                                <input type="email" class="form-control" id="email" name="email" placeholder="" required>
-                                <label for="email">Email Address</label>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="form-group col-md-12">
-                                <input type="text" class="form-control" id="payment_info" name="payment_info" placeholder="" required>
-                                <label for="payment_info">IBAN No. for Direct Debit</label>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="form-group col-md-12">
-                                <input type="password" class="form-control" id="password1" name="password1" placeholder="" required>
-                                <label for="password1">Password</label>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="form-group col-md-12">
-                                <input type="password" class="form-control" id="password2" name="password2" placeholder="" required>
-                                <label for="password2">Repeat Password</label>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="PP col-8">
-                                <input type="checkbox" class="form-check-input" id="policy" required>
-                                <label class="form-check-label" for="policy">
-                                    I accept the <a href="#">privacy policy</a>
-                                </label>
-                            </div>
-                            <div class="PP col-4">
-                                Already have an account?<a href="login.php">Login</a>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="PP col-12">
-                                <button type="submit" name="submit" class="btn btn-primary btn-block">Create Account</button>
-                            </div>
+                        <button type="submit" class="btn btn-dark w-100">Create Account</button>
+                    </form>
                         </div>
                     </div>
-                </form>
+                </section>
+            </div>
 
-                <!-- Modal -->
-                <div class="modal fade" id="signupSuccessModal" tabindex="-1" aria-labelledby="signupSuccessLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content text-center">
-                            <div class="modal-header border-0">
-                                <h5 class="modal-title w-100" id="signupSuccessLabel">Welcome to ICONIQ!</h5>
-                            </div>
-                            <div class="modal-body border-top">
-                                Account created – you're logged in!
-                            </div>
+            <!-- Modal -->
+            <div class="modal fade" id="signupSuccessModal" tabindex="-1" aria-labelledby="signupSuccessLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content text-center">
+                        <div class="modal-header border-0">
+                            <h5 class="modal-title w-100" id="signupSuccessLabel">Welcome to ICONIQ!</h5>
+                        </div>
+                        <div class="modal-body border-top">
+                            Account created – you're logged in!
                         </div>
                     </div>
                 </div>
-            </section>
-        </div>
-    </main>
+            </div>
+        </main>
+
+        <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get("signup") === "success") {
+                const modal = new bootstrap.Modal(document.getElementById('signupSuccessModal'));
+                modal.show();
+
+                // Optional: Weiterleitung nach ein paar Sekunden
+                setTimeout(() => window.location.href = "index.php", 2000);
+            }
+        });
+        </script>
+
 
     <?php include '../includes/footer.php'; ?> <!-- Footer -->
 </body>

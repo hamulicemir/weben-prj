@@ -8,14 +8,27 @@ if (!$userId) {
     exit;
 }
 
+$salutation = $_POST['salutation'] ?? '';
 $firstName = $_POST['first_name'] ?? '';
 $lastName = $_POST['last_name'] ?? '';
+$street = $_POST['street'] ?? '';
+$no = $_POST['no'] ?? '';
+$addressAddition = $_POST['addressaddition'] ?? '';
+$postalCode = $_POST['postal_code'] ?? '';
+$city = $_POST['city'] ?? '';
+$country = $_POST['country'] ?? '';
 $email = $_POST['email'] ?? '';
 $username = $_POST['username'] ?? '';
 $paymentInfo = $_POST['payment_info'] ?? '';
 $currentPw = $_POST['current_password'] ?? '';
 $pw1 = $_POST['password1'] ?? '';
 $pw2 = $_POST['password2'] ?? '';
+
+// Adresse zusammensetzen
+$address = trim($street . ' ' . $no);
+if (!empty($addressAddition)) {
+    $address .= ', ' . trim($addressAddition);
+}
 
 $errors = [];
 
@@ -68,11 +81,11 @@ if ($errors) {
 // Daten speichern
 if ($changePassword) {
     $hash = password_hash($pw1, PASSWORD_DEFAULT);
-    $stmt = $conn->prepare("UPDATE users SET first_name=?, last_name=?, email=?, username=?, payment_info=?, password_hash=? WHERE id=?");
-    $stmt->bind_param("ssssssi", $firstName, $lastName, $email, $username, $paymentInfo, $hash, $userId);
+    $stmt = $conn->prepare("UPDATE users SET salutation=?, first_name=?, last_name=?, address=?, postal_code=?, city=?, country=?, email=?, username=?, payment_info=?, password_hash=? WHERE id=?");
+    $stmt->bind_param("sssssssssssi", $salutation, $firstName, $lastName, $address, $postalCode, $city, $country, $email, $username, $paymentInfo, $hash, $userId);
 } else {
-    $stmt = $conn->prepare("UPDATE users SET first_name=?, last_name=?, email=?, username=?, payment_info=? WHERE id=?");
-    $stmt->bind_param("sssssi", $firstName, $lastName, $email, $username, $paymentInfo, $userId);
+    $stmt = $conn->prepare("UPDATE users SET salutation=?, first_name=?, last_name=?, address=?, postal_code=?, city=?, country=?, email=?, username=?, payment_info=? WHERE id=?");
+    $stmt->bind_param("ssssssssssi", $salutation, $firstName, $lastName, $address, $postalCode, $city, $country, $email, $username, $paymentInfo, $userId);
 }
 
 $stmt->execute();

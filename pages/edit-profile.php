@@ -10,12 +10,24 @@ if (!$userId) {
     exit;
 }
 
-$stmt = $conn->prepare("SELECT first_name, last_name, email, username, payment_info FROM users WHERE id = ?");
+$stmt = $conn->prepare("SELECT salutation, first_name, last_name, address, postal_code, city, country, email, username, payment_info FROM users WHERE id = ?");
 $stmt->bind_param("i", $userId);
 $stmt->execute();
 $result = $stmt->get_result();
 $user = $result->fetch_assoc();
+
+// Adresse aufsplitten
+$street = $no = $addition = "";
+if (preg_match('/^(.*?)[\s]+(\d+[a-zA-Z]*)[,]*[\s]*(.*)?$/', $user['address'], $matches)) {
+    $street = $matches[1] ?? '';
+    $no = $matches[2] ?? '';
+    $addition = $matches[3] ?? '';
+}
+
+
+
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -46,6 +58,18 @@ $user = $result->fetch_assoc();
         <div class="card-body">
             <form action="../includes/profile-update-handler.php" method="POST" class="fs-5">
 
+            <h5 class="mt-3">Change Personal Information</h5>
+
+             <div class="mb-3">
+                    <label class="form-label"></label><br>
+                    <?php foreach (["Ms", "Mr", "Other"] as $s): ?>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="salutation" id="salutation_<?= $s ?>" value="<?= $s ?>" <?= $user['salutation'] === $s ? 'checked' : '' ?>>
+                            <label class="form-check-label" for="salutation_<?= $s ?>"><?= $s ?></label>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+
                 <div class="mb-3">
                     <label class="form-label">First name</label>
                     <input type="text" name="first_name" class="form-control" value="<?= htmlspecialchars($user['first_name']) ?>" required>
@@ -55,6 +79,40 @@ $user = $result->fetch_assoc();
                     <label class="form-label">Last name</label>
                     <input type="text" name="last_name" class="form-control" value="<?= htmlspecialchars($user['last_name']) ?>" required>
                 </div>
+
+                <!-- Address -->
+                <div class="row">
+                    <div class="col-md-8 mb-3">
+                        <label class="form-label">Street</label>
+                        <input type="text" name="street" class="form-control" value="<?= htmlspecialchars($street) ?>" required>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">No.</label>
+                        <input type="text" name="no" class="form-control" value="<?= htmlspecialchars($no) ?>" required>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Address Addition (optional)</label>
+                    <input type="text" name="addressaddition" class="form-control" value="<?= htmlspecialchars($addition) ?>">
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">ZIP Code</label>
+                        <input type="text" name="postal_code" class="form-control" value="<?= htmlspecialchars($user['postal_code']) ?>" required>
+                    </div>
+                    <div class="col-md-8 mb-3">
+                        <label class="form-label">City</label>
+                        <input type="text" name="city" class="form-control" value="<?= htmlspecialchars($user['city']) ?>" required>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Country</label>
+                    <input type="text" name="country" class="form-control" value="<?= htmlspecialchars($user['country']) ?>" required>
+                </div>
+
 
                 <div class="mb-3">
                     <label class="form-label">Email</label>

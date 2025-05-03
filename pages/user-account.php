@@ -12,18 +12,18 @@ if (!$userId) {
     exit;
 }
 
+// Sortieroption verarbeiten (default: DESC)
+$sortOrder = ($_GET['sort'] ?? 'desc') === 'asc' ? 'ASC' : 'DESC';
+
 // Daten holen
-$stmt = $conn->prepare("SELECT first_name, last_name, email, username, payment_info FROM users WHERE id = ?");
+$stmt = $conn->prepare("SELECT first_name, last_name, email, username, payment_info, address, postal_code, city, country FROM users WHERE id = ?");
 $stmt->bind_param("i", $userId);
 $stmt->execute();
 $result = $stmt->get_result();
 $user = $result->fetch_assoc();
 
 // Bestellungen laden
-$orderStmt = $conn->prepare("SELECT id, created_at AS order_date, total_price, status FROM orders WHERE user_id = ?");
-if (!$orderStmt) {
-    die("SQL-Fehler: " . $conn->error);
-}
+$orderStmt = $conn->prepare("SELECT id, created_at AS order_date, total_price, status FROM orders WHERE user_id = ? ORDER BY created_at $sortOrder");
 $orderStmt->bind_param("i", $userId);
 $orderStmt->execute();
 $orderResult = $orderStmt->get_result();
@@ -62,11 +62,16 @@ function maskIBAN($iban) {
                 <tr><th>Last name:</th><td><?= htmlspecialchars($user['last_name']) ?></td></tr>
                 <tr><th>Email:</th><td><?= htmlspecialchars($user['email']) ?></td></tr>
                 <tr><th>Username:</th><td><?= htmlspecialchars($user['username']) ?></td></tr>
-                <tr><th>Payment method:</th>
-                    <td><?= maskIBAN($user['payment_info']) ?>
+                <tr><th>Payment method:</th><td><?= maskIBAN($user['payment_info']) ?>             
                         <!--<a href="edit_account.php" class="btn btn-sm btn-outline-secondary ms-2">Edit</a>   -> is das nötig? weil man tut das eh editen, wieso ein extra button?-->
                     </td>
                 </tr>
+                <tr><th>Address:</th><td>
+                    <?= htmlspecialchars($user['address']) ?><br>
+                    <?= htmlspecialchars($user['postal_code']) . ' ' . htmlspecialchars($user['city']) ?><br>
+                    <?= htmlspecialchars($user['country']) ?>
+                </td></tr>
+
             </table>
             <a href="edit-profile.php" class="btn btn-dark">Edit Profile</a>
             </div>
@@ -76,18 +81,28 @@ function maskIBAN($iban) {
     <!-- Orders-->
     <div class="card shadow-sm">
         <div class="card-body">
-            <h5 class="card-title fs-3">My Orders</h5>
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="card-title fs-3 mb-0">My Orders</h5>
+                <!-- Dropdown zur Sortierung -->
+                <form method="get" class="d-inline-block">
+                    <select name="sort" onchange="this.form.submit()" class="form-select form-select-sm w-auto">
+                        <option value="desc" <?= $sortOrder === 'DESC' ? 'selected' : '' ?>>Newest first</option>
+                        <option value="asc" <?= $sortOrder === 'ASC' ? 'selected' : '' ?>>Oldest first</option>
+                    </select>
+                </form>
+            </div>
+
             <?php if (empty($orders)): ?>
                 <p class="text-muted">No orders found.</p>
             <?php else: ?>
                 <ul class="list-group list-group-item-light fs-5">
                     <?php foreach ($orders as $order): ?>
                         <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <div>
-                            <strong>Order #<?= $order['id'] ?></strong><br>
-                            <small><?= date("d.m.Y", strtotime($order['order_date'])) ?></small><br>
-                            <a href="generate-invoice.php?order_id=<?= $order['id'] ?>" target="_blank" class="btn btn-sm btn-outline-primary mt-2">Download Invoice</a>
-                        </div>
+                            <div>
+                                <strong>Order #<?= $order['id'] ?></strong><br>
+                                <small><?= date("d.m.Y", strtotime($order['order_date'])) ?></small><br>
+                                <a href="generate-invoice.php?order_id=<?= $order['id'] ?>" target="_blank" class="btn btn-sm btn-outline-primary mt-2">Download Invoice</a>
+                            </div>
                             <span class="badge bg-dark rounded-pill">
                                 € <?= number_format($order['total_price'], 2, ',', '.') ?>
                             </span>
