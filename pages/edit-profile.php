@@ -80,7 +80,6 @@ if (preg_match('/^(.*?)[\s]+(\d+[a-zA-Z]*)[,]*[\s]*(.*)?$/', $user['address'], $
                     <input type="text" name="last_name" class="form-control" value="<?= htmlspecialchars($user['last_name']) ?>" required>
                 </div>
 
-                <!-- Address -->
                 <div class="row">
                     <div class="col-md-8 mb-3">
                         <label class="form-label">Street</label>
@@ -132,29 +131,57 @@ if (preg_match('/^(.*?)[\s]+(\d+[a-zA-Z]*)[,]*[\s]*(.*)?$/', $user['address'], $
                 <hr>
                 <h5 class="mt-4">Change Password</h5>
 
-                <div class="mb-3">
+
+
+                <div class="mb-3 position-relative">
                     <label class="form-label">Current password</label>
-                    <input type="password" name="current_password" class="form-control">
+                    <input type="password" name="current_password" class="form-control pe-5" id="current_password">
+                    <button type="button" class="btn btn-sm btn-outline-secondary position-absolute top-50 end-0 translate-middle-y me-2"
+                            onmousedown="togglePassword('current_password', true)"
+                            onmouseup="togglePassword('current_password', false)"
+                            onmouseleave="togglePassword('current_password', false)">
+                        Show
+                    </button>
                 </div>
 
-                <div class="mb-3">
+
+                <div class="mb-3 position-relative">
                     <label class="form-label">New password</label>
-                    <input type="password" name="password1" class="form-control" minlength="6">
+                    <input type="password" name="password1" class="form-control pe-5" id="password1">
+                    <button type="button" class="btn btn-sm btn-outline-secondary position-absolute top-50 end-0 translate-middle-y me-2"
+                            onmousedown="togglePassword('password1', true)"
+                            onmouseup="togglePassword('password1', false)"
+                            onmouseleave="togglePassword('password1', false)">
+                        Show
+                    </button>
                 </div>
 
-                <div class="mb-3">
+                <div class="mb-3 position-relative">
                     <label class="form-label">Repeat new password</label>
-                    <input type="password" name="password2" class="form-control" minlength="6">
+                    <input type="password" name="password2" class="form-control pe-5" id="password2">
+                    <button type="button" class="btn btn-sm btn-outline-secondary position-absolute top-50 end-0 translate-middle-y me-2"
+                            onmousedown="togglePassword('password2', true)"
+                            onmouseup="togglePassword('password2', false)"
+                            onmouseleave="togglePassword('password2', false)">
+                        Show
+                    </button>
                 </div>
 
                 <button type="submit" class="btn btn-dark">Save Changes</button>
-                <a href="user-account.php" class="btn btn-outline-secondary ms-2">Cancel</a>
+                <aef="user-account.php" class="btn btn-outline-secondary ms-2">Cancel</a>
             </form>
         </div>
     </div>
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+function togglePassword(id, show) {
+    const input = document.getElementById(id);
+    input.type = show ? 'text' : 'password';
+}
+</script>
+
 <?php include '../includes/footer.php'; ?>
 </body>
 </html>

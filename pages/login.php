@@ -58,11 +58,17 @@ unset($_SESSION['loginError']);
                         <form id="loginForm">
                             <div class="form-floating mb-3">
                                 <input type="email" class="form-control" id="email" name="email" placeholder="E-mail" required>
-                                <label for="email">E-mail address</label>
+                                <label for="email">Email address</label>
                             </div>
-                            <div class="form-floating mb-3">
-                                <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+                            <div class="form-floating mb-3 position-relative">
+                                <input type="password" class="form-control" id="password" name="password" placeholder="Password" id="password" required>
                                 <label for="password">Password</label>
+                                <button type="button" class="btn btn-sm btn-outline-secondary position-absolute top-50 end-0 translate-middle-y me-2"
+                                            onmousedown="togglePassword('password', true)"
+                                            onmouseup="togglePassword('password', false)"
+                                            onmouseleave="togglePassword('password', false)">
+                                        Show
+                                    </button>  
                             </div>
                             <div class="PP mb-3">
                                 <input class="form-check-input" type="checkbox" name="remember_me" id="remember_me">
@@ -168,6 +174,12 @@ unset($_SESSION['loginError']);
         });
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script>
+    function togglePassword(id, show) {
+        const input = document.getElementById(id);
+        input.type = show ? 'text' : 'password';
+    }
+    </script>
 
 </body>
 

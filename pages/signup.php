@@ -164,14 +164,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <input type="text" class="form-control" id="payment_info" name="payment_info" required>
                         </div>
 
-                        <div class="mb-3">
-                            <label for="password1" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="password1" name="password1" required>
+
+                        <div class="mb-3 position-relative">
+                            <label class="form-label">Password</label>
+                            <input type="password" name="password1" class="form-control pe-5" id="password1">
+                            <button type="button" class="btn btn-sm btn-outline-secondary position-absolute top-50 end-0 translate-middle-y me-2"
+                                    onmousedown="togglePassword('password1', true)"
+                                    onmouseup="togglePassword('password1', false)"
+                                    onmouseleave="togglePassword('password1', false)">
+                                Show
+                            </button>
                         </div>
 
-                        <div class="mb-3">
-                            <label for="password2" class="form-label">Repeat Password</label>
-                            <input type="password" class="form-control" id="password2" name="password2" required>
+                        <div class="mb-3 position-relative">
+                            <label class="form-label">Repeat new password</label>
+                            <input type="password" name="password2" class="form-control pe-5" id="password2">
+                            <button type="button" class="btn btn-sm btn-outline-secondary position-absolute top-50 end-0 translate-middle-y me-2"
+                                    onmousedown="togglePassword('password2', true)"
+                                    onmouseup="togglePassword('password2', false)"
+                                    onmouseleave="togglePassword('password2', false)">
+                                Show
+                            </button>
                         </div>
 
                         <div class="row align-items-center mb-3">
@@ -183,12 +196,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     </label>
                                 </div>
                             </div>
-                            <div class="col-md-4 text-end">
-                                Already have an account? <a href="login.php">Login</a>
-                            </div>
-                        </div>
+                        <button type="submit" class="btn btn-dark w-100 mt-3">Create Account</button>
 
-                        <button type="submit" class="btn btn-dark w-100">Create Account</button>
+                        <div class="d-flex mt-3 col-md-4 text-end text-muted">
+                                <a class="text-muted" href="login.php">Already have an account?</a>
+                            </div>
                     </form>
                         </div>
                     </div>
@@ -221,6 +233,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 setTimeout(() => window.location.href = "index.php", 2000);
             }
         });
+
+        function togglePassword(id, show) {
+        const input = document.getElementById(id);
+        input.type = show ? 'text' : 'password';
+}
         </script>
 
 
