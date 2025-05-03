@@ -130,13 +130,13 @@ unset($_SESSION['loginError']);
                 $.post("../includes/login-handler.php", formData, function(response) {
                     if (response.success) {
                         $("body").append(`
-                            <div class="modal" id="welcomeModal" tabindex="-1" role="dialog">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title">Welcome!</h5>                                  
+                            <div class="modal fade" id="welcomeModal" tabindex="-1" style="display: block; background-color: rgba(0,0,0,0.5);">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content text-center">
+                                        <div class="modal-header border-0">
+                                            <h5 class="modal-title w-100">Welcome!</h5>
                                         </div>
-                                        <div class="modal-body">
+                                        <div class="modal-body border-top">
                                             <p>Welcome back to ICONIQ!</p>
                                         </div>
                                     </div>

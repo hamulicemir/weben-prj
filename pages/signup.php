@@ -213,10 +213,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="modal fade" id="signupSuccessModal" tabindex="-1" aria-labelledby="signupSuccessLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content text-center">
-                            <div class="modal-header">
+                            <div class="modal-header border-0">
                                 <h5 class="modal-title w-100" id="signupSuccessLabel">Welcome to ICONIQ!</h5>
                             </div>
-                            <div class="modal-body">
+                            <div class="modal-body border-top">
                                 Account created – you're logged in!
                             </div>
                         </div>
