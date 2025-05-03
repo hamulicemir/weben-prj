@@ -50,26 +50,26 @@ unset($_SESSION['loginError']);
             <div class="row align-items-center">
                 <!-- Login-Formular -->
                 <div class="col-12 col-lg-6 mb-4 mb-lg-0">
-                    <div class="card border-0 rounded-4 shadow px-4 py-5">
-                        <div class="text-center mb-4">
-                            <h2 class="fw-bold">LOGIN</h2>
-                            <p>Please log in with your email address and password.</p>
+                <div class="card border-0 rounded-4 shadow px-4 py-5">
+                    <div class="text-center mb-4">
+                        <h2 class="fw-bold">LOGIN</h2>
+                        <p>Please log in with your email address or username and password.</p>
+                    </div>
+                    <form id="loginForm">
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="login" name="login" placeholder="Username or Email" required>
+                            <label for="login">Username or Email</label>
                         </div>
-                        <form id="loginForm">
-                            <div class="form-floating mb-3">
-                                <input type="email" class="form-control" id="email" name="email" placeholder="E-mail" required>
-                                <label for="email">Email address</label>
-                            </div>
-                            <div class="form-floating mb-3 position-relative">
-                                <input type="password" class="form-control" id="password" name="password" placeholder="Password" id="password" required>
-                                <label for="password">Password</label>
-                                <button type="button" class="btn btn-sm btn-outline-secondary position-absolute top-50 end-0 translate-middle-y me-2"
-                                            onmousedown="togglePassword('password', true)"
-                                            onmouseup="togglePassword('password', false)"
-                                            onmouseleave="togglePassword('password', false)">
-                                        Show
-                                    </button>  
-                            </div>
+                        <div class="form-floating mb-3 position-relative">
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+                            <label for="password">Password</label>
+                            <button type="button" class="btn btn-sm btn-outline-secondary position-absolute top-50 end-0 translate-middle-y me-2"
+                                    onmousedown="togglePassword('password', true)"
+                                    onmouseup="togglePassword('password', false)"
+                                    onmouseleave="togglePassword('password', false)">
+                                Show
+                            </button>
+                        </div>
                             <div class="PP mb-3">
                                 <input class="form-check-input" type="checkbox" name="remember_me" id="remember_me">
                                 <label class="form-check-label text-secondary" for="remember_me">Keep me logged in</label>
@@ -111,11 +111,11 @@ unset($_SESSION['loginError']);
         $(document).ready(function() {
             $("#loginForm").submit(function(e) {
                 e.preventDefault();
-                let email = $("#email");
+                let login = $("#login");
                 let password = $("#password");
 
                 // Reset invalid classes
-                email.removeClass("is-invalid");
+                login.removeClass("is-invalid");
                 password.removeClass("is-invalid");
 
                 // Validate inputs
@@ -124,10 +124,17 @@ unset($_SESSION['loginError']);
                     password.addClass("is-invalid");
                     isValid = false;
                 }
-                if (!email.val().includes("@")) {
-                    email.addClass("is-invalid");
+                /*
+                if (!login.val().includes("@")) {
+                    login.addClass("is-invalid");
                     isValid = false;
-                }
+                }*/
+
+                // Validate inputs
+                if (!login.val()) {
+                login.addClass("is-invalid");
+                isValid = false;
+            }
 
                 if (!isValid) return;
 
@@ -158,7 +165,7 @@ unset($_SESSION['loginError']);
                         }, 1500);
                     } else {
                         if (response.errors && response.errors.email) {
-                            email.addClass("is-invalid");
+                            login.addClass("is-invalid");
                         }
                         if (response.errors && response.errors.password) {
                             password.addClass("is-invalid");
@@ -172,6 +179,11 @@ unset($_SESSION['loginError']);
                 });
             });
         });
+        function togglePassword(id, show) {
+        const input = document.getElementById(id);
+        input.type = show ? 'text' : 'password';
+    }
+
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script>

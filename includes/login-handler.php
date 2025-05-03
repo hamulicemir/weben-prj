@@ -41,8 +41,8 @@ if (isset($_COOKIE['remember_me'])) {
 }
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $email = $_POST['email'];
-    $password = $_POST['password'];
+    $loginInput = trim($_POST['login'] ?? '');
+    $password = $_POST['password'] ?? '';
     $remember = isset($_POST['remember_me']);
 
     if (!$conn) {
@@ -51,10 +51,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         exit();
     }
 
-    $user = getUserByEmail($conn, $email);
+    // Nutzer anhand E-Mail oder Username suchen
+    $stmt = $conn->prepare("SELECT * FROM users WHERE email = ? OR username = ?");
+    $stmt->bind_param("ss", $loginInput, $loginInput);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $user = $result->fetch_assoc();
 
     if (!$user) {
-        $response["errors"]["email"] = "Kein Benutzer mit dieser E-Mail-Adresse gefunden.";
+        $response["errors"]["email"] = "Kein Benutzer mit dieser E-Mail oder diesem Username gefunden.";
         echo json_encode($response);
         exit();
     }
@@ -68,7 +73,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     setUserSession($user);
 
     if ($remember) {
-        // Sicherstellen, dass der Cookie sicher gesetzt wird
         setcookie("remember_me", $user['id'], time() + (86400 * 30), "/", "", true, true);
     }
 
