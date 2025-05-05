@@ -35,11 +35,9 @@ $(document).ready(function () {
         // AJAX POST-Request an signup-process.php (PHP-Backend)
         $.post('../includes/signup-process.php', formData, function (response) {
             if (response.success) {
-
                 // Zeigt Bootstrap Modal bei Erfolg
                 const modal = new bootstrap.Modal(document.getElementById('signupSuccessModal'));
                 modal.show();
-
                 // Weiterleitung zur Startseite nach 3,5 Sekunden
                 setTimeout(() => {
                     window.location.href = "../pages/index.php";
