@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Benutzer erstellen</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+  <h1>Benutzer wird angelegt...</h1>
+
+  <script>
+    // Wird erst ausgeführt, wenn das DOM vollständig geladen ist
+    document.addEventListener('DOMContentLoaded', function () {
+      fetch('/weben-prj/includes/user-api.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          action: 'create',
+          user: {
+            role: 'customer',
+            salutation: 'Mr',
+            first_name: 'Max',
+            last_name: 'Mustermann',
+            address: 'Hauptstraße 1',
+            postal_code: '12345',
+            city: 'Musterstadt',
+            country: 'Deutschland',
+            email: 'max@example.com',
+            username: 'maxmuster',
+            password: 'test123',
+            confirm_password: 'test123',
+            payment_info: 'PayPal: max@example.com',
+            active: 1
+          }
+        })
+      })
+      .then(res => res.json())
+      .then(data => {
+        console.log('Antwort von der API:', data);
+
+        // Optional: Ergebnis in die Seite schreiben
+        const result = document.createElement('pre');
+        result.textContent = JSON.stringify(data, null, 2);
+        document.body.appendChild(result);
+      })
+      .catch(error => {
+        console.error('Fehler beim Request:', error);
+      });
+    });
+  </script>
+</body>
+</html>

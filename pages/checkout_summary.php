@@ -21,7 +21,6 @@ if (!isset($_SESSION['user']) || empty($_SESSION['user'])) {
 <body>
 <?php include '../includes/navbar.php'; ?> 
 
-
 <div class="container mt-5">
   <div class="d-flex justify-content-center" id="checkout-steps">
     <div class="step text-center flex-fill" data-step="1">

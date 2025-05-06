@@ -5,7 +5,7 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 // Verbindungsdaten zur MySQL-Datenbank definieren (PHP + MySQL)
-$servername = "localhost";
+$servername = "34.155.121.89";
 $username = "weben-prj";
 $password = "weben-prj";
 $dbname = "weben-prj";
