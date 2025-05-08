@@ -9,7 +9,6 @@ header('Content-Type: application/json');
 $json = file_get_contents("php://input");
 $data = json_decode($json, true);
 
-
 if (!$data) {
     echo json_encode([
         'status' => 'debug',
@@ -27,6 +26,7 @@ if (!isset($data['action'])) {
     ], JSON_PRETTY_PRINT);
     exit;
 }
+
 require_once __DIR__ . '/config.php';
 require_once __DIR__ . '/User.php';
 require_once __DIR__ . '/UserRepository.php';
@@ -47,6 +47,9 @@ switch ($action) {
         break;
     case 'delete':
         $response = $service->deleteUser($data['id']);
+        break;
+    case 'thisUser':
+        $response = $service->getCurrentUser();
         break;
     default:
         http_response_code(400);

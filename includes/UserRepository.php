@@ -43,6 +43,16 @@ class UserRepository {
         return $result ? $result->fetch_all(MYSQLI_ASSOC) : [];
     }
 
+    public function findById($id) {
+        $stmt = $this->conn->prepare("SELECT * FROM users WHERE id = ?");
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+        return $result->fetch_assoc();
+    }
+
+
     public function update($id, $data) {
         $fields = [];
         $values = [];

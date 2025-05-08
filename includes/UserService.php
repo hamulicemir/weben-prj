@@ -19,6 +19,26 @@ class UserService {
 
     public function listUsers() {
         return $this->repo->findAll();
+    }    
+
+    public function getCurrentUser() {
+        if (!isset($_SESSION['user']) || !isset($_SESSION['user']['id'])) {
+            http_response_code(401);
+            return ['status' => 'error', 'message' => 'Nicht eingeloggt'];
+        }
+    
+        $userId = $_SESSION['user']['id'];
+        $user = $this->repo->findById($userId);
+    
+        if (!$user) {
+            http_response_code(404);
+            return ['status' => 'error', 'message' => 'User nicht gefunden'];
+        }
+    
+        // Entferne sensible Felder, z. B. Passwort
+        unset($user['password']);
+    
+        return ['status' => 'success', 'user' => $user];
     }
 
     public function updateUser($id, $data) {

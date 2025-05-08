@@ -7,20 +7,18 @@ if (!isset($_SESSION['user']) || empty($_SESSION['user'])) {
 }
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ICONIQ - Checkout</title>
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="shortcut icon" href="../assets/fonts/favicon.ico" type="image/x-icon"/>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <script src=""></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../assets/css/checkout.css">
 </head>
 <body>
 <?php include '../includes/navbar.php'; ?> 
-
 
 <div class="container mt-5">
   <div class="d-flex justify-content-center" id="checkout-steps">
@@ -40,7 +38,27 @@ if (!isset($_SESSION['user']) || empty($_SESSION['user'])) {
 </div>
 <hr class="my-4">
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-<?php include '../includes/footer.php'; ?> <!-- Footer -->
+<div class="container mb-5">
+  <div class="card shadow rounded-4 p-4">
+    <h4 class="mb-4">Deine Daten</h4>
+
+    <div id="userDataView" class="d-none">
+      <p><strong>Anrede:</strong> <span id="view-salutation"></span></p>
+      <p><strong>Vorname:</strong> <span id="view-firstName"></span></p>
+      <p><strong>Nachname:</strong> <span id="view-lastName"></span></p>
+      <p><strong>E-Mail:</strong> <span id="view-email"></span></p>
+      <p><strong>Benutzername:</strong> <span id="view-username"></span></p>
+
+      <div class="d-flex justify-content-between mt-3">
+        <a href="/weben-prj/pages/user-account.php" class="btn btn-outline-dark">Bearbeiten</a>
+        <a href="/weben-prj/pages/checkout_payment.php" class="btn btn-dark">Weiter</a>
+  </div>
+</div>
+  </div>
+</div>
+
+<?php include '../includes/footer.php'; ?>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../assets/js/user-edit.js"></script>
 </body>
 </html>
