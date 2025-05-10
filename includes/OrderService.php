@@ -21,7 +21,7 @@ class OrderService {
         }
 
         $data['user_id'] = $_SESSION['user']['id'];
-        $order = new Order($data);
+        $order = new Order($data, $this->productRepo);
 
         // 1. Hauptbestellung speichern
         $success = $this->repo->save($order);

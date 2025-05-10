@@ -52,7 +52,7 @@ if (!isset($_SESSION['user']) || empty($_SESSION['user'])) {
         <div class="payment-option border rounded p-3 mb-3 d-flex">
           <div class="form-check me-3 d-flex align-items-center">
             <input class="form-check-input" type="radio" name="payment" id="creditCard" value="credit_card" checked>
-            <label class="form-check-label fw-semibold d-block" for="creditCard">Credit card</label>
+            <label class="form-check-label fw-semibold d-block" for="creditCard">Credit Card</label>
           </div>
         </div>
 
@@ -73,7 +73,7 @@ if (!isset($_SESSION['user']) || empty($_SESSION['user'])) {
         <div class="payment-option border rounded p-3 mb-3 d-flex">
           <div class="form-check me-3 d-flex align-items-center">
             <input class="form-check-input" type="radio" name="payment" id="bankDebit" value="bank debit">
-            <label class="form-check-label fw-semibold d-block" for="bankDebit">Bank debit</label>
+            <label class="form-check-label fw-semibold d-block" for="bankDebit">Bank Debit</label>
           </div>
         </div>
 

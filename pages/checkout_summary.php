@@ -35,6 +35,24 @@ $order = $_SESSION['order'] ?? ['payment' => '-', 'shipping' => '-'];
 <body>
   <?php include '../includes/navbar.php'; ?>
 
+  <?php
+  $paymentLabels = [
+    'credit_card' => 'Credit Card',
+    'paypal' => 'PayPal',
+    'voucher' => 'Voucher',
+    'bank debit' => 'Bank Debit'
+  ];
+
+  $shippingLabels = [
+    'DHL' => 'DHL',
+    'Post' => 'Post',
+    'UPS' => 'UPS'
+  ];
+
+  $paymentLabel = $paymentLabels[$order['payment']] ?? ucfirst($order['payment']);
+  $shippingLabel = $shippingLabels[$order['shipping']] ?? ucfirst($order['shipping']);
+  ?>
+
   <main>
     <div class="container mt-5">
       <div class="d-flex justify-content-center" id="checkout-steps">
@@ -75,11 +93,11 @@ $order = $_SESSION['order'] ?? ['payment' => '-', 'shipping' => '-'];
 
       <div class="card p-4 shadow-sm rounded-4 mb-4">
         <h5 class="fw-bold mb-3">Payment Method</h5>
-        <p class="mb-1"><?= htmlspecialchars(ucfirst($order['payment'])) ?></p>
+        <p class="mb-1"><?= htmlspecialchars($paymentLabel) ?></p>
 
         <h5 class="fw-bold mt-4 mb-3">Shipping Method</h5>
-        <p class="mb-0"><?= htmlspecialchars(strtoupper($order['shipping'])) ?></p>
-      </div>
+        <p class="mb-0"><?= htmlspecialchars($shippingLabel) ?></p>
+        </div>
 
       <div class="d-flex justify-content-between">
         <a href="checkout_payment.php" class="btn btn-outline-dark px-4">Back</a>
