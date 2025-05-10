@@ -72,36 +72,44 @@ $order = $_SESSION['order'] ?? ['payment' => '-', 'shipping' => '-'];
     </div>
     <hr class="my-4" />
 
-    <div class="container mb-5" style="max-width: 700px;">
+    <div class="container mb-5">
       <h2 class="fw-bold mb-4">ORDER SUMMARY</h2>
 
-      <div class="card shadow rounded-4 p-4 mb-4">
-        <h4 class="mb-4">YOUR DATA</h4>
-
-        <div id="userDataView" class="d-none">
-          <p><strong>Salutation:</strong> <span id="view-salutation"></span></p>
-          <p><strong>Name:</strong> <span id="view-firstName"></span></p>
-          <p><strong>Lastname:</strong> <span id="view-lastName"></span></p>
-          <p><strong>E-Mail:</strong> <span id="view-email"></span></p>
-          <p><strong>Username:</strong> <span id="view-username"></span></p>
-          <p><strong>Street:</strong> <span id="view-street"></span></p>
-          <p><strong>Postal Code:</strong> <span id="view-zip"></span></p>
-          <p><strong>City:</strong> <span id="view-city"></span></p>
-
-        </div>
-      </div>
-
-      <div class="card p-4 shadow-sm rounded-4 mb-4">
-        <h5 class="fw-bold mb-3">Payment Method</h5>
-        <p class="mb-1"><?= htmlspecialchars($paymentLabel) ?></p>
-
-        <h5 class="fw-bold mt-4 mb-3">Shipping Method</h5>
-        <p class="mb-0"><?= htmlspecialchars($shippingLabel) ?></p>
+      <div class="row g-4">
+        <!-- Linke Spalte: Produkte -->
+        <div class="col-md-8">
+          <div id="summary-products"></div>
         </div>
 
-      <div class="d-flex justify-content-between">
-        <a href="checkout_payment.php" class="btn btn-outline-dark px-4">Back</a>
-        <button id="placeOrderBtn" class="btn btn-success px-4">Place Order</button>
+        <!-- Rechte Spalte: Kundendaten & Optionen -->
+        <div class="col-md-4">
+          <div class="card shadow rounded-4 p-4 mb-4">
+            <h4 class="mb-4">YOUR DATA</h4>
+            <div id="userDataView" class="d-none">
+              <p><strong>Salutation:</strong> <span id="view-salutation"></span></p>
+              <p><strong>Name:</strong> <span id="view-firstName"></span></p>
+              <p><strong>Lastname:</strong> <span id="view-lastName"></span></p>
+              <p><strong>E-Mail:</strong> <span id="view-email"></span></p>
+              <p><strong>Username:</strong> <span id="view-username"></span></p>
+              <p><strong>Street:</strong> <span id="view-street"></span></p>
+              <p><strong>Postal Code:</strong> <span id="view-zip"></span></p>
+              <p><strong>City:</strong> <span id="view-city"></span></p>
+            </div>
+          </div>
+
+          <div class="card p-4 shadow-sm rounded-4 mb-4">
+            <h5 class="fw-bold mb-3">Payment Method</h5>
+            <p class="mb-1"><?= htmlspecialchars($paymentLabel) ?></p>
+
+            <h5 class="fw-bold mt-4 mb-3">Shipping Method</h5>
+            <p class="mb-0"><?= htmlspecialchars($shippingLabel) ?></p>
+          </div>
+
+          <div class="d-flex justify-content-between">
+            <a href="checkout_payment.php" class="btn btn-outline-dark px-4">Back</a>
+            <button id="placeOrderBtn" class="btn btn-success px-4">Place Order</button>
+          </div>
+        </div>
       </div>
     </div>
   </main>
@@ -132,7 +140,6 @@ $order = $_SESSION['order'] ?? ['payment' => '-', 'shipping' => '-'];
     });
   </script>
   <script src="../assets/js/user-edit.js"></script>
-
+  <script src="../assets/js/summary-cart.js"></script>
 </body>
-
 </html>
