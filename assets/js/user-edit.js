@@ -20,6 +20,10 @@ function populateUserData(user) {
   document.getElementById('view-lastName').textContent = user.last_name;
   document.getElementById('view-email').textContent = user.email;
   document.getElementById('view-username').textContent = user.username;
+  document.getElementById('view-street').textContent = user.address;
+  document.getElementById('view-zip').textContent = user.postal_code;
+  document.getElementById('view-city').textContent = user.city;
+
 }
 
 window.addEventListener('DOMContentLoaded', fetchUserData);

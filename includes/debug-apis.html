@@ -2,51 +2,47 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8">
-  <title>Benutzer erstellen</title>
+  <title>Bestellungs-API Test</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-  <h1>Benutzer wird angelegt...</h1>
+  <h1>API Test: Order</h1>
+
+  <select id="actionSelect">
+    <option value="viewAllOrders">Alle Bestellungen anzeigen</option>
+    <option value="viewOrderByID">Bestellung nach ID anzeigen</option>
+    <option value="viewOrdersByUserID">Bestellungen nach User-ID anzeigen</option>
+    <option value="deleteOrder">Bestellung löschen</option>
+  </select>
+
+  <input type="number" id="idInput" placeholder="ID eingeben (optional)">
+  <button id="sendBtn">Absenden</button>
+
+  <pre id="output"></pre>
 
   <script>
-    // Wird erst ausgeführt, wenn das DOM vollständig geladen ist
-    document.addEventListener('DOMContentLoaded', function () {
-      fetch('/weben-prj/includes/user-api.php', {
+    document.getElementById('sendBtn').addEventListener('click', () => {
+      const action = document.getElementById('actionSelect').value;
+      const id = parseInt(document.getElementById('idInput').value) || null;
+
+      const body = { action };
+      if (action === 'viewOrderByID' || action === 'viewOrdersByUserID' || action === 'deleteOrder') {
+        body[action === 'viewOrdersByUserID' ? 'user_id' : 'id'] = id;
+      }
+
+      fetch('/weben-prj/includes/order-api.php', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({
-          action: 'create',
-          user: {
-            role: 'customer',
-            salutation: 'Mr',
-            first_name: 'Max',
-            last_name: 'Mustermann',
-            address: 'Hauptstraße 1',
-            postal_code: '12345',
-            city: 'Musterstadt',
-            country: 'Deutschland',
-            email: 'max@example.com',
-            username: 'maxmuster',
-            password: 'test123',
-            confirm_password: 'test123',
-            payment_info: 'PayPal: max@example.com',
-            active: 1
-          }
-        })
+        body: JSON.stringify(body)
       })
-      .then(res => res.json())
+      .then(response => response.json())
       .then(data => {
-        console.log('Antwort von der API:', data);
-
-        // Optional: Ergebnis in die Seite schreiben
-        const result = document.createElement('pre');
-        result.textContent = JSON.stringify(data, null, 2);
-        document.body.appendChild(result);
+        document.getElementById('output').textContent = JSON.stringify(data, null, 2);
       })
-      .catch(error => {
-        console.error('Fehler beim Request:', error);
+      .catch(err => {
+        document.getElementById('output').textContent = 'Fehler: ' + err;
       });
     });
   </script>
