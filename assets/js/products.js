@@ -91,12 +91,15 @@ window.addEventListener("DOMContentLoaded", () => {
     dropZone.id = "customDropZone";
     dropZone.className = "position-fixed end-0 top-50 translate-middle-y p-3 bg-light border rounded shadow text-center";
     dropZone.style.zIndex = "1050";
-    dropZone.style.width = "220px";
+    dropZone.style.width = "15%";
+    dropZone.style.height = "100%";
     dropZone.style.cursor = "pointer";
-    dropZone.style.display = "none"; // <- wird nur sichtbar beim Draggen
-
+    dropZone.style.display = "none";
+    dropZone.style.position = "relative";
     dropZone.innerHTML = `
-        <strong>Drop the item<br>to add it to the cart</strong>
+        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;">
+            <strong>Drop the item<br>to add it to the cart</strong>
+        </div>
     `;
 
     document.body.appendChild(dropZone);
