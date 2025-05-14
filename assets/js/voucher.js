@@ -17,19 +17,25 @@ function loadVouchers() {
     .then(data => {
         voucherTable.innerHTML = '';
         data.data.forEach(v => {
+            const today = new Date().toISOString().split('T')[0];
+            const isExpired = v.expiration_date < today;
+            const statusText = v.used ? 'Used' : (isExpired ? 'Expired' : 'Active');
+            const statusClass = v.used ? 'secondary' : (isExpired ? 'danger' : 'success');
+            const rowClass = isExpired ? 'table-danger' : '';
+        
             const row = `
-                <tr>
+                <tr class="${rowClass}">
                     <td>${v.code}</td>
                     <td>${parseFloat(v.amount).toFixed(2)}</td>
                     <td>${v.expiration_date}</td>
-                    <td>${v.used ? 'Used' : 'Active'}</td>
+                    <td><span class="badge bg-${statusClass}">${statusText}</span></td>
                     <td>
                         <button class="btn btn-sm btn-outline-dark me-1" onclick="editVoucher('${v.code}', ${v.amount}, '${v.expiration_date}')">Edit</button>
                         <button class="btn btn-sm btn-outline-danger" onclick="deleteVoucher('${v.code}')">Delete</button>
                     </td>
                 </tr>`;
             voucherTable.insertAdjacentHTML('beforeend', row);
-        });
+        });        
     });
 }
 

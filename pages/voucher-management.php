@@ -43,7 +43,6 @@ if (!isset($_SESSION['user']) || empty($_SESSION['user'])) {
                         </tr>
                     </thead>
                     <tbody id="voucherTableBody">
-                        <!-- JS lädt hier die Vouchers -->
                     </tbody>
                 </table>
             </div>
