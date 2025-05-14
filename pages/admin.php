@@ -1,4 +1,10 @@
-<?php session_start(); ?>
+<?php session_start(); 
+
+if (!isset($_SESSION['user']) || empty($_SESSION['user'])) {
+    header("Location: ../pages/login.php");
+    exit();
+  }
+  ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,7 +17,14 @@
 </head>
 <body>
 <?php include '../includes/navbar.php'; ?> <!-- navbar -->
-
+<main>
+<div class="card shadow-sm">
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="card-title fs-3 mb-0">My Vouchers</h5>
+                
+            </div>
+</main>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 <?php include '../includes/footer.php'; ?> <!-- Footer -->
