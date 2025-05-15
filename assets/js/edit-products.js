@@ -36,20 +36,32 @@ document.addEventListener("DOMContentLoaded", () => {
             productList.innerHTML = "";
 
             products.forEach(p => {
-                const div = document.createElement("div");
-                div.innerHTML = `
-                    <strong>${p.name}</strong> - €${parseFloat(p.price).toFixed(2)}<br>
-                    ${p.image ? `<img src="../${p.image}" alt="${p.name}" style="max-width: 100px;"><br>` : ''}
-                    <button onclick="editProduct(${p.id})">Edit</button>
-                    <button onclick="deleteProduct(${p.id})">Delete</button>
-                `;
-                productList.appendChild(div);
+                const col = document.createElement("div");
+                col.className = "col";
+
+                col.innerHTML = `
+    <div class="card h-100 shadow-sm">
+        ${p.image ? `<img src="/${p.image}" class="card-img-top" alt="${p.name}" style="object-fit: cover; max-height: 180px;">` : ''}
+        <div class="card-body">
+            <h5 class="card-title">${p.name}</h5>
+            <p class="card-text small">${p.description}</p>
+            <p class="card-text small text-muted">${p.gender === 'men' ? 'For Men' : p.gender === 'women' ? 'For Women' : ''}</p>
+            <p class="card-text mb-2"><strong>€${parseFloat(p.price).toFixed(2)}</strong> · ⭐ ${p.rating}</p>
+            <button onclick="editProduct(${p.id})" class="btn btn-sm btn-outline-secondary me-2">Edit</button>
+            <button onclick="deleteProduct(${p.id})" class="btn btn-sm btn-outline-danger">Delete</button>
+        </div>
+    </div>
+`;
+
+
+                productList.appendChild(col);
             });
         } catch (err) {
             alert("Fehler beim Laden der Produkte");
             console.error(err);
         }
     }
+
 
     window.editProduct = async function (id) {
         try {
@@ -61,7 +73,14 @@ document.addEventListener("DOMContentLoaded", () => {
             form.description.value = product.description;
             form.price.value = product.price;
             form.rating.value = product.rating;
+            form.gender.value = product.gender ?? "";
             actionField.value = "update";
+
+            const preview = document.getElementById("imagePreview");
+const imagePath = product.image ? "/" + product.image : "../assets/img/products/no-image-available.jpg";
+preview.src = imagePath;
+preview.style.display = "block";
+
         } catch (err) {
             alert("Fehler beim Laden des Produkts");
             console.error(err);

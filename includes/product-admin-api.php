@@ -4,44 +4,62 @@ require_once("../includes/config.php");
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $action = $_POST['action'] ?? null;
 
-    // Datei-Upload verarbeiten
-    $uploadDir = "../assets/img/products/";
-    $imagePath = null;
-
-    if (!empty($_FILES['image']['name'])) {
-        $imageName = time() . '_' . basename($_FILES['image']['name']);
-        $targetFile = $uploadDir . $imageName;
-        if (move_uploaded_file($_FILES["image"]["tmp_name"], $targetFile)) {
-            $imagePath = "assets/img/products/" . $imageName;
+    $subfolder = ""; // fallback
+    if (isset($_POST['gender'])) {
+        if ($_POST['gender'] === 'men') {
+            $subfolder = "Men/";
+        } elseif ($_POST['gender'] === 'women') {
+            $subfolder = "Women/";
         }
     }
 
+    // Datei-Upload verarbeiten
+    $uploadDir = "../assets/img/products/no-image-available.jpg" . $subfolder;
+    $imagePath = null;
+
+    // Datei-Upload verarbeiten
+    if (!empty($_FILES['image']['name'])) {
+        $imageName = time() . '_' . basename($_FILES['image']['name']);
+        $targetFile = $uploadDir . $imageName;
+
+        // Stelle sicher, dass das Unterverzeichnis existiert!
+        if (!is_dir($uploadDir)) {
+            mkdir($uploadDir, 0755, true);
+        }
+
+        if (move_uploaded_file($_FILES["image"]["tmp_name"], $targetFile)) {
+            $imagePath = "../assets/img/products/" . $subfolder . $imageName;
+        }
+    }
+
+
     switch ($action) {
         case 'create':
-            $stmt = $conn->prepare("INSERT INTO products (name, description, price, rating, image, created_at, updated_at) VALUES (?, ?, ?, ?, ?, NOW(), NOW())");
-            $stmt->bind_param("ssdss", $_POST['name'], $_POST['description'], $_POST['price'], $_POST['rating'], $imagePath);
+            $stmt = $conn->prepare("INSERT INTO products (name, description, price, rating, gender, image, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, NOW(), NOW())");
+            $stmt->bind_param("sssdss", $_POST['name'], $_POST['description'], $_POST['price'], $_POST['rating'], $_POST['gender'], $imagePath);
             $stmt->execute();
             echo json_encode(["status" => "ok"]);
             break;
 
-        case 'update':
-            $id = $_POST['id'];
-
-            // Falls kein neues Bild hochgeladen wurde → altes Bild beibehalten
-            if (!$imagePath) {
-                $stmt = $conn->prepare("SELECT image FROM products WHERE id = ?");
-                $stmt->bind_param("i", $id);
+            case 'update':
+                $id = $_POST['id'];
+            
+                // Falls kein neues Bild hochgeladen wurde → altes Bild beibehalten
+                if (!$imagePath) {
+                    $stmt = $conn->prepare("SELECT image FROM products WHERE id = ?");
+                    $stmt->bind_param("i", $id);
+                    $stmt->execute();
+                    $result = $stmt->get_result();
+                    $row = $result->fetch_assoc();
+                    $imagePath = $row['image'];
+                }
+            
+                $stmt = $conn->prepare("UPDATE products SET name=?, description=?, price=?, rating=?, gender=?, image=?, updated_at=NOW() WHERE id=?");
+                $stmt->bind_param("sssdssi", $_POST['name'], $_POST['description'], $_POST['price'], $_POST['rating'], $_POST['gender'], $imagePath, $id);
                 $stmt->execute();
-                $result = $stmt->get_result();
-                $row = $result->fetch_assoc();
-                $imagePath = $row['image'];
-            }
-
-            $stmt = $conn->prepare("UPDATE products SET name=?, description=?, price=?, rating=?, image=?, updated_at=NOW() WHERE id=?");
-            $stmt->bind_param("ssdssi", $_POST['name'], $_POST['description'], $_POST['price'], $_POST['rating'], $imagePath, $id);
-            $stmt->execute();
-            echo json_encode(["status" => "ok"]);
-            break;
+                echo json_encode(["status" => "ok"]);
+                break;
+            
 
         case 'delete':
             $stmt = $conn->prepare("DELETE FROM products WHERE id = ?");
@@ -55,4 +73,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     exit;
 }
-?>
