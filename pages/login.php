@@ -1,18 +1,9 @@
 <?php
-session_start();
-
+require_once("../includes/config.php");
 if (isset($_SESSION['user']['id'])) {
-    header("Location: ../pages/index.php");
+    header("Location: index.php");
     exit();
 }
-
-if (isset($_COOKIE['remember_me'])) {
-    header("Location: ../includes/login-handler.php");
-    exit();
-}
-
-$loginError = $_SESSION['loginError'] ?? null;
-unset($_SESSION['loginError']);
 ?>
 
 <!DOCTYPE html>
@@ -26,7 +17,7 @@ unset($_SESSION['loginError']);
     <link rel="stylesheet" href="../assets/css/style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="../components/jquery-3.7.1.min.js"></script>
-    <script src="../assets/js/login.js"></script>
+   
 
     <style>
         html,
@@ -106,85 +97,7 @@ unset($_SESSION['loginError']);
     </section>
     </main>
     <?php include '../includes/footer.php'; ?> <!-- Footer -->
-
-    <script>
-        $(document).ready(function() {
-            $("#loginForm").submit(function(e) {
-                e.preventDefault();
-                let login = $("#login");
-                let password = $("#password");
-
-                // Reset invalid classes
-                login.removeClass("is-invalid");
-                password.removeClass("is-invalid");
-
-                // Validate inputs
-                let isValid = true;
-                if (password.val().length < 5) {
-                    password.addClass("is-invalid");
-                    isValid = false;
-                }
-                /*
-                if (!login.val().includes("@")) {
-                    login.addClass("is-invalid");
-                    isValid = false;
-                }*/
-
-                // Validate inputs
-                if (!login.val()) {
-                login.addClass("is-invalid");
-                isValid = false;
-            }
-
-                if (!isValid) return;
-
-                let formData = $(this).serialize();
-                // Send AJAX request
-                $.post("../includes/login-handler.php", formData, function(response) {
-                    if (response.success) {
-                        $("body").append(`
-                            <div class="modal fade" id="welcomeModal" tabindex="-1" style="display: block; background-color: rgba(0,0,0,0.5);">
-                                <div class="modal-dialog modal-dialog-centered">
-                                    <div class="modal-content text-center">
-                                        <div class="modal-header border-0">
-                                            <h5 class="modal-title w-100">Welcome!</h5>
-                                        </div>
-                                        <div class="modal-body border-top">
-                                            <p>Welcome back to ICONIQ!</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        `);
-
-                        let welcomeModal = new bootstrap.Modal(document.getElementById('welcomeModal'));
-                        welcomeModal.show();
-
-                        setTimeout(function() {
-                            window.location.href = "../pages/index.php";
-                        }, 1500);
-                    } else {
-                        if (response.errors && response.errors.email) {
-                            login.addClass("is-invalid");
-                        }
-                        if (response.errors && response.errors.password) {
-                            password.addClass("is-invalid");
-                        }
-                        if (response.errors && response.errors.general) {
-                            alert(response.errors.general);
-                        }
-                    }
-                }, "json").fail(function() {
-                    alert("Login failed. Server error.");
-                });
-            });
-        });
-        function togglePassword(id, show) {
-        const input = document.getElementById(id);
-        input.type = show ? 'text' : 'password';
-    }
-
-    </script>
+    <script src="../assets/js/login.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script>
     function togglePassword(id, show) {

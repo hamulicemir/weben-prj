@@ -40,6 +40,18 @@ if (isset($_COOKIE['remember_me'])) {
     }
 }
 
+// JSON-API für Login-Check
+if ($_SERVER["CONTENT_TYPE"] === "application/json") {
+    $json = file_get_contents("php://input");
+    $data = json_decode($json, true);
+
+    if (isset($data["action"]) && $data["action"] === "check") {
+        echo json_encode(["success" => isset($_SESSION['user']['id'])]);
+        exit();
+    }
+}
+
+
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $loginInput = trim($_POST['login'] ?? '');
     $password = $_POST['password'] ?? '';
@@ -82,5 +94,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 } else {
     $response["errors"]["general"] = "Ungültige Anfrage.";
     echo json_encode($response);
+//löschen dann
+file_put_contents("login-debug.log", print_r([
+    'POST' => $_POST,
+    'SESSION' => $_SESSION,
+    'COOKIES' => $_COOKIE,
+    'RESPONSE' => $response
+], true), FILE_APPEND);
+
+
     exit();
 }

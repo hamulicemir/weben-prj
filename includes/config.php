@@ -21,7 +21,7 @@ if ($conn->connect_error) {
 // Auto-Login mit Cookie, falls Benutzer noch nicht eingeloggt ist (PHP + Session + Cookie)
 if (!isset($_SESSION['user']) && isset($_COOKIE['remember_me'])) {
     $userId = $_COOKIE['remember_me'];
-    $userbyId = 
+
 
     // Bereitet SQL-Statement vor, um User anhand der ID zu laden (PHP + Prepared Statement)
     $stmt = $conn->prepare("SELECT * FROM users WHERE id = ?");
@@ -36,8 +36,8 @@ if (!isset($_SESSION['user']) && isset($_COOKIE['remember_me'])) {
             
             // Hinweis: Datenbankfelder und Formular müssen angepasst werden
             //muss an die datenbank angepasst werden, die wir im endeffekt verwenden werden + im signup formular auch benutzernamen feld einbauen
-            'role' => $user['rolle'], // Benutzerrolle speichern
-            'username' => $user['vorname'] // Vorname als Username verwenden
+            'role' => $user['role'], // Benutzerrolle speichern
+            'username' => $user['username'] ?? $user['first_name'] ?? 'User' // Vorname als Username verwenden
         ];
     }
 }
