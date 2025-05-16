@@ -32,8 +32,8 @@ $(document).ready(function () {
         // Serialisiert alle Formulardaten in ein URL-encoded Format
         const formData = $(this).serialize();
 
-        // AJAX POST-Request an signup-process.php (PHP-Backend)
-        $.post('../includes/signup-process.php', formData, function (response) {
+        // AJAX POST-Request an signup-api.php (PHP-Backend)
+        $.post('../includes/signup-api.php', formData, function (response) {
             if (response.success) {
                 // Zeigt Bootstrap Modal bei Erfolg
                 const modal = new bootstrap.Modal(document.getElementById('signupSuccessModal'));

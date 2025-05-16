@@ -23,7 +23,8 @@ switch ($data['action']) {
         $response = $service->getOrderById($data['id'] ?? null);
         break;
     case 'viewAllOrders':
-        $response = $service->getAllOrders();
+        $sort = ($data['sort'] ?? 'desc') === 'asc' ? 'ASC' : 'DESC';
+        $response = $service->getOrdersByUserId(null, $sort);
         break;
     case 'viewOrdersByUserID':
         $response = $service->getOrdersByUserId($data['user_id'] ?? null);

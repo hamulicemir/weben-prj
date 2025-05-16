@@ -77,14 +77,30 @@ class OrderService {
         return ['status' => 'success', 'orders' => $orders];
     }
 
-    public function getOrdersByUserId($userId) {
+public function getOrdersByUserId($userId = null, $sort = 'DESC')
+{
+    if (!$userId && isset($_SESSION['user']['id'])) {
+        $userId = $_SESSION['user']['id'];
+    }
+
+    if (!$userId) {
+        return ['status' => 'error', 'message' => 'Kein Benutzer angemeldet'];
+    }
+
+    $orders = $this->repo->findByUserId($userId, $sort);
+    return ['status' => 'success', 'orders' => $orders];
+}
+
+
+
+    /*public function getOrdersByUserId($userId) {
         if (!$userId) {
             return ['status' => 'error', 'message' => 'Keine User-ID angegeben'];
         }
 
         $orders = $this->repo->findByUserId($userId);
         return ['status' => 'success', 'orders' => $orders];
-    }
+    }*/
 
     public function deleteOrder($id) {
         if (!$id) {

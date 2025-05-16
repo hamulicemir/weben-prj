@@ -4,36 +4,6 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Hier echte Benutzer-ID verwenden
-$userId = $_SESSION['user']['id'] ?? null;
-
-if (!$userId) {
-    header("Location: login.php");
-    exit;
-}
-
-// Sortieroption verarbeiten (default: DESC)
-$sortOrder = ($_GET['sort'] ?? 'desc') === 'asc' ? 'ASC' : 'DESC';
-
-// Daten holen
-$stmt = $conn->prepare("SELECT first_name, last_name, email, username, payment_info, address, postal_code, city, country FROM users WHERE id = ?");
-$stmt->bind_param("i", $userId);
-$stmt->execute();
-$result = $stmt->get_result();
-$user = $result->fetch_assoc();
-
-// Bestellungen laden
-$orderStmt = $conn->prepare("SELECT id, created_at AS order_date, total_price, status FROM orders WHERE user_id = ? ORDER BY created_at $sortOrder");
-$orderStmt->bind_param("i", $userId);
-$orderStmt->execute();
-$orderResult = $orderStmt->get_result();
-$orders = $orderResult->fetch_all(MYSQLI_ASSOC);
-
-
-function maskIBAN($iban) {
-    if (!$iban) return "-";
-    return substr($iban, 0, 4) . str_repeat("*", strlen($iban) - 8) . substr($iban, -4);
-}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -58,19 +28,12 @@ function maskIBAN($iban) {
             <h5 class="card-title fs-3">Profile Information</h5>
             <div class="table-responsive">
             <table class="table table-borderless fs-5">
-                <tr><th>First name:</th><td><?= htmlspecialchars($user['first_name']) ?></td></tr>
-                <tr><th>Last name:</th><td><?= htmlspecialchars($user['last_name']) ?></td></tr>
-                <tr><th>Email:</th><td><?= htmlspecialchars($user['email']) ?></td></tr>
-                <tr><th>Username:</th><td><?= htmlspecialchars($user['username']) ?></td></tr>
-                <tr><th>Payment method:</th><td><?= maskIBAN($user['payment_info']) ?>             
-                        <!--<a href="edit_account.php" class="btn btn-sm btn-outline-secondary ms-2">Edit</a>   -> is das nötig? weil man tut das eh editen, wieso ein extra button?-->
-                    </td>
-                </tr>
-                <tr><th>Address:</th><td>
-                    <?= htmlspecialchars($user['address']) ?><br>
-                    <?= htmlspecialchars($user['postal_code']) . ' ' . htmlspecialchars($user['city']) ?><br>
-                    <?= htmlspecialchars($user['country']) ?>
-                </td></tr>
+                <tr><th>First name:</th><td><span id="firstName"></span></td></tr>
+                <tr><th>Last name:</th><td><span id="lastName"></span></td></tr>
+                <tr><th>Email:</th><td><span id="email"></span></td></tr>
+                <tr><th>Username:</th><td><span id="username"></span></td></tr>
+                <tr><th>Payment method:</th><td><span id="iban"></span></td></tr>
+                <tr><th>Address:</th><td><span id="address"></span></td></tr>
 
             </table>
             <a href="edit-profile.php" class="btn btn-dark">Edit Profile</a>
@@ -84,32 +47,14 @@ function maskIBAN($iban) {
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <h5 class="card-title fs-3 mb-0">My Orders</h5>
                 <!-- Dropdown zur Sortierung -->
-                <form method="get" class="d-inline-block">
-                    <select name="sort" onchange="this.form.submit()" class="form-select form-select-sm w-auto">
-                        <option value="desc" <?= $sortOrder === 'DESC' ? 'selected' : '' ?>>Newest first</option>
-                        <option value="asc" <?= $sortOrder === 'ASC' ? 'selected' : '' ?>>Oldest first</option>
-                    </select>
-                </form>
+                <select id="sortSelect" class="form-select form-select-sm w-auto">
+                    <option value="desc" selected>Newest first</option>
+                    <option value="asc">Oldest first</option>
+                </select>
             </div>
+                <ul class="list-group list-group-item-light fs-5" id="orderList"></ul>
+                <p id="noOrdersMsg" class="text-muted d-none">No orders found.</p>
 
-            <?php if (empty($orders)): ?>
-                <p class="text-muted">No orders found.</p>
-            <?php else: ?>
-                <ul class="list-group list-group-item-light fs-5">
-                    <?php foreach ($orders as $order): ?>
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <div>
-                                <strong>Order #<?= $order['id'] ?></strong><br>
-                                <small><?= date("d.m.Y", strtotime($order['order_date'])) ?></small><br>
-                                <a href="generate-invoice.php?order_id=<?= $order['id'] ?>" target="_blank" class="btn btn-sm btn-outline-primary mt-2">Download Invoice</a>
-                            </div>
-                            <span class="badge bg-dark rounded-pill">
-                                € <?= number_format($order['total_price'], 2, ',', '.') ?>
-                            </span>
-                        </li>
-                    <?php endforeach; ?>
-                </ul>
-            <?php endif; ?>
         </div>
     </div>
 </main>
@@ -117,6 +62,8 @@ function maskIBAN($iban) {
 
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script src="../assets/js/user-account.js" defer></script>
+
 <?php include '../includes/footer.php'; ?> <!-- Footer -->
 </body>
 </html>

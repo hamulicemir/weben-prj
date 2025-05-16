@@ -42,14 +42,21 @@ class OrderRepository
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    public function findByUserId($userId)
-    {
-        $stmt = $this->conn->prepare("SELECT * FROM orders WHERE user_id = ? ORDER BY created_at DESC");
-        $stmt->bind_param("i", $userId);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        return $result->fetch_all(MYSQLI_ASSOC);
+public function findByUserId($userId, $sort = 'DESC')
+{
+    $sort = strtoupper($sort);
+    if (!in_array($sort, ['ASC', 'DESC'])) {
+        $sort = 'DESC';
     }
+
+    $query = "SELECT id, created_at AS order_date, total_price, status FROM orders WHERE user_id = ? ORDER BY created_at $sort";
+    $stmt = $this->conn->prepare($query);
+    $stmt->bind_param("i", $userId);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    return $result->fetch_all(MYSQLI_ASSOC);
+}
+
 
     public function delete($id)
     {

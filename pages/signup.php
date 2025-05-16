@@ -1,51 +1,5 @@
 <?php
 require_once '../includes/config.php';
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $salutation = $_POST['salutation'] ?? '';
-    $firstname = trim($_POST['firstname'] ?? '');
-    $lastname = trim($_POST['lastname'] ?? '');
-    $street = trim($_POST['street'] ?? '');
-    $no = trim($_POST['no'] ?? '');
-    $addressaddition = trim($_POST['addressaddition'] ?? '');
-    $zip = trim($_POST['zip'] ?? '');
-    $city = trim($_POST['city'] ?? '');
-    $country = trim($_POST['country'] ?? '');
-    $username = trim($_POST['username'] ?? '');
-    $email = trim($_POST['email'] ?? '');
-    $payment_info = trim($_POST['payment_info'] ?? '');
-    $password1 = $_POST['password1'] ?? '';
-    $password2 = $_POST['password2'] ?? '';
-
-    if ($password1 !== $password2) {
-        die("Passwords do not match.");
-    }
-
-    // Passwort hashen
-    $passwordHash = password_hash($password1, PASSWORD_DEFAULT);
-
-    // Adresse zusammenbauen
-    $address = $street . ' ' . $no;
-    if (!empty($addressaddition)) {
-        $address .= ', ' . $addressaddition;
-    }
-
-    // Nutzer speichern
-    $stmt = $conn->prepare("INSERT INTO users (role, salutation, first_name, last_name, address, postal_code, city, country, email, username, password_hash, payment_info)
-                            VALUES ('customer', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("sssssssssss", $salutation, $firstname, $lastname, $address, $zip, $city, $country, $email, $username, $passwordHash, $payment_info);
-    $stmt->execute();
-
-    // Direkt einloggen
-    $_SESSION['user'] = [
-        'id' => $stmt->insert_id,
-        'username' => $username,
-        'role' => 'customer'
-    ];
-
-    header("Location: ../pages/user-account.php");
-    exit;
-}
 ?>
 
 
@@ -95,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="card shadow-sm mt-1">
                 <div class="card-body pt-1">
                     <h1 class="card-title mb-4">Create Customer Account</h1>
-
+                    
                     <form id="signupForm" method="post">
                         <div class="mb-3">
                             <?php foreach (["Ms", "Mr", "Other"] as $s): ?>
