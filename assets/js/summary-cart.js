@@ -5,10 +5,10 @@ async function fetchSummaryCart() {
     headers: { 'Content-Type': 'application/json' }
   });
   const result = await res.json();
-  renderSummaryCart(result.products);
+  renderSummaryCart(result.products, result.voucher ?? null);
 }
 
-function renderSummaryCart(products) {
+function renderSummaryCart(products, voucher) {
   const container = document.getElementById('summary-products');
   container.innerHTML = "";
 
@@ -17,11 +17,9 @@ function renderSummaryCart(products) {
     return;
   }
 
-  let total = 0;
-
+  let subtotal = 0;
   const listCard = document.createElement("div");
   listCard.className = "card shadow rounded-4 p-4 mb-4";
-
   listCard.innerHTML = `<h4 class="mb-4">Deine Produkte</h4>`;
 
   products.forEach(product => {
@@ -29,12 +27,11 @@ function renderSummaryCart(products) {
     const quantity = product.quantity ?? 1;
     const price = parseFloat(product.price ?? 0);
     const image = product.image ?? "../assets/img/products/no-image-available.jpg";
-    const subtotal = (price * quantity).toFixed(2);
-    total += parseFloat(subtotal);
+    const itemTotal = price * quantity;
+    subtotal += itemTotal;
 
     const item = document.createElement("div");
     item.className = "row mb-4 align-items-center";
-
     item.innerHTML = `
       <div class="col-3 text-center">
         <img src="${image}" class="img-fluid rounded shadow-sm" style="max-height: 100px;" alt="${name}">
@@ -42,18 +39,26 @@ function renderSummaryCart(products) {
       <div class="col-9">
         <h6 class="fw-bold mb-1">${name}</h6>
         <p class="mb-1 text-muted">Menge: ${quantity}</p>
-        <p class="mb-0 fw-bold">€ ${subtotal}</p>
+        <p class="mb-0 fw-bold">€ ${itemTotal.toFixed(2)}</p>
       </div>
     `;
-
     listCard.appendChild(item);
   });
+
+  const shipping = 5;
+  const voucherAmount = voucher?.amount ? parseFloat(voucher.amount) : 0;
+  const discounted = Math.max(0, subtotal - voucherAmount);
+  const total = discounted + shipping;
 
   const totalDiv = document.createElement("div");
   totalDiv.className = "text-end mt-4 border-top pt-3";
   totalDiv.innerHTML = `
-    <h5 class="fw-bold">Gesamtsumme: € ${(total + 5).toFixed(2)}</h5>
-    <p class="text-muted small">inkl. Versand (€ 5) und 20% MwSt.</p>
+    <h5 class="fw-bold">Gesamtsumme: € ${total.toFixed(2)}</h5>
+    <p class="text-muted small">
+      inkl. Versand (€ ${shipping.toFixed(2)})
+      ${voucherAmount > 0 ? `, abzüglich Gutschein (-€ ${voucherAmount.toFixed(2)})` : ''}
+      und 20% MwSt.
+    </p>
   `;
 
   listCard.appendChild(totalDiv);

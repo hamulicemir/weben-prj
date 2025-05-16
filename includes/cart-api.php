@@ -31,6 +31,7 @@ switch ($action) {
         break;
     case 'get':
         $response = $cartService->getCart();
+        $response['voucher'] = $_SESSION['voucher'] ?? null;
         break;
     default:
         $response = ['status' => 'error', 'message' => 'Unbekannte Aktion'];

@@ -230,7 +230,7 @@ async function addToCart(productId, quantity = 1) {
         if (result.status === "ok") {
             showCartToast("✔️ Product has been added to the cart!");
 
-            // ✅ Warenkorb-Zähler in Navbar aktualisieren
+            // Warenkorb-Zähler in Navbar aktualisieren
             if (typeof window.updateCartCount === "function") {
                 window.updateCartCount();
             }

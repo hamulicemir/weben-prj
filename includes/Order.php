@@ -1,5 +1,4 @@
 <?php
-
 class Order {
     public $id;
     public $user_id;
@@ -18,20 +17,19 @@ class Order {
         $this->cart = json_encode($data['cart'] ?? []);
         $this->created_at = date('Y-m-d H:i:s');
         $this->productRepo = $productRepo;
-    
-        $this->total_price = $this->calculateTotal($data['cart'] ?? []);
+
+        $voucherAmount = $data['voucher']['amount'] ?? 0;
+        $this->total_price = $this->calculateTotal($data['cart'] ?? [], $voucherAmount);
     }
-    
-    private function calculateTotal($cart) {
-        $total = 5; // Grundpreis für Versand
+
+    private function calculateTotal($cart, $voucherAmount = 0) {
+        $total = 5; // Versandkosten
         foreach ($cart as $productId => $quantity) {
             $product = $this->productRepo->findById($productId);
             if ($product) {
                 $total += $product['price'] * $quantity;
             }
         }
-        return number_format($total, 2, '.', '');
+        return number_format(max(0, $total - $voucherAmount), 2, '.', '');
     }
 }
-
-?>

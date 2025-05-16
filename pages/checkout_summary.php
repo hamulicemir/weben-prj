@@ -19,6 +19,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 $order = $_SESSION['order'] ?? ['payment' => '-', 'shipping' => '-'];
+$voucher = $_SESSION['voucher'] ?? null;
+$voucherAmount = $voucher['amount'] ?? 0;
 ?>
 <!DOCTYPE html>
 <html lang="en">

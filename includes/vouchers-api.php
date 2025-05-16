@@ -1,7 +1,4 @@
 <?php
-
-// Controller
-
 session_start();
 header('Content-Type: application/json');
 
@@ -12,6 +9,7 @@ $data = json_decode(file_get_contents("php://input"), true);
 $action = $data['action'] ?? '';
 
 $voucherService = new VoucherService($conn);
+$response = ['status' => 'error', 'message' => 'Unbekannte Aktion']; // Default-Response
 
 switch ($action) {
     case 'add':
@@ -36,7 +34,9 @@ switch ($action) {
         $code = strtoupper(trim($data['code'] ?? ''));
         if ($code) {
             $voucher = $voucherService->getVoucherByCode($code);
-            $response = $voucher ? ['status' => 'success', 'data' => $voucher] : ['status' => 'error', 'message' => 'Nicht gefunden'];
+            $response = $voucher
+                ? ['status' => 'success', 'data' => $voucher]
+                : ['status' => 'error', 'message' => 'Nicht gefunden'];
         } else {
             $response = ['status' => 'error', 'message' => 'Kein Code angegeben'];
         }
@@ -47,7 +47,7 @@ switch ($action) {
         $original = strtoupper(trim($data['original_code'] ?? ''));
         $amount = floatval($data['amount'] ?? 0);
         $expiration = $data['expiration_date'] ?? '';
-    
+
         if ($code && $original && $amount > 0 && $expiration) {
             $success = $voucherService->updateVoucher($original, $code, $amount, $expiration);
             $response = ['status' => $success ? 'success' : 'error'];
@@ -55,7 +55,7 @@ switch ($action) {
             $response = ['status' => 'error', 'message' => 'Ungültige Eingabedaten'];
         }
         break;
-    
+
     case 'delete':
         $code = strtoupper(trim($data['code'] ?? ''));
         if ($code) {
@@ -65,14 +65,37 @@ switch ($action) {
             $response = ['status' => 'error', 'message' => 'Kein Code angegeben'];
         }
         break;
-    
+
     case 'generate':
         $code = $voucherService->generateRandomCode();
         $response = ['status' => 'success', 'code' => $code];
         break;
 
+    case 'applyVoucher':
+        $code = $data['code'] ?? '';
+        $voucher = $voucherService->validateVoucher($code);
+
+        if ($voucher) {
+            $_SESSION['voucher'] = $voucher->toArray();
+            $response = [
+                'status' => 'success',
+                'voucher' => $_SESSION['voucher']
+            ];
+        } else {
+            $response = [
+                'status' => 'error',
+                'message' => 'Invalid, expired or used voucher.'
+            ];
+        }
+        break;
+
     default:
-        $response = ['status' => 'error', 'message' => 'Unbekannte Aktion'];
+       $response = [
+                'status' => 'error',
+                'message' => 'Fehler bei der Verarbeitung der Anfrage.'
+            ];
+        break;
 }
 
 echo json_encode($response);
+exit;
