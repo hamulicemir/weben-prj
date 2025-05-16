@@ -25,8 +25,8 @@ require_once("config.php");
                         <li class="nav-item"><a class="nav-link underline-hover" href="../pages/index.php">Home</a></li>
                         <li class="nav-item"><a class="nav-link underline-hover" href="../pages/products.php">Products</a></li>
                         <li class="nav-item"><a class="nav-link underline-hover" href="../pages/edit-products.php">Edit Products</a></li>
-                        <li class="nav-item"><a class="nav-link underline-hover" href="../pages/edit-users.php"> Edit Users</a></li>
-                        <li class="nav-item"><a class="nav-link underline-hover" href="../pages/vouchers.php">Handle Vouchers</a></li>
+                        <li class="nav-item"><a class="nav-link underline-hover" href="../frontend/pages/customer-management.php"> Edit Users</a></li>
+                        <li class="nav-item"><a class="nav-link underline-hover" href="../pages/voucher-management.php">Handle Vouchers</a></li>
                     <?php else: ?>
                         <li class="nav-item"><a class="nav-link underline-hover" href="../pages/index.php">Home</a></li>
                         <li class="nav-item"><a class="nav-link underline-hover" href="../pages/products.php">Products</a></li>
