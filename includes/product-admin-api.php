@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Fallback auf ein Platzhalterbild
         $imagePath = "assets/img/products/no-image-available.jpg";
     }
-    
+
 
     // Datei-Upload verarbeiten
     if (!empty($_FILES['image']['name'])) {
@@ -48,43 +48,47 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (!$imagePath) {
                 $imagePath = "assets/img/products/no-image-available.jpg";
             }
-        
-            $stmt = $conn->prepare("INSERT INTO products (name, description, price, rating, gender, colour, image, created_at, updated_at)
-                                    VALUES (?, ?, ?, ?, ?, ?, ?, NOW(), NOW())");
-            $stmt->bind_param("sssdsss",
-                $_POST['name'],
-                $_POST['description'],
-                $_POST['price'],
-                $_POST['rating'],
-                $_POST['gender'],
-                $_POST['colour'],
-                $imagePath
-            );
-            $stmt->execute();
-            echo json_encode(["status" => "ok"]);
-            break;
-        
+            $categoryId = (int)$_POST['category_id'];
+            $stock = (int)$_POST['stock']; 
 
-        case 'update':
-            $id = $_POST['id'];
+            $stmt = $conn->prepare("INSERT INTO products (name, description, price, rating, gender, colour, image, stock, category_id, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())");
+            $stmt->bind_param("sssdsssii", $_POST['name'], $_POST['description'], $_POST['price'], $_POST['rating'], $_POST['gender'], $_POST['colour'], $imagePath, $stock, $categoryId);
 
-            // Falls kein neues Bild hochgeladen wurde → altes Bild beibehalten
-            if (!$imagePath) {
-                $stmt = $conn->prepare("SELECT image FROM products WHERE id = ?");
-                $stmt->bind_param("i", $id);
-                $stmt->execute();
-                $result = $stmt->get_result();
-                $row = $result->fetch_assoc();
-                $imagePath = $row['image'] ?? "assets/img/products/no-image-available.jpg";
+
+            if (!$stmt->execute()) {
+                echo json_encode(["status" => "error", "error" => "Execute failed: " . $stmt->error]);
+                exit;
             }
-            
-
-            $stmt = $conn->prepare("UPDATE products SET name=?, description=?, price=?, rating=?, gender=?, image=?, updated_at=NOW() WHERE id=?");
-            $stmt->bind_param("sssdssi", $_POST['name'], $_POST['description'], $_POST['price'], $_POST['rating'], $_POST['gender'], $imagePath, $id);
-            $stmt->execute();
+        
             echo json_encode(["status" => "ok"]);
             break;
 
+
+            case 'update':
+                $id = $_POST['id'];
+                $categoryId = (int)$_POST['category_id'];
+                $stock = (int)$_POST['stock']; 
+            
+                // Falls kein neues Bild hochgeladen wurde → altes Bild beibehalten
+                if (!$imagePath || $imagePath === "assets/img/products/no-image-available.jpg") {
+                    $stmt = $conn->prepare("SELECT image FROM products WHERE id = ?");
+                    $stmt->bind_param("i", $id);
+                    $stmt->execute();
+                    $result = $stmt->get_result();
+                    $row = $result->fetch_assoc();
+                    $imagePath = $row['image'] ?? "assets/img/products/no-image-available.jpg";
+                }
+            
+                $stmt = $conn->prepare("UPDATE products SET name=?, description=?, price=?, rating=?, gender=?, colour=?, image=?, stock=?, category_id=?, updated_at=NOW() WHERE id=?");
+                $stmt->bind_param("sssdsssii", $_POST['name'], $_POST['description'], $_POST['price'], $_POST['rating'], $_POST['gender'], $_POST['colour'], $imagePath, $_POST['stock'], $categoryId, $id);
+                if (!$stmt->execute()) {
+                    echo json_encode(["status" => "error", "error" => "Execute failed: " . $stmt->error]);
+                    exit;
+                }
+            
+                echo json_encode(["status" => "ok"]);
+                break;
+            
 
         case 'delete':
             $stmt = $conn->prepare("DELETE FROM products WHERE id = ?");

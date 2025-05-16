@@ -2,6 +2,21 @@ document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("productForm");
     const productList = document.getElementById("productList");
     const actionField = document.getElementById("formAction");
+    const categorySelect = document.getElementById("categorySelect");
+
+    // Kategorien laden
+    fetch("../includes/get-categories.php")
+        .then(res => res.json())
+        .then(data => {
+            data.categories
+            .filter(cat => cat.id !== 0) // Entfernt "All Categories"
+            .forEach(cat => {
+                const option = document.createElement("option");
+                option.value = cat.id;
+                option.textContent = cat.name;
+                categorySelect.appendChild(option);
+            });
+        });
 
     form.addEventListener("submit", async function (e) {
         e.preventDefault();
@@ -47,6 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <p class="card-text small">${p.description}</p>
             <p class="card-text small text-muted">${p.gender === 'men' ? 'For Men' : p.gender === 'women' ? 'For Women' : ''}</p>
             <p class="card-text mb-2"><strong>€${parseFloat(p.price).toFixed(2)}</strong> · ⭐ ${p.rating}</p>
+            <p class="card-text small text-muted">Stock: ${p.stock}</p>
             <button onclick="editProduct(${p.id})" class="btn btn-sm btn-outline-secondary me-2">Edit</button>
             <button onclick="deleteProduct(${p.id})" class="btn btn-sm btn-outline-danger">Delete</button>
         </div>
@@ -71,15 +87,17 @@ document.addEventListener("DOMContentLoaded", () => {
             form.productId.value = product.id;
             form.name.value = product.name;
             form.description.value = product.description;
+            form.category_id.value = product.category_id ?? "";
             form.price.value = product.price;
             form.rating.value = product.rating;
             form.gender.value = product.gender ?? "";
+            form.stock.value = product.stock;
             actionField.value = "update";
 
             const preview = document.getElementById("imagePreview");
-const imagePath = product.image ? "/" + product.image : "../assets/img/products/no-image-available.jpg";
-preview.src = imagePath;
-preview.style.display = "block";
+            const imagePath = product.image ? "/" + product.image : "../assets/img/products/no-image-available.jpg";
+            preview.src = imagePath;
+            preview.style.display = "block";
 
         } catch (err) {
             alert("Fehler beim Laden des Produkts");

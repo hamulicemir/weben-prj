@@ -52,10 +52,17 @@ if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
                     <option value="women">Women</option>
                 </select>
             </div>
-            <div class="col-12">
+            <div class="col-md-6">
                 <label class="form-label">Description</label>
                 <textarea name="description" rows="2" class="form-control" required></textarea>
             </div>
+            <div class="col-md-6">
+                <label class="form-label">Category</label>
+                <select name="category_id" class="form-select" required id="categorySelect">
+                    <option value="">Select category</option>
+                </select>
+            </div>
+
             <div class="col-md-6">
                 <label class="form-label">Colour</label>
                 <input type="text" name="colour" class="form-control" required>
@@ -68,6 +75,12 @@ if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
                     style="max-height: 100px; margin-top: 10px;">
 
             </div>
+
+            <div class="col-md-6">
+                <label class="form-label">Stock</label>
+                <input type="number" name="stock" class="form-control" min="0" required>
+            </div>
+
 
             <div class="col-12">
                 <button type="submit" class="btn btn-dark">Save</button>
