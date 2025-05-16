@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 col.innerHTML = `
     <div class="card h-100 shadow-sm">
-        ${p.image ? `<img src="/${p.image}" class="card-img-top" alt="${p.name}" style="object-fit: cover; max-height: 180px;">` : ''}
+        ${p.image ? `<img src="/${p.image || 'assets/img/products/no-image-available.jpg'}" class="card-img-top" alt="${p.name}" style="object-fit: cover; max-height: 180px;">` : ''}
         <div class="card-body">
             <h5 class="card-title">${p.name}</h5>
             <p class="card-text small">${p.description}</p>

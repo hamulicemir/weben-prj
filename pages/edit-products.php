@@ -53,16 +53,22 @@ if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
                 </select>
             </div>
             <div class="col-12">
+                <label class="form-label">Description</label>
+                <textarea name="description" rows="2" class="form-control" required></textarea>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Colour</label>
+                <input type="text" name="colour" class="form-control" required>
+            </div>
+
+            <div class="col-md-6">
                 <label class="form-label">Image</label>
                 <input type="file" name="image" accept="image/*" class="form-control">
                 <img id="imagePreview" src="../assets/img/products/no-image-available.jpg" alt="Preview"
                     style="max-height: 100px; margin-top: 10px;">
 
             </div>
-            <div class="col-12">
-                <label class="form-label">Description</label>
-                <textarea name="description" rows="2" class="form-control" required></textarea>
-            </div>
+
             <div class="col-12">
                 <button type="submit" class="btn btn-dark">Save</button>
             </div>
