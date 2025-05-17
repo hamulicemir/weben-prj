@@ -99,8 +99,9 @@ function renderCart(products) {
         subtotal += parseFloat(sum);
 
         const card = document.createElement("div");
-        card.className = "card border-0 shadow-sm p-3 mb-4"; 
+        card.className = "card border-0 shadow-sm mb-4"; 
         card.style.minHeight = "120px";
+        card.style.marginTop = "10px";
 
         card.innerHTML = `
             <div class="row g-3 align-items-center">

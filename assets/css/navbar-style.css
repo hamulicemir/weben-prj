@@ -1,0 +1,85 @@
+/* Roboto Flex von Google Fonts einbinden */
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,100..1000&display=swap');
+
+:root {
+    --navbar-hover-color: #f8f9fa;
+    --navbar-icon-color: #333;
+}
+
+.form-control {
+    font-family: 'Roboto Flex', sans-serif;
+    font-size: 12px;
+    /* Kleinere Schriftgröße */
+}
+
+/* Globale Schriftart für die Navbar */
+.navbar,
+.navbar-brand,
+.nav-link,
+.offcanvas-title {
+    font-family: 'Roboto Flex', sans-serif;
+    text-transform: uppercase;
+    /* Text in Großbuchstaben */
+    font-size: 12px;
+    /* Kleinere Schriftgröße */
+}
+
+.navbar {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Unterstreichung beim Hover nur für spezielle Links */
+.underline-hover {
+    position: relative;
+    display: inline-block;
+    text-decoration: none;
+}
+
+.underline-hover:hover::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -0.5px;
+    width: 100%;
+    height: 1px;
+    background-color: black;
+}
+
+/* Nur Cursor ändern beim Hover */
+.cursor-hover {
+    cursor: pointer;
+}
+
+.navbar-toggler {
+    border: none;
+}
+
+.offcanvas {
+    background-color: #fff;
+}
+
+.offcanvas-header {
+    border-bottom: 1px solid #e9ecef;
+}
+
+.offcanvas-title {
+    font-weight: bold;
+}
+
+.form-control {
+    border-radius: 20px;
+}
+
+/* Blauen Rand beim Klick ins Suchfeld entfernen */
+.form-control:focus {
+    outline: none;
+    box-shadow: none;
+    border-color: #ccc;
+    /* Optional: neutrale Randfarbe */
+}
+
+@media (max-width: 425px) {
+    #searchIcon {
+        display: none;
+    }
+}
