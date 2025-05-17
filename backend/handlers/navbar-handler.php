@@ -34,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         }
 
          // Weiterleitung zur Startseite nach erfolgreichem Login (PHP)
-        header("Location: ../pages/index.php");
+        header("Location: ../../frontend/pages/index.php");
         exit(); // Beendet das Skript
     } else {
         // Falls Login fehlgeschlagen ist (Benutzer nicht gefunden oder Passwort falsch)

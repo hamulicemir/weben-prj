@@ -33,7 +33,7 @@ $(document).ready(function () {
         const formData = $(this).serialize();
 
         // AJAX POST-Request an signup-api.php (PHP-Backend)
-        $.post('../includes/signup-api.php', formData, function (response) {
+        $.post('../../backend/api/signup-api.php', formData, function (response) {
             if (response.success) {
                 // Zeigt Bootstrap Modal bei Erfolg
                 const modal = new bootstrap.Modal(document.getElementById('signupSuccessModal'));

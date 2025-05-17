@@ -1,7 +1,7 @@
 <?php
 // Service Layer für Produkte
 
-require_once __DIR__ .  '../repositories/ProductRepository.php';
+require_once __DIR__ .  '/../repositories/ProductRepository.php';
 
 class ProductService {
     private $productRepository;

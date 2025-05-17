@@ -8,7 +8,7 @@ let editMode = false;
 let originalCode = '';
 
 function loadVouchers() {
-    fetch('../../../backend/api/vouchers-api.php', {
+    fetch('../../backend/api/vouchers-api.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ action: 'getAll' })
@@ -59,7 +59,7 @@ function deleteVoucher(code) {
 }
 
 document.getElementById('confirmDeleteBtn').addEventListener('click', function () {
-    fetch('../../../backend/api/vouchers-api.php', {
+    fetch('../../backend/api/vouchers-api.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ action: 'delete', code: deleteCode })
@@ -72,7 +72,7 @@ document.getElementById('confirmDeleteBtn').addEventListener('click', function (
 });
 
 function generateCode() {
-    fetch('../../../backend/api/vouchers-api.php', {
+    fetch('../../backend/api/vouchers-api.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ action: 'generate' })
@@ -95,7 +95,7 @@ voucherForm.addEventListener('submit', function(e) {
     };
     if (editMode) payload.original_code = originalCode;
 
-    fetch('../../../backend/api/vouchers-api.php', {
+    fetch('../../backend/api/vouchers-api.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)

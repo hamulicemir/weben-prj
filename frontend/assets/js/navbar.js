@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // Benutzerinformationen laden
-    fetch("../../../backend/api/user-api.php", {
+    fetch("../../backend/api/user-api.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ action: "thisUser" })
@@ -76,7 +76,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Warenkorbanzahl aktualisieren
     window.updateCartCount = function () {
-        fetch("../../../backend/api/cart-api.php", {
+        fetch("../../backend/api/cart-api.php", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

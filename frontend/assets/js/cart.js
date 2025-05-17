@@ -1,6 +1,6 @@
 // cart.js
-const apiUrl = '../../../backend/api/cart-api.php';
-const voucherApiUrl = '../../../backend/api/vouchers-api.php';
+const apiUrl = '../../backend/api/cart-api.php';
+const voucherApiUrl = '../../backend/api/vouchers-api.php';
 let appliedVoucher = null;
 let lastFetchedProducts = [];
 

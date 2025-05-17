@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const categorySelect = document.getElementById("categorySelect");
 
     // Kategorien laden
-    fetch("../../../backend/api/get-categories.php")
+    fetch("../../backend/api/get-categories.php")
         .then(res => res.json())
         .then(data => {
             data.categories
@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const formData = new FormData(form);
 
         try {
-            const res = await fetch("../../../backend/api/product-admin-api.php", {
+            const res = await fetch("../../backend/api/product-admin-api.php", {
                 method: "POST",
                 body: formData
             });
@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     async function loadProducts() {
         try {
-            const res = await fetch("../../../backend/api/product-api.php?action=getAll");
+            const res = await fetch("../../backend/api/product-api.php?action=getAll");
             const products = await res.json();
             productList.innerHTML = "";
 
@@ -56,7 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 col.innerHTML = `
     <div class="card h-100 shadow-sm">
-        ${p.image ? `<img src="/${p.image || 'assets/img/products/no-image-available.jpg'}" class="card-img-top" alt="${p.name}" style="object-fit: cover; max-height: 180px;">` : ''}
+        ${p.image ? `<img src="/${p.image || '../assets/img/products/no-image-available.jpg'}" class="card-img-top" alt="${p.name}" style="object-fit: cover; max-height: 180px;">` : ''}
         <div class="card-body">
             <h5 class="card-title">${p.name}</h5>
             <p class="card-text small">${p.description}</p>
@@ -81,7 +81,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     window.editProduct = async function (id) {
         try {
-            const res = await fetch(`../../../backend/api/product-api.php?action=getById&id=${id}`);
+            const res = await fetch(`../../backend/api/product-api.php?action=getById&id=${id}`);
             const product = await res.json();
 
             form.productId.value = product.id;
@@ -113,7 +113,7 @@ document.addEventListener("DOMContentLoaded", () => {
         formData.append("id", id);
 
         try {
-            const res = await fetch("../../../backend/api/product-admin-api.php", {
+            const res = await fetch("../../backend/api/product-admin-api.php", {
                 method: "POST",
                 body: formData
             });

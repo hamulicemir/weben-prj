@@ -1,8 +1,8 @@
 <?php
-require_once __DIR__ . '../repositories/OrderRepository.php';
-require_once __DIR__ . '../repositories/OrderItemRepository.php';
-require_once __DIR__ . '../repositories/ProductRepository.php';
-require_once __DIR__ . '../repositories/Order.php';
+require_once __DIR__ . '/../repositories/OrderRepository.php';
+require_once __DIR__ . '/../repositories/OrderItemRepository.php';
+require_once __DIR__ . '/../repositories/ProductRepository.php';
+require_once __DIR__ . '/../repositories/Order.php';
 
 class OrderService {
     private $repo;
