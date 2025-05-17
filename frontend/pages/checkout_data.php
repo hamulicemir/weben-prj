@@ -20,7 +20,7 @@ if (!isset($_SESSION['user']) || empty($_SESSION['user'])) {
 </head>
 
 <body>
-  <?php include '../includes/navbar.php'; ?>
+  <?php include '../components/navbar.php'; ?>
 
   <div class="container mt-5">
     <div class="d-flex justify-content-center" id="checkout-steps">
@@ -64,7 +64,7 @@ if (!isset($_SESSION['user']) || empty($_SESSION['user'])) {
     </div>
   </div>
 
-  <?php include '../includes/footer.php'; ?>
+  <?php include '../components/footer.php'; ?>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="../assets/js/user-edit.js"></script>
 </body>

@@ -35,7 +35,7 @@ $voucherAmount = $voucher['amount'] ?? 0;
 </head>
 
 <body>
-  <?php include '../includes/navbar.php'; ?>
+  <?php include '../components/navbar.php'; ?>
 
   <?php
   $paymentLabels = [
@@ -116,11 +116,11 @@ $voucherAmount = $voucher['amount'] ?? 0;
     </div>
   </main>
 
-  <?php include '../includes/footer.php'; ?>
+  <?php include '../components/footer.php'; ?>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script>
     document.getElementById('placeOrderBtn').addEventListener('click', async () => {
-      const response = await fetch('/weben-prj/includes/order-api.php', {
+      const response = await fetch('/weben-prj/backend/api/order-api.php', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

@@ -1,5 +1,5 @@
 <?php
-require_once("../includes/config.php");
+require_once("../../backend/config/config.php");
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -39,7 +39,7 @@ if (preg_match('/^(.*?)[\s]+(\d+[a-zA-Z]*)[,]*[\s]*(.*)?$/', $user['address'], $
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-<?php include '../includes/navbar.php'; ?>
+<?php include '../components/navbar.php'; ?>
 
 <main class="container py-5">
     <h2 class="mb-4">Edit Profile</h2>
@@ -56,7 +56,7 @@ if (preg_match('/^(.*?)[\s]+(\d+[a-zA-Z]*)[,]*[\s]*(.*)?$/', $user['address'], $
 
     <div class="card shadow-sm">
         <div class="card-body">
-            <form action="../includes/profile-update-handler.php" method="POST" class="fs-5">
+            <form action="../../backend/handlers/profile-update-handler.php" method="POST" class="fs-5">
 
             <h5 class="mt-3">Change Personal Information</h5>
 
@@ -182,6 +182,6 @@ function togglePassword(id, show) {
 }
 </script>
 
-<?php include '../includes/footer.php'; ?>
+<?php include '../components/footer.php'; ?>
 </body>
 </html>

@@ -1,4 +1,4 @@
-<?php require_once("config.php"); ?>
+<?php require_once("../../backend/config/config.php"); ?>
 <nav class="navbar navbar-expand-md navbar-light bg-white sticky-top border-bottom" data-bs-theme="light">
     <div class="container-fluid">
         <!-- Toggler für Mobile -->

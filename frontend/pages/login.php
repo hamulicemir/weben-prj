@@ -7,7 +7,7 @@ if (isset($_SESSION['user']['id'])) {
 }
 
 if (isset($_COOKIE['remember_me'])) {
-    header("Location: ../includes/login-handler.php");
+    header("Location: ../../backend/handlers/login-handler.php");
     exit();
 }
 
@@ -25,7 +25,7 @@ unset($_SESSION['loginError']);
     <link rel="shortcut icon" href="../assets/fonts/favicon.ico" type="image/x-icon" />
     <link rel="stylesheet" href="../assets/css/style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <script src="../components/jquery-3.7.1.min.js"></script>
+    <script src="../../jquery-3.7.1.min.js"></script>
     <script src="../assets/js/login.js"></script>
 
     <style>
@@ -43,7 +43,7 @@ unset($_SESSION['loginError']);
 </head>
 
 <body>
-    <?php include '../includes/navbar.php'; ?> <!-- navbar -->
+    <?php include '../components/navbar.php'; ?> <!-- navbar -->
     <main>
     <section class="py-3 py-md-5 py-xl-8 bg-white">
         <div class="container">
@@ -105,7 +105,7 @@ unset($_SESSION['loginError']);
         </div>
     </section>
     </main>
-    <?php include '../includes/footer.php'; ?> <!-- Footer -->
+    <?php include '../components/footer.php'; ?> <!-- Footer -->
 
     <script>
         $(document).ready(function() {
@@ -140,7 +140,7 @@ unset($_SESSION['loginError']);
 
                 let formData = $(this).serialize();
                 // Send AJAX request
-                $.post("../includes/login-handler.php", formData, function(response) {
+                $.post("../../backend/handlers/login-handler.php", formData, function(response) {
                     if (response.success) {
                         $("body").append(`
                             <div class="modal fade" id="welcomeModal" tabindex="-1" style="display: block; background-color: rgba(0,0,0,0.5);">

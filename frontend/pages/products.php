@@ -18,7 +18,7 @@ $searchQuery = isset($_GET['search']) ? htmlspecialchars($_GET['search']) : '';
 </head>
 
 <body>
-    <?php include '../includes/navbar.php'; ?> <!-- navbar -->
+    <?php include '../components/navbar.php'; ?> <!-- navbar -->
     <main class="py-5" data-search="<?= $searchQuery ?>">
 
         <div class="container">
@@ -60,7 +60,7 @@ $searchQuery = isset($_GET['search']) ? htmlspecialchars($_GET['search']) : '';
             </div>
         </div>
     </div>
-    <?php include '../includes/footer.php'; ?> <!-- Footer -->
+    <?php include '../components/footer.php'; ?> <!-- Footer -->
 
 
     <script src="../assets/js/products.js"></script>

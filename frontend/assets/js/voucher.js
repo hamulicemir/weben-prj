@@ -8,7 +8,7 @@ let editMode = false;
 let originalCode = '';
 
 function loadVouchers() {
-    fetch('../includes/vouchers-api.php', {
+    fetch('../../../backend/api/vouchers-api.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ action: 'getAll' })

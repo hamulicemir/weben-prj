@@ -20,7 +20,7 @@ unset($_SESSION['order']);
   <link rel="stylesheet" href="../assets/css/checkout.css" />
 </head>
 <body class="d-flex flex-column min-vh-100">
-<?php include '../includes/navbar.php'; ?>
+<?php include '../components/navbar.php'; ?>
 
 <main class="flex-grow-1 d-flex justify-content-center align-items-center">
   <div class="text-center">
@@ -30,7 +30,7 @@ unset($_SESSION['order']);
   </div>
 </main>
 
-<?php include '../includes/footer.php'; ?>
+<?php include '../components/footer.php'; ?>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

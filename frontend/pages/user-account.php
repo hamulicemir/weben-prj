@@ -1,5 +1,5 @@
 <?php 
-require_once("../includes/config.php");
+require_once("../../backend/config/config.php");
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -17,7 +17,7 @@ if (session_status() === PHP_SESSION_NONE) {
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
 <body>
-<?php include '../includes/navbar.php'; ?> <!-- navbar -->
+<?php include '../components/navbar.php'; ?> <!-- navbar -->
 
 <main class="container py-5">
     <h2 class="mb-4">My Account</h2>
@@ -47,6 +47,6 @@ if (session_status() === PHP_SESSION_NONE) {
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 <script src="../assets/js/user-account.js" defer></script>
 
-<?php include '../includes/footer.php'; ?> <!-- Footer -->
+<?php include '../components/footer.php'; ?> <!-- Footer -->
 </body>
 </html>

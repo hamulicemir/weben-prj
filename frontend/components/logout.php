@@ -26,7 +26,7 @@ if (isset($_COOKIE['remember_me'])) {
     </script>
 </head>
 <body>
-<?php include '../includes/navbar.php'; ?>
+<?php include './navbar.php'; ?>
 
 <!-- Logout Modal -->
 <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutLabel" aria-hidden="true">
@@ -42,6 +42,6 @@ if (isset($_COOKIE['remember_me'])) {
   </div>
 </div>
 
-<?php include '../includes/footer.php'; ?>
+<?php include './footer.php'; ?>
 </body>
 </html>

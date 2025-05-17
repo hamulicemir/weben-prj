@@ -1,5 +1,5 @@
 <?php
-require_once("../includes/config.php");
+require_once("../../backend/config/config.php");
 if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
     header("Location: login.php");
     exit;
@@ -22,7 +22,7 @@ if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
 </head>
 
 <body>
-    <?php include '../includes/navbar.php'; ?>
+    <?php include '../components/navbar.php'; ?>
 
     <div class="container py-5">
         <h2>Manage Products</h2>

@@ -18,7 +18,7 @@ if (!isset($_SESSION['user']) || empty($_SESSION['user'])) {
 </head>
 
 <body>
-<?php include '../includes/navbar.php'; ?>
+<?php include '../components/navbar.php'; ?>
 
 <main class="container py-5">
     <h1 class="">Vouchers Management</h1>
@@ -107,6 +107,6 @@ if (!isset($_SESSION['user']) || empty($_SESSION['user'])) {
 <script src="../assets/js/voucher.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-<?php include '../includes/footer.php'; ?>
+<?php include '../components/footer.php'; ?>
 </body>
 </html>

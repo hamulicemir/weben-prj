@@ -9,65 +9,11 @@
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="shortcut icon" href="../assets/fonts/favicon.ico" type="image/x-icon" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <style>
-        p {
-            font-size: 40 px;
-        }
-
-        .shop-section {
-            margin-top: 2rem;
-        }
-
-        .shop-section img {
-            width: 100%;
-            height: auto;
-            object-fit: cover;
-            transition: transform 0.3s ease;
-        }
-
-        .shop-section a:hover img {
-            transform: scale(1.02);
-        }
-
-        .newsletter-section {
-            text-align: center;
-            padding: 4rem 1rem;
-            background-color: #fff;
-        }
-
-        .newsletter-section h2 {
-            font-weight: bold;
-            margin-bottom: 1rem;
-        }
-
-        .newsletter-section p {
-            margin-bottom: 2rem;
-        }
-
-        .logo-banner {
-            width: 100%;
-            margin: 3rem 0;
-        }
-
-        .discount-banner {
-            background-color: #000;
-            color: #fff;
-            text-align: center;
-            padding: 1rem;
-            font-size: 1rem;
-        }
-
-        .btn-link {
-            text-decoration: none;
-            font-weight: bold;
-            border-bottom: 1px solid #000;
-        }
-    </style>
-
+    <link rel="stylesheet" href="../assets/css/index.css">
 </head>
 
 <body>
-    <?php include '../includes/navbar.php'; ?> <!-- navbar -->
+    <?php include '../components/navbar.php'; ?> <!-- navbar -->
 
     <main class="container shop-section">
         <div class="row">
@@ -114,7 +60,7 @@
 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <?php include '../includes/footer.php'; ?> <!-- Footer -->
+    <?php include '../components/footer.php'; ?> <!-- Footer -->
 </body>
 
 </html>

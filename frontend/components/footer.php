@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="../assets/css/footer.css"> 
 <footer class="footer bg-light border-top py-4">
     <div class="container-fluid px-5">
         <div class="row">
@@ -57,37 +58,3 @@
         </div>
 </footer>
 
-<style>
-    /* Roboto Flex von Google Fonts einbinden */
-    @import url('https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,100..1000&display=swap');
-
-    .footer {
-        font-family: 'Roboto Flex', sans-serif;
-        font-size: 10px;
-        /* Kleinere Schriftgröße */
-        margin-top: auto;
-        /* Sticky Footer */
-
-    }
-
-    html,
-    body {
-        /* Sticky Footer */
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-    }
-
-    h1 {
-        font-size: 24px;
-    }
-
-    h6 {
-        font-family: 'Roboto Flex', sans-serif;
-        font-size: 11px;
-    }
-
-    footer a:hover {
-        text-decoration: underline;
-    }
-</style>
