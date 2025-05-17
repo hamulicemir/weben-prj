@@ -40,23 +40,6 @@ if (session_status() === PHP_SESSION_NONE) {
             </div>
         </div>
     </div>
-
-    <!-- Orders-->
-    <div class="card shadow-sm">
-        <div class="card-body">
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <h5 class="card-title fs-3 mb-0">My Orders</h5>
-                <!-- Dropdown zur Sortierung -->
-                <select id="sortSelect" class="form-select form-select-sm w-auto">
-                    <option value="desc" selected>Newest first</option>
-                    <option value="asc">Oldest first</option>
-                </select>
-            </div>
-                <ul class="list-group list-group-item-light fs-5" id="orderList"></ul>
-                <p id="noOrdersMsg" class="text-muted d-none">No orders found.</p>
-
-        </div>
-    </div>
 </main>
 
 
