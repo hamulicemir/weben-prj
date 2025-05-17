@@ -1,5 +1,5 @@
 <?php
-require_once("../includes/config.php");
+require_once("../config/config.php");
 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
@@ -18,12 +18,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Datei-Upload verarbeiten
-    $uploadDir = $_SERVER['DOCUMENT_ROOT'] . "/weben-prj/weben-prj/assets/img/products/" . $subfolder;
+    $uploadDir = $_SERVER['DOCUMENT_ROOT'] . "/weben-prj/weben-prj/frontend/assets/img/products/" . $subfolder;
     $imagePath = null;
 
     if (!$imagePath) {
         // Fallback auf ein Platzhalterbild
-        $imagePath = "assets/img/products/no-image-available.jpg";
+        $imagePath = "../../frontend/assets/img/products/no-image-available.jpg";
     }
 
 
@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         if (move_uploaded_file($_FILES["image"]["tmp_name"], $targetFile)) {
-            $imagePath = "/assets/img/products/" . $subfolder . $imageName;
+            $imagePath = "../../frontend/assets/img/products/" . $subfolder . $imageName;
         }
     }
 
@@ -46,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     switch ($action) {
         case 'create':
             if (!$imagePath) {
-                $imagePath = "assets/img/products/no-image-available.jpg";
+                $imagePath = "../../frontendassets/img/products/no-image-available.jpg";
             }
             $categoryId = (int)$_POST['category_id'];
             $stock = (int)$_POST['stock']; 
@@ -70,13 +70,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $stock = (int)$_POST['stock']; 
             
                 // Falls kein neues Bild hochgeladen wurde → altes Bild beibehalten
-                if (!$imagePath || $imagePath === "assets/img/products/no-image-available.jpg") {
+                if (!$imagePath || $imagePath === "../../frontend/assets/img/products/no-image-available.jpg") {
                     $stmt = $conn->prepare("SELECT image FROM products WHERE id = ?");
                     $stmt->bind_param("i", $id);
                     $stmt->execute();
                     $result = $stmt->get_result();
                     $row = $result->fetch_assoc();
-                    $imagePath = $row['image'] ?? "assets/img/products/no-image-available.jpg";
+                    $imagePath = $row['image'] ?? "../../frontend/assets/img/products/no-image-available.jpg";
                 }
             
                 $stmt = $conn->prepare("UPDATE products SET name=?, description=?, price=?, rating=?, gender=?, colour=?, image=?, stock=?, category_id=?, updated_at=NOW() WHERE id=?");

@@ -1,7 +1,7 @@
 
 async function loadOrders(sort = "desc") {
     try {
-        const res = await fetch("../includes/order-api.php", {
+        const res = await fetch("../../../backend/api/order-api.php", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ action: "viewOrdersByUserID", sort })

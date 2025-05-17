@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/VoucherRepository.php';
+require_once __DIR__ . '../repositories/VoucherRepository.php';
 
 class VoucherService
 {

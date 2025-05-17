@@ -1,6 +1,6 @@
 <?php
 // Lädt die Datenbankverbindung und startet ggf. Session (PHP)
-require_once("config.php");
+require_once("../config/config.php");
 
 // Prüft, ob das Formular per POST abgesendet wurde (PHP)
 if ($_SERVER["REQUEST_METHOD"] === "POST") {

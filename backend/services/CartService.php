@@ -1,6 +1,6 @@
 <?php
 // Service Layer
-require_once __DIR__ . '/CartRepository.php';
+require_once __DIR__ . '../repositories/CartRepository.php';
 
 class CartService {
     private $CartRepository;

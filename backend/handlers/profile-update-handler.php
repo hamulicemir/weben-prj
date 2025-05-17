@@ -1,10 +1,10 @@
 <?php
 session_start();
-require_once 'config.php';
+require_once '../config/config.php';
 
 $userId = $_SESSION['user']['id'] ?? null;
 if (!$userId) {
-    header("Location: ../pages/login.php");
+    header("Location: ../../frontend/pages/login.php");
     exit;
 }
 
@@ -74,7 +74,7 @@ if ($changePassword) {
 // Fehler? Dann zurück mit Session-Fehlermeldung
 if ($errors) {
     $_SESSION['errors'] = $errors;
-    header("Location: ../pages/edit-profile.php");
+    header("Location: ../../frontend/pages/edit-profile.php");
     exit;
 }
 
@@ -96,5 +96,5 @@ $_SESSION['user']['last_name'] = $lastName;
 $_SESSION['user']['email'] = $email;
 $_SESSION['user']['username'] = $username;
 
-header("Location: ../pages/user-account.php");
+header("Location: ../../frontend/pages/user-account.php");
 exit;

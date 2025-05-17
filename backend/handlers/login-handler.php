@@ -1,7 +1,7 @@
 <?php
 session_start();
-require_once("config.php");
-include "functions.php";
+require_once("../config/config.php");
+include "../helpers/functions.php";
 // Debugging aktivieren
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);

@@ -1,5 +1,5 @@
 async function fetchUserData() {
-  const res = await fetch('/weben-prj/includes/user-api.php', {
+  const res = await fetch('/weben-prj/backend/api/user-api.php', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ action: 'thisUser' })

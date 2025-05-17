@@ -5,8 +5,8 @@
 session_start();
 header('Content-Type: application/json');
 
-require_once __DIR__ . '/config.php';
-require_once __DIR__ . '/ProductService.php';
+require_once __DIR__ . '../config/config.php';
+require_once __DIR__ . '../services/ProductService.php';
 
 $action = $_GET['action'] ?? ''; // erwartet ?action=...
 $productService = new ProductService($conn);

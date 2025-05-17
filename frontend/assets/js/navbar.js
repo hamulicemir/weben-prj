@@ -13,13 +13,13 @@ document.addEventListener("DOMContentLoaded", function () {
             e.preventDefault();
             const query = searchInput.value.trim();
             if (query) {
-                window.location.href = "../pages/products.php?search=" + encodeURIComponent(query);
+                window.location.href = "../../pages/products.php?search=" + encodeURIComponent(query);
             }
         });
     }
 
     // Benutzerinformationen laden
-    fetch("../includes/user-api.php", {
+    fetch("../../../backend/api/user-api.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ action: "thisUser" })
@@ -41,19 +41,19 @@ document.addEventListener("DOMContentLoaded", function () {
                 menu.appendChild(usernameItem);
 
                 const entries = [
-                    { label: "My Account", href: "../pages/user-account.php" },
-                    { label: "My Orders", href: "../pages/orders.php" }
+                    { label: "My Account", href: "../../pages/user-account.php" },
+                    { label: "My Orders", href: "../../pages/orders.php" }
                 ];
 
                 if (user.role === "admin") {
                     entries.push({ divider: true });
-                    entries.push({ label: "Manage Users", href: "../frontend/pages/customer-management.php" });
-                    entries.push({ label: "Manage Products", href: "../pages/edit-products.php" });
-                    entries.push({ label: "Manage Vouchers", href: "../pages/voucher-management.php" });
+                    entries.push({ label: "Manage Users", href: "../../pages/customer-management.php" });
+                    entries.push({ label: "Manage Products", href: "../../pages/edit-products.php" });
+                    entries.push({ label: "Manage Vouchers", href: "../../pages/voucher-management.php" });
                 }
 
                 entries.push({ divider: true });
-                entries.push({ label: "Logout", href: "../includes/logout.php", class: "text-danger" });
+                entries.push({ label: "Logout", href: "../../components/logout.php", class: "text-danger" });
 
                 entries.forEach(item => {
                     const li = document.createElement("li");
@@ -76,7 +76,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Warenkorbanzahl aktualisieren
     window.updateCartCount = function () {
-        fetch("../includes/cart-api.php", {
+        fetch("../../../backend/api/cart-api.php", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

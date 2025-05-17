@@ -1,6 +1,6 @@
 <?php
 // Verbindet die Datei mit der Datenbankkonfiguration (PHP + MySQL)
-require_once("config.php");
+require_once("../config/config.php");
 
 // Startet eine Session, falls noch keine besteht (PHP)
 if (session_status() === PHP_SESSION_NONE) {

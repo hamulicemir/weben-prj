@@ -5,7 +5,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
     // Produkte vom Server holen (ggf. mit Kategorie oder Suchbegriff)
     function fetchProducts() {
-        let url = "../includes/product-api.php?action=getAll";
+        let url = "../../../backend/api/product-api.php?action=getAll";
         const params = new URLSearchParams();
 
 
@@ -68,7 +68,7 @@ window.addEventListener("DOMContentLoaded", () => {
     }
 
     // Kategorien laden
-    fetch("../includes/get-categories.php")
+    fetch("../../../backend/api/get-categories.php")
         .then(res => res.json())
         .then(data => {
             if (!categorySelect) return;
@@ -213,7 +213,7 @@ function getStars(rating) {
 
 async function addToCart(productId, quantity = 1) {
     try {
-        const res = await fetch("../includes/cart-api.php", {
+        const res = await fetch("../../../backend/api/cart-api.php", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

@@ -1,5 +1,5 @@
 async function fetchSummaryCart() {
-  const res = await fetch('../includes/cart-api.php', {
+  const res = await fetch('../../../backend/api/cart-api.php', {
     method: 'POST',
     body: JSON.stringify({ action: 'get' }),
     headers: { 'Content-Type': 'application/json' }

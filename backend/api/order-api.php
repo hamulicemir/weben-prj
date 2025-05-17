@@ -2,10 +2,10 @@
 session_start();
 header('Content-Type: application/json');
 
-require_once __DIR__ . '/config.php';
-require_once __DIR__ . '/OrderService.php';
-require_once __DIR__ . '/VoucherService.php';
-require_once __DIR__ . '/VoucherRepository.php';
+require_once __DIR__ . '../config/config.php';
+require_once __DIR__ . '../services/OrderService.php';
+require_once __DIR__ . '../services/VoucherService.php';
+require_once __DIR__ . '../repositories/VoucherRepository.php';
 
 $data = json_decode(file_get_contents("php://input"), true);
 

@@ -1,5 +1,5 @@
 <?php
-require_once("config.php"); // Stellt Verbindung zur Datenbank her
+require_once("../config/config.php"); // Stellt Verbindung zur Datenbank her
 
 // Gibt an, dass die Antwort im JSON-Format kommt
 header('Content-Type: application/json');
