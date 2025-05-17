@@ -13,17 +13,17 @@ function renderSummaryCart(products, voucher) {
   container.innerHTML = "";
 
   if (!products || products.length === 0) {
-    container.innerHTML = `<div class="alert alert-warning text-center">Warenkorb ist leer</div>`;
+    container.innerHTML = `<div class="alert alert-warning text-center">Cart is empty</div>`;
     return;
   }
 
   let subtotal = 0;
   const listCard = document.createElement("div");
   listCard.className = "card shadow rounded-4 p-4 mb-4";
-  listCard.innerHTML = `<h4 class="mb-4">Deine Produkte</h4>`;
+  listCard.innerHTML = `<h4 class="mb-4">Your Products</h4>`;
 
   products.forEach(product => {
-    const name = product.name ?? 'Produkt';
+    const name = product.name ?? 'Product';
     const quantity = product.quantity ?? 1;
     const price = parseFloat(product.price ?? 0);
     const image = product.image ?? "../assets/img/products/no-image-available.jpg";
@@ -38,7 +38,7 @@ function renderSummaryCart(products, voucher) {
       </div>
       <div class="col-9">
         <h6 class="fw-bold mb-1">${name}</h6>
-        <p class="mb-1 text-muted">Menge: ${quantity}</p>
+        <p class="mb-1 text-muted">Quantity: ${quantity}</p>
         <p class="mb-0 fw-bold">€ ${itemTotal.toFixed(2)}</p>
       </div>
     `;
@@ -53,11 +53,11 @@ function renderSummaryCart(products, voucher) {
   const totalDiv = document.createElement("div");
   totalDiv.className = "text-end mt-4 border-top pt-3";
   totalDiv.innerHTML = `
-    <h5 class="fw-bold">Gesamtsumme: € ${total.toFixed(2)}</h5>
+    <h5 class="fw-bold">Total: € ${total.toFixed(2)}</h5>
     <p class="text-muted small">
-      inkl. Versand (€ ${shipping.toFixed(2)})
-      ${voucherAmount > 0 ? `, abzüglich Gutschein (-€ ${voucherAmount.toFixed(2)})` : ''}
-      und 20% MwSt.
+      incl. shipping (€ ${shipping.toFixed(2)})
+      ${voucherAmount > 0 ? `, minus voucher (-€ ${voucherAmount.toFixed(2)})` : ''}
+      and 20% VAT.
     </p>
   `;
 
