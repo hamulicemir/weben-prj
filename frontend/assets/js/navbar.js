@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
 
                 entries.push({ divider: true });
-                entries.push({ label: "Logout", href: "logout.php", class: "text-danger" });
+                entries.push({ label: "Logout", href: "../components/logout.php", class: "text-danger" });
 
                 entries.forEach(item => {
                     const li = document.createElement("li");
