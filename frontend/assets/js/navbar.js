@@ -41,19 +41,19 @@ document.addEventListener("DOMContentLoaded", function () {
                 menu.appendChild(usernameItem);
 
                 const entries = [
-                    { label: "My Account", href: "../../pages/user-account.php" },
-                    { label: "My Orders", href: "../../pages/orders.php" }
+                    { label: "My Account", href: "user-account.php" },
+                    { label: "My Orders", href: "orders.php" }
                 ];
 
                 if (user.role === "admin") {
                     entries.push({ divider: true });
-                    entries.push({ label: "Manage Users", href: "../../pages/customer-management.php" });
-                    entries.push({ label: "Manage Products", href: "../../pages/edit-products.php" });
-                    entries.push({ label: "Manage Vouchers", href: "../../pages/voucher-management.php" });
+                    entries.push({ label: "Manage Users", href: "customer-management.php" });
+                    entries.push({ label: "Manage Products", href: "edit-products.php" });
+                    entries.push({ label: "Manage Vouchers", href: "voucher-management.php" });
                 }
 
                 entries.push({ divider: true });
-                entries.push({ label: "Logout", href: "../../components/logout.php", class: "text-danger" });
+                entries.push({ label: "Logout", href: "logout.php", class: "text-danger" });
 
                 entries.forEach(item => {
                     const li = document.createElement("li");
