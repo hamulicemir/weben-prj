@@ -13,13 +13,13 @@ if (!isset($_SESSION['user']) || empty($_SESSION['user'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ICONIQ - Customer Management</title>
 
-    <link rel="stylesheet" href="../../assets/css/style.css">
-    <link rel="shortcut icon" href="../../assets/fonts/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="shortcut icon" href="../assets/fonts/favicon.ico" type="image/x-icon" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 
-<?php include '../../includes/navbar.php'; ?>
+<?php include '../components/navbar.php'; ?>
 
 <main class="container py-5">
     <h1 class="">Customer Management</h1>
@@ -103,7 +103,7 @@ if (!isset($_SESSION['user']) || empty($_SESSION['user'])) {
 <script src="../assets/js/customer.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-<?php include '../../includes/footer.php'; ?>
+<?php include '../components/footer.php'; ?>
     
 </body>
 </html>

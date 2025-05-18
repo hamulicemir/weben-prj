@@ -1,0 +1,41 @@
+    /* Roboto Flex von Google Fonts einbinden */
+    @import url('https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,100..1000&display=swap');
+
+    .footer {
+        font-family: 'Roboto Flex', sans-serif;
+        font-size: 10px;
+        /* Kleinere Schriftgröße */
+        margin-top: auto;
+        /* Sticky Footer */
+
+    }
+
+    html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+    
+    body {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+    }
+    
+    main {
+        flex: 1;
+    }
+    
+
+    h1 {
+        font-size: 24px;
+    }
+
+    h6 {
+        font-family: 'Roboto Flex', sans-serif;
+        font-size: 11px;
+    }
+
+    footer a:hover {
+        text-decoration: underline;
+    }
