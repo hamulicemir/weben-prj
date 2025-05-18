@@ -57,8 +57,8 @@ if (!isset($_SESSION['user']) || empty($_SESSION['user'])) {
 
 
         <div class="d-flex justify-content-between mt-3">
-          <a href="/weben-prj/pages/user-account.php" class="btn btn-outline-dark fs-4">Bearbeiten</a>
-          <a href="/weben-prj/pages/checkout_payment.php" class="btn btn-dark fs-4">Weiter</a>
+          <a href="user-account.php" class="btn btn-outline-dark fs-4">Edit</a>
+          <a href="checkout_payment.php" class="btn btn-dark fs-4">Next</a>
         </div>
       </div>
     </div>
