@@ -103,8 +103,8 @@ if (!isset($_SESSION['user']) || empty($_SESSION['user'])) {
 
 
           <div class="d-flex justify-content-between">
-            <a href="checkout_data.php" class="btn btn-outline-dark px-4">BACK</a>
-            <button type="submit" class="btn btn-dark px-4">CONTINUE TO ORDER SUMMARY</button>
+            <a href="checkout_data.php" class="btn btn-outline-dark px-4">Back</a>
+            <button type="submit" class="btn btn-dark px-4">Continue To Order Summary</button>
           </div>
     </form>
   </div>

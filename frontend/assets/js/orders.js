@@ -31,7 +31,7 @@ async function loadOrders(sort = "desc") {
                     <div>
                         <strong>Order #${order.id}</strong><br>
                         <small>${formatDate(order.order_date)}</small><br>
-                        <a href="generate-invoice.php?order_id=${order.id}" target="_blank" class="btn btn-sm btn-outline-primary mt-2">Download Invoice</a>
+                        <a href="../../backend/handlers/generate-invoice.php?order_id=${order.id}" target="_blank" class="btn btn-sm btn-outline-primary mt-2">Download Invoice</a>
                     </div>
                     <span class="badge bg-dark rounded-pill">
                         € ${parseFloat(order.total_price).toFixed(2).replace('.', ',')}
