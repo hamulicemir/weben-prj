@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
     // Falls schon eingeloggt, redirect (per API check)
-    fetch("../includes/login-handler.php", {
+    fetch("../../backend/handlers/login-handler.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ action: "check" })
@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
         formData.append("password", password.value);
         if (remember) formData.append("remember_me", "1");
 
-        const res = await fetch("../includes/login-handler.php", {
+        const res = await fetch("../../backend/handlers/login-handler.php", {
             method: "POST",
             headers: { "Content-Type": "application/x-www-form-urlencoded" },
             body: formData.toString()
