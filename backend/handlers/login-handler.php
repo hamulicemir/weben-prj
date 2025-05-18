@@ -15,7 +15,7 @@ $response = ["success" => false, "errors" => []];
 
 // Überprüfen, ob der Benutzer bereits eingeloggt ist
 if (isset($_SESSION['user'])) {
-    echo json_encode(["success" => true, "message" => "Bereits eingeloggt."]);
+    echo json_encode(["success" => true, "message" => "Already logged in."]);
     exit();
 }
 
@@ -24,7 +24,7 @@ if (isset($_COOKIE['remember_me'])) {
     $userId = $_COOKIE['remember_me'];
 
     if (!$conn) {
-        echo json_encode(["success" => false, "errors" => ["general" => "Datenbankverbindung fehlgeschlagen."]]);
+        echo json_encode(["success" => false, "errors" => ["general" => "Database connection failed."]]);
         exit();
     }
 
@@ -32,7 +32,7 @@ if (isset($_COOKIE['remember_me'])) {
 
     if ($user) {
         setUserSession($user);
-        echo json_encode(["success" => true, "message" => "Automatisch eingeloggt."]);
+        echo json_encode(["success" => true, "message" => "Automatically logged in."]);
         exit();
     } else {
         // Ungültiger Cookie, löschen
@@ -58,7 +58,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $remember = isset($_POST['remember_me']);
 
     if (!$conn) {
-        $response["errors"]["general"] = "Datenbankverbindung fehlgeschlagen.";
+        $response["errors"]["general"] = "Database connection failed.";
         echo json_encode($response);
         exit();
     }
@@ -71,16 +71,22 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $user = $result->fetch_assoc();
 
     if (!$user) {
-        $response["errors"]["email"] = "Kein Benutzer mit dieser E-Mail oder diesem Username gefunden.";
+        $response["errors"]["email"] = "No user with this e-mail or username found.";
         echo json_encode($response);
         exit();
     }
 
     if (!password_verify($password, $user['password_hash'])) {
-        $response["errors"]["password"] = "Passwort stimmt nicht überein.";
+        $response["errors"]["password"] = "Password does not match.";
         echo json_encode($response);
         exit();
     }
+
+    if ((int)$user['active'] !== 1) {
+        $response["errors"]["general"] = "Your account is deactivated. Please contact support.";
+        echo json_encode($response);
+        exit();
+    }    
 
     setUserSession($user);
 
@@ -92,7 +98,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     echo json_encode($response);
     exit();
 } else {
-    $response["errors"]["general"] = "Ungültige Anfrage.";
+    $response["errors"]["general"] = "Invalid request.";
     echo json_encode($response);
 //löschen dann
 file_put_contents("login-debug.log", print_r([
