@@ -28,15 +28,19 @@ async function loadOrders(sort = "desc") {
                 li.className = "list-group-item d-flex justify-content-between align-items-center";
 
                 li.innerHTML = `
-                    <div>
-                        <strong>Order #${order.id}</strong><br>
-                        <small>${formatDate(order.order_date)}</small><br>
-                        <a href="../../backend/handlers/generate-invoice.php?order_id=${order.id}" target="_blank" class="btn btn-sm btn-outline-primary mt-2">Download Invoice</a>
+                <div>
+                    <strong>Order #${order.id}</strong><br>
+                    <small>${formatDate(order.order_date)}</small><br>
+                    <div class="mt-2">
+                        <a href="../../backend/handlers/generate-invoice.php?order_id=${order.id}" target="_blank" class="btn btn-sm btn-outline-primary me-2">Download Invoice</a>
+                        <button class="btn btn-sm btn-outline-secondary" onclick="showOrderDetails(${order.id})">Details</button>
                     </div>
-                    <span class="badge bg-dark rounded-pill">
-                        € ${parseFloat(order.total_price).toFixed(2).replace('.', ',')}
-                    </span>
-                `;
+                </div>
+                <span class="badge bg-dark rounded-pill">
+                    € ${parseFloat(order.total_price).toFixed(2).replace('.', ',')}
+                </span>
+            `;
+            
 
                 orderList.appendChild(li);
             });
@@ -65,3 +69,35 @@ document.getElementById("sortSelect").addEventListener("change", (e) => {
 document.addEventListener("DOMContentLoaded", () => {
     loadOrders();
 });
+
+function showOrderDetails(orderId) {
+    fetch("../../backend/api/order-api.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "getOrderItems", order_id: orderId })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.status === "success") {
+            const tbody = document.getElementById("orderDetailBody");
+            tbody.innerHTML = "";
+
+            data.items.forEach(item => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${item.product_name}</td>
+                    <td>${item.quantity}</td>
+                `;
+                tbody.appendChild(row);
+            });
+
+            const modal = new bootstrap.Modal(document.getElementById("orderDetailsModal"));
+            modal.show();
+        } else {
+            alert("No details found for this order.");
+        }
+    });
+}
+
+window.showOrderDetails = showOrderDetails;
+

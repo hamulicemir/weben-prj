@@ -55,6 +55,20 @@ switch ($data['action']) {
         }
         break;
 
+    case 'getOrderItems':
+        $orderId = intval($data['order_id'] ?? 0);
+        if ($orderId > 0) {
+            require_once __DIR__ . '/../repositories/OrderItemRepository.php';
+            $itemRepo = new OrderItemRepository($conn);
+            $items = $itemRepo->findByOrderId($orderId);
+            echo json_encode(['status' => 'success', 'items' => $items]);
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Invalid order ID']);
+        }
+        exit;
+        break;
+
+
     default:
         $response = ['status' => 'error', 'message' => 'Unbekannte Aktion'];
         break;

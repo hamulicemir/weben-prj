@@ -55,4 +55,25 @@ class ProductRepository {
         $result = $stmt->get_result();
         return $result->fetch_assoc();
     }
+
+    public function createProduct($data): bool {
+        $stmt = $this->conn->prepare("
+            INSERT INTO products (name, description, price, rating, gender, colour, image, stock, category_id, created_at, updated_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())
+        ");
+        $stmt->bind_param(
+            "sssdsssii",
+            $data['name'],
+            $data['description'],
+            $data['price'],
+            $data['rating'],
+            $data['gender'],
+            $data['colour'],
+            $data['image'],
+            $data['stock'],
+            $data['category_id']
+        );
+        return $stmt->execute();
+    }
+    
 }

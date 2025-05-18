@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", () => {
         } else {
             if (result.errors.email) login.classList.add("is-invalid");
             if (result.errors.password) password.classList.add("is-invalid");
-            if (result.errors.general) alert(result.errors.general);
+            if (result.errors.general) showErrorModal(result.errors.general);
         }
     });
 
@@ -70,4 +70,32 @@ document.addEventListener("DOMContentLoaded", () => {
         window.location.href = "../pages/index.php";
     }, 1500);
 }
+
+function showErrorModal(message) {
+    const existing = document.getElementById("errorModal");
+    if (existing) existing.remove();
+
+    const html = `
+        <div class="modal fade" id="errorModal" tabindex="-1" style="display: block; background-color: rgba(0,0,0,0.5);">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content text-center">
+                    <div class="modal-header border-0 bg-danger text-white">
+                        <h5 class="modal-title w-100">Login Failed</h5>
+                    </div>
+                    <div class="modal-body border-top">
+                        <p>${message}</p>
+                    </div>
+                    <div class="modal-footer justify-content-center border-0">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+
+    document.body.insertAdjacentHTML("beforeend", html);
+    const modal = new bootstrap.Modal(document.getElementById("errorModal"));
+    modal.show();
+}
+
 });

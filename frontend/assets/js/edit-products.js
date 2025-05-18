@@ -9,13 +9,13 @@ document.addEventListener("DOMContentLoaded", () => {
         .then(res => res.json())
         .then(data => {
             data.categories
-            .filter(cat => cat.id !== 0) // Entfernt "All Categories"
-            .forEach(cat => {
-                const option = document.createElement("option");
-                option.value = cat.id;
-                option.textContent = cat.name;
-                categorySelect.appendChild(option);
-            });
+                .filter(cat => cat.id !== 0) // Entfernt "All Categories"
+                .forEach(cat => {
+                    const option = document.createElement("option");
+                    option.value = cat.id;
+                    option.textContent = cat.name;
+                    categorySelect.appendChild(option);
+                });
         });
 
     form.addEventListener("submit", async function (e) {
@@ -35,11 +35,14 @@ document.addEventListener("DOMContentLoaded", () => {
                 form.reset();
                 actionField.value = "create";
                 form.productId.value = "";
+                document.getElementById("updateBtn").classList.add("d-none");
+                document.getElementById("cancelBtn").classList.add("d-none");
+                document.getElementById("createBtn").classList.remove("d-none");
             } else {
-                alert("Fehler: " + (result.error || "Unbekannter Fehler"));
+                alert("Error: " + (result.error || "Unknown error"));
             }
         } catch (err) {
-            alert("Ein Fehler ist aufgetreten");
+            alert("An error has occurred");
             console.error(err);
         }
     });
@@ -56,7 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 col.innerHTML = `
     <div class="card h-100 shadow-sm">
-        ${p.image ? `<img src="/${p.image || '../assets/img/products/no-image-available.jpg'}" class="card-img-top" alt="${p.name}" style="object-fit: cover; max-height: 180px;">` : ''}
+        ${p.image ? `<img src="${p.image.replace('../../frontend', '/weben-prj/frontend')}" class="card-img-top" alt="${p.name}" style="object-fit: cover; max-height: 180px;">` : ''}
         <div class="card-body">
             <h5 class="card-title">${p.name}</h5>
             <p class="card-text small">${p.description}</p>
@@ -73,7 +76,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 productList.appendChild(col);
             });
         } catch (err) {
-            alert("Fehler beim Laden der Produkte");
+            alert("Error when loading the products");
             console.error(err);
         }
     }
@@ -95,15 +98,30 @@ document.addEventListener("DOMContentLoaded", () => {
             actionField.value = "update";
 
             const preview = document.getElementById("imagePreview");
-            const imagePath = product.image ? "/" + product.image : "../assets/img/products/no-image-available.jpg";
-            preview.src = imagePath;
+            preview.src = product.image || "../assets/img/products/no-image-available.jpg";
             preview.style.display = "block";
+            form.scrollIntoView({ behavior: "smooth" });
+
+            document.getElementById("updateBtn").classList.remove("d-none");
+            document.getElementById("cancelBtn").classList.remove("d-none");
+            document.getElementById("createBtn").classList.add("d-none");
 
         } catch (err) {
-            alert("Fehler beim Laden des Produkts");
+            alert("Error during loading product");
             console.error(err);
         }
     };
+
+    document.getElementById("cancelBtn").addEventListener("click", () => {
+        form.reset();
+        form.productId.value = "";
+        actionField.value = "create";
+        document.getElementById("updateBtn").classList.add("d-none");
+        document.getElementById("cancelBtn").classList.add("d-none");
+        document.getElementById("createBtn").classList.remove("d-none");
+        document.getElementById("imagePreview").src = "../assets/img/products/no-image-available.jpg";
+    });
+
 
     window.deleteProduct = async function (id) {
         if (!confirm("Delete this product?")) return;
@@ -122,10 +140,10 @@ document.addEventListener("DOMContentLoaded", () => {
             if (result.status === "ok") {
                 loadProducts();
             } else {
-                alert("Fehler: " + (result.error || "Unbekannter Fehler"));
+                alert("Error: " + (result.error || "Unknown error"));
             }
         } catch (err) {
-            alert("Fehler beim Löschen");
+            alert("Error during deletion");
             console.error(err);
         }
     };

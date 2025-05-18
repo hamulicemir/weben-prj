@@ -26,6 +26,7 @@ if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
 
     <div class="container py-5">
         <h2>Manage Products</h2>
+        <p class="fs-4">Here you can manage your products. You can add, edit, and delete products.</p>
 
         <form id="productForm" enctype="multipart/form-data" class="row g-3 mb-5">
             <input type="hidden" name="id" id="productId">
@@ -35,14 +36,22 @@ if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
                 <label class="form-label">Product Name</label>
                 <input type="text" name="name" class="form-control" required>
             </div>
+
             <div class="col-md-6">
                 <label class="form-label">Price (€)</label>
                 <input type="number" step="0.01" name="price" class="form-control" required>
             </div>
+
+            <div class="col-md-6">
+                <label class="form-label">Description</label>
+                <input type="text" name="description" class="form-control" required>
+            </div>
+
             <div class="col-md-6">
                 <label class="form-label">Rating (0–5)</label>
                 <input type="number" step="0.1" name="rating" min="0" max="5" class="form-control" required>
             </div>
+
             <div class="col-md-6">
                 <label class="form-label">Gender</label>
                 <select name="gender" class="form-select" required>
@@ -51,10 +60,7 @@ if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
                     <option value="women">Women</option>
                 </select>
             </div>
-            <div class="col-md-6">
-                <label class="form-label">Description</label>
-                <textarea name="description" rows="2" class="form-control" required></textarea>
-            </div>
+
             <div class="col-md-6">
                 <label class="form-label">Category</label>
                 <select name="category_id" class="form-select" required id="categorySelect">
@@ -68,26 +74,28 @@ if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
             </div>
 
             <div class="col-md-6">
-                <label class="form-label">Image</label>
-                <input type="file" name="image" accept="image/*" class="form-control">
-                <img id="imagePreview" src="../assets/img/products/no-image-available.jpg" alt="Preview"
-                    style="max-height: 100px; margin-top: 10px;">
-
-            </div>
-
-            <div class="col-md-6">
                 <label class="form-label">Stock</label>
                 <input type="number" name="stock" class="form-control" min="0" required>
             </div>
 
-
-            <div class="col-12">
-                <button type="submit" class="btn btn-dark">Save</button>
+            <div class="col-md-6">
+                <label class="form-label">Image</label>
+                <input type="file" name="image" accept="image/*" class="form-control">
             </div>
-        </form>
+            <div class="col-md-6 d-flex align-items-end">
+                <img id="imagePreview" src="../assets/img/products/no-image-available.jpg" alt="Preview"
+                    style="max-height: 100px; max-width: 100%; border: 1px solid #ccc;">
+            </div>
+
+            <!-- Aktionsbuttons -->
+            <div class="col-12 d-flex gap-2">
+                <button type="submit" id="createBtn" class="btn btn-success">Create Product</button>
+                <button type="submit" id="updateBtn" class="btn btn-warning d-none">Change Product</button>
+                <button type="button" id="cancelBtn" class="btn btn-secondary d-none">Delete Product</button>
+            </div>
 
 
-        <div id="productList" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4"></div>
+            <div id="productList" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4"></div>
     </div>
 </body>
 
