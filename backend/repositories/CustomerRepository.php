@@ -1,13 +1,17 @@
 <?php
 
-class CustomerRepository {
-    private mysqli $conn;
+// repository layer = zuständig für datenbankabfragen zur tabelle "users" und "orders"
+// enthält keine logik, nur sql-zugriffe
 
+class CustomerRepository {
+    private mysqli $conn; // verbindung zur datenbank
+
+    // konstruktor bekommt die datenbankverbindung übergeben
     public function __construct(mysqli $conn) {
         $this->conn = $conn;
     }
 
-    // Get all customers
+    // gibt alle benutzer mit rolle "customer" zurück
     public function getAllCustomers(): array {
         $query = "SELECT id, username, email, active FROM users WHERE role = 'customer' ORDER BY username ASC";
         $result = $this->conn->query($query);
@@ -19,7 +23,7 @@ class CustomerRepository {
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    // Deactivate a customer
+    // setzt den status "active" eines benutzers auf 0 (also deaktiviert)
     public function deactivateCustomer(int $id): bool {
         $stmt = $this->conn->prepare("UPDATE users SET active = 0 WHERE id = ?");
         if (!$stmt) {
@@ -30,7 +34,7 @@ class CustomerRepository {
         return $stmt->execute();
     }
 
-    // Reactivate a customer
+    // setzt den status "active" eines benutzers wieder auf 1 (reaktivieren)
     public function reactivateCustomer(int $id): bool {
         $stmt = $this->conn->prepare("UPDATE users SET active = 1 WHERE id = ?");
         if (!$stmt) {
@@ -42,8 +46,9 @@ class CustomerRepository {
     }
     
 
-    // Get orders and products for a customer
+    // holt alle bestellungen und produkte eines bestimmten kunden
     public function getOrdersByCustomer(int $customerId): array {
+        // bestellungen und produkte aus mehreren tabellen
         $stmt = $this->conn->prepare("
             SELECT 
                 oi.order_id,
@@ -68,7 +73,7 @@ class CustomerRepository {
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    // Remove a product from an order
+    // entfernt ein produkt aus einer bestimmten bestellung
     public function removeProductFromOrder(int $orderId, int $productId): bool {
         $stmt = $this->conn->prepare("DELETE FROM order_items WHERE order_id = ? AND product_id = ?");
         if (!$stmt) {
