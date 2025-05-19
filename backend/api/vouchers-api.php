@@ -1,14 +1,16 @@
 <?php
-session_start();
-header('Content-Type: application/json');
+session_start(); // session starten, um gutscheine im warenkorb zu merken
+header('Content-Type: application/json'); // antwort kommt als json zurück
 
+// datenbankverbindung und service einbinden
 require_once(__DIR__ . '/../config/config.php');
 require_once __DIR__ . '/../services/VoucherService.php';
 
+// json-eingabe lesen
 $data = json_decode(file_get_contents("php://input"), true);
 $action = $data['action'] ?? '';
 
-$voucherService = new VoucherService($conn);
+$voucherService = new VoucherService($conn); // service-instanz erzeugen
 $response = ['status' => 'error', 'message' => 'Unbekannte Aktion']; // Default-Response
 
 switch ($action) {
@@ -75,13 +77,13 @@ switch ($action) {
         $code = $data['code'] ?? '';
         $voucher = $voucherService->validateVoucher($code);
 
-        if ($voucher) {
+        if ($voucher) { // gutschein in session speichern
             $_SESSION['voucher'] = $voucher->toArray();
             $response = [
                 'status' => 'success',
                 'voucher' => $_SESSION['voucher']
             ];
-        } else {
+        } else { 
             $response = [
                 'status' => 'error',
                 'message' => 'Invalid, expired or used voucher.'
@@ -89,13 +91,13 @@ switch ($action) {
         }
         break;
 
-    default:
+    default: // fallback wenn keine gültige aktion übergeben wurde
        $response = [
                 'status' => 'error',
                 'message' => 'Fehler bei der Verarbeitung der Anfrage.'
             ];
         break;
 }
-
+// antwort als json senden
 echo json_encode($response);
 exit;

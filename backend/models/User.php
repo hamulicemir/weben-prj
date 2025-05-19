@@ -1,5 +1,5 @@
 <?php
-
+// klasse user speichert benutzerdaten
 class User {
     public $id;
     public $role;
@@ -18,6 +18,7 @@ class User {
     public $updated_at;
     public $active;
 
+    // konstruktor – erstellt einen user aus einem array mit daten
     public function __construct(array $data) {
         $this->role = $data['role'] ?? 'customer';
         $this->salutation = $data['salutation'] ?? null;
@@ -31,6 +32,6 @@ class User {
         $this->username = $data['username'] ?? null;
         $this->payment_info = $data['payment_info'] ?? null;
         $this->active = $data['active'] ?? 1;
-        $this->password_hash = password_hash($data['password'], PASSWORD_DEFAULT);
+        $this->password_hash = password_hash($data['password'], PASSWORD_DEFAULT);  // passwort wird automatisch gehasht für mehr sicherheit
     }
 }

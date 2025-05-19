@@ -1,36 +1,43 @@
 <?php
+// lädt benötigte repository- und model-klassen
 require_once __DIR__ . '/../repositories/OrderRepository.php';
 require_once __DIR__ . '/../repositories/OrderItemRepository.php';
 require_once __DIR__ . '/../repositories/ProductRepository.php';
 require_once __DIR__ . '/../models/Order.php';
 
 class OrderService {
-    private $repo;
-    private $itemRepo;
-    private $productRepo;
+    private $repo; // für bestellungen
+    private $itemRepo; // für bestellungen
+    private $productRepo; // für produkte in bestellungen
 
+    // konstruktor bekommt datenbankverbindung
     public function __construct($conn) {
         $this->repo = new OrderRepository($conn);
         $this->itemRepo = new OrderItemRepository($conn);
         $this->productRepo = new ProductRepository($conn);
     }
 
+    // erstellt eine neue bestellung
     public function createOrder($data) {
+        // nur eingeloggte nutzer dürfen bestellen
         if (!isset($_SESSION['user']['id'])) {
             return ['status' => 'error', 'message' => 'Nicht eingeloggt'];
         }
 
+        // nutzer-id zur bestellung hinzufügen
         $data['user_id'] = $_SESSION['user']['id'];
         $voucher = $_SESSION['voucher'] ?? null;
         
+        // falls ein gutschein in session gespeichert ist, anhängen
         if ($voucher && isset($voucher['code'], $voucher['amount'])) {
             $data['voucher_code'] = $voucher['code'];
             $data['voucher_amount'] = $voucher['amount'];
         }
 
+        // erstellt bestell-objekt (inkl. berechnung vom preis)
         $order = new Order($data, $this->productRepo);
 
-        // 1. Hauptbestellung speichern
+        // 1. Hauptbestellung speichern (tabelle "orders")
         $success = $this->repo->save($order);
         if (!$success) {
             return ['status' => 'error', 'message' => 'Order speichern fehlgeschlagen'];
@@ -66,6 +73,7 @@ class OrderService {
         return ['status' => 'success', 'order_id' => $orderId];
     }
 
+    // gibt bestellung nach id zurück
     public function getOrderById($id) {
         if (!$id) {
             return ['status' => 'error', 'message' => 'Keine ID angegeben'];
@@ -79,35 +87,25 @@ class OrderService {
         return ['status' => 'error', 'message' => 'Bestellung nicht gefunden'];
     }
 
+    // alle bestellungen (admins)
     public function getAllOrders() {
         $orders = $this->repo->findAll();
         return ['status' => 'success', 'orders' => $orders];
     }
 
-public function getOrdersByUserId($userId = null, $sort = 'DESC')
-{
-    if (!$userId && isset($_SESSION['user']['id'])) {
-        $userId = $_SESSION['user']['id'];
-    }
-
-    if (!$userId) {
-        return ['status' => 'error', 'message' => 'Kein Benutzer angemeldet'];
-    }
-
-    $orders = $this->repo->findByUserId($userId, $sort);
-    return ['status' => 'success', 'orders' => $orders];
-}
-
-
-
-    /*public function getOrdersByUserId($userId) {
-        if (!$userId) {
-            return ['status' => 'error', 'message' => 'Keine User-ID angegeben'];
+    public function getOrdersByUserId($userId = null, $sort = 'DESC')
+    {
+        if (!$userId && isset($_SESSION['user']['id'])) {
+            $userId = $_SESSION['user']['id'];
         }
 
-        $orders = $this->repo->findByUserId($userId);
+        if (!$userId) {
+            return ['status' => 'error', 'message' => 'Kein Benutzer angemeldet'];
+        }
+
+        $orders = $this->repo->findByUserId($userId, $sort);
         return ['status' => 'success', 'orders' => $orders];
-    }*/
+    }
 
     public function deleteOrder($id) {
         if (!$id) {
@@ -120,4 +118,3 @@ public function getOrdersByUserId($userId = null, $sort = 'DESC')
             : ['status' => 'error', 'message' => 'Löschen fehlgeschlagen'];
     }
 }
-?>
