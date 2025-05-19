@@ -175,25 +175,6 @@ require_once("../../backend/config/config.php");
             </div>
         </main>
 
-        <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const urlParams = new URLSearchParams(window.location.search);
-            if (urlParams.get("signup") === "success") {
-                const modal = new bootstrap.Modal(document.getElementById('signupSuccessModal'));
-                modal.show();
-
-                // Optional: Weiterleitung nach ein paar Sekunden
-                setTimeout(() => window.location.href = "index.php", 2000);
-            }
-        });
-
-        function togglePassword(id, show) {
-        const input = document.getElementById(id);
-        input.type = show ? 'text' : 'password';
-}
-        </script>
-
-
     <?php include '../components/footer.php'; ?> <!-- Footer -->
 </body>
 

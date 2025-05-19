@@ -47,13 +47,18 @@ switch ($data['action']) {
         $response = $service->deleteOrder($data['id'] ?? null);
         break;
 
-        // neue bestellung erstellen
+    // neue bestellung erstellen
     case 'createOrder':
         $voucher = $_SESSION['voucher'] ?? null;
 
         // wenn gutschein in session gespeichert, anhängen
         if ($voucher && isset($voucher['code'], $voucher['amount'])) {
             $data['voucher'] = $voucher;
+        }
+        
+        //Cart aus der Session ziehen, falls im Request leer oder nicht gesetzt
+        if (empty($data['cart'])) {
+            $data['cart'] = $_SESSION['cart'] ?? [];
         }
 
         // bestellung erstellen
@@ -65,7 +70,7 @@ switch ($data['action']) {
         }
         break;
 
-        // bestellpositionen (produkte) einer bestellung anzeigen
+    // bestellpositionen (produkte) einer bestellung anzeigen
     case 'getOrderItems':
         $orderId = intval($data['order_id'] ?? 0);
         if ($orderId > 0) {

@@ -68,3 +68,17 @@ $(document).ready(function () {
         return parseInt(remainder, 10) === 1; // Gültig, wenn Rest = 1
     }
 });
+
+// zeigt das success-modal, wenn ?signup=success in der url steht
+const urlParams = new URLSearchParams(window.location.search);
+if (urlParams.get("signup") === "success") {
+    const modal = new bootstrap.Modal(document.getElementById('signupSuccessModal'));
+    modal.show();
+    setTimeout(() => window.location.href = "index.php", 2000);
+}
+
+// toggelt sichtbarkeit des passwortfelds (anzeigen/verbergen)
+window.togglePassword = function(id, show) {
+    const input = document.getElementById(id);
+    input.type = show ? 'text' : 'password';
+}

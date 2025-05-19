@@ -5,26 +5,10 @@ if (!isset($_SESSION['user']) || empty($_SESSION['user'])) {
   header("Location: ../pages/login.php");
   exit();
 }
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  if (!isset($_POST['payment']) || !isset($_POST['shipping'])) {
-    header("Location: checkout_payment.php");
-    exit();
-  }
-
-  $_SESSION['order'] = [
-    'payment' => $_POST['payment'],
-    'shipping' => $_POST['shipping']
-  ];
-}
-
 $order = $_SESSION['order'] ?? ['payment' => '-', 'shipping' => '-'];
-$voucher = $_SESSION['voucher'] ?? null;
-$voucherAmount = $voucher['amount'] ?? 0;
 ?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -33,57 +17,24 @@ $voucherAmount = $voucher['amount'] ?? 0;
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="../assets/css/checkout.css" />
 </head>
-
 <body>
   <?php include '../components/navbar.php'; ?>
-
-  <?php
-  $paymentLabels = [
-    'credit_card' => 'Credit Card',
-    'paypal' => 'PayPal',
-    'voucher' => 'Voucher',
-    'bank debit' => 'Bank Debit'
-  ];
-
-  $shippingLabels = [
-    'DHL' => 'DHL',
-    'Post' => 'Post',
-    'UPS' => 'UPS'
-  ];
-
-  $paymentLabel = $paymentLabels[$order['payment']] ?? ucfirst($order['payment']);
-  $shippingLabel = $shippingLabels[$order['shipping']] ?? ucfirst($order['shipping']);
-  ?>
-
   <main>
     <div class="container mt-5">
       <div class="d-flex justify-content-center" id="checkout-steps">
-        <div class="step text-center flex-fill" data-step="1">
-          <div class="circle border mx-auto">1</div>
-          <div class="label mt-2">YOUR DATA</div>
-        </div>
-        <div class="step text-center flex-fill" data-step="2">
-          <div class="circle border mx-auto">2</div>
-          <div class="label mt-2">PAYMENT & DELIVERY</div>
-        </div>
-        <div class="step text-center flex-fill" data-step="3">
-          <div class="circle border mx-auto active-step">3</div>
-          <div class="label mt-2">SUMMARY</div>
-        </div>
+        <div class="step text-center flex-fill" data-step="1"><div class="circle border mx-auto">1</div><div class="label mt-2">YOUR DATA</div></div>
+        <div class="step text-center flex-fill" data-step="2"><div class="circle border mx-auto">2</div><div class="label mt-2">PAYMENT & DELIVERY</div></div>
+        <div class="step text-center flex-fill" data-step="3"><div class="circle border mx-auto active-step">3</div><div class="label mt-2">SUMMARY</div></div>
       </div>
     </div>
     <hr class="my-4" />
 
     <div class="container mb-5">
       <h2 class="fw-bold mb-4">ORDER SUMMARY</h2>
-
       <div class="row g-4">
-        <!-- Linke Spalte: Produkte -->
         <div class="col-md-8">
           <div id="summary-products"></div>
         </div>
-
-        <!-- Rechte Spalte: Kundendaten & Optionen -->
         <div class="col-md-4">
           <div class="card shadow rounded-4 p-4 mb-4">
             <h4 class="mb-4">YOUR DATA</h4>
@@ -99,12 +50,11 @@ $voucherAmount = $voucher['amount'] ?? 0;
             </div>
           </div>
 
-          <div class="card p-4 shadow-sm rounded-4 mb-4">
+          <div class="card p-4 shadow-sm rounded-4 mb-4" id="summary-info">
             <h5 class="fw-bold mb-3">Payment Method</h5>
-            <p class="mb-1"><?= htmlspecialchars($paymentLabel) ?></p>
-
+            <p id="payment-method" class="mb-1"></p>
             <h5 class="fw-bold mt-4 mb-3">Shipping Method</h5>
-            <p class="mb-0"><?= htmlspecialchars($shippingLabel) ?></p>
+            <p id="shipping-method" class="mb-0"></p>
           </div>
 
           <div class="d-flex justify-content-between">
@@ -118,29 +68,7 @@ $voucherAmount = $voucher['amount'] ?? 0;
 
   <?php include '../components/footer.php'; ?>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script>
-    document.getElementById('placeOrderBtn').addEventListener('click', async () => {
-      const response = await fetch('/weben-prj/backend/api/order-api.php', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          action: 'createOrder',
-          payment: '<?= $_SESSION['order']['payment'] ?>',
-          shipping: '<?= $_SESSION['order']['shipping'] ?>',
-          cart: <?= json_encode($_SESSION['cart'] ?? []) ?>
-        })
-      });
-
-      const result = await response.json();
-      if (result.status === 'success') {
-        window.location.href = 'order_success.php';
-      } else {
-        alert('Bestellung konnte nicht abgeschlossen werden: ' + result.message);
-      }
-    });
-  </script>
+  <script src="../assets/js/checkout-summary.js"></script>
   <script src="../assets/js/user-edit.js"></script>
   <script src="../assets/js/summary-cart.js"></script>
 </body>
