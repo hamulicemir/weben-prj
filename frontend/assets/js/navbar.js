@@ -13,10 +13,16 @@ document.addEventListener("DOMContentLoaded", function () {
             e.preventDefault();
             const query = searchInput.value.trim();
             if (query) {
-                window.location.href = "../../pages/products.php?search=" + encodeURIComponent(query);
+                const gender = new URLSearchParams(window.location.search).get("gender");
+                let url = "/weben-prj/frontend/pages/products.php?search=" + encodeURIComponent(query);
+                if (gender) {
+                    url += "&gender=" + encodeURIComponent(gender);
+                }
+                window.location.href = url;
             }
         });
     }
+    
 
     // Benutzerinformationen laden
     fetch("../../backend/api/user-api.php", {

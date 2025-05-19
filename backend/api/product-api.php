@@ -15,7 +15,8 @@ switch ($action) {
     case 'getAll':
         $search = $_GET['search'] ?? null;
         $categoryId = isset($_GET['category']) ? (int)$_GET['category'] : null;
-        $products = $productService->getAll($search, $categoryId);
+        $gender = $_GET['gender'] ?? null;
+        $products = $productService->getAll($search, $categoryId, $gender);
         echo json_encode($products);
         break;
 

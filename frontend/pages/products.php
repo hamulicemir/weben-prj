@@ -22,11 +22,21 @@ $searchQuery = isset($_GET['search']) ? htmlspecialchars($_GET['search']) : '';
     <main class="py-5" data-search="<?= $searchQuery ?>">
 
         <div class="container">
+            <select id="genderSelect" class="form-select mb-3" style="max-width: 300px;">
+                <option value="">All Genders</option>
+                <option value="men">Men</option>
+                <option value="women">Women</option>
+            </select>
+        </div>
+
+
+        <div class="container">
             <select id="categorySelect" class="form-select mb-3" style="max-width: 300px;">
             </select>
-
             <div id="product-list" class="row"></div>
         </div>
+
+
 
     </main>
 
