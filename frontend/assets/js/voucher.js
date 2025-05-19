@@ -1,28 +1,32 @@
+// DOM-Referenzen
 const voucherTable = document.getElementById('voucherTableBody');
 const voucherForm = document.getElementById('voucherForm');
 const codeInput = document.getElementById('code');
 const amountInput = document.getElementById('amount');
 const dateInput = document.getElementById('expiration_date');
 
+//  Edit-Modus speichern
 let editMode = false;
 let originalCode = '';
 
+// Alle Gutscheine laden und anzeigen
 function loadVouchers() {
     fetch('../../backend/api/vouchers-api.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ action: 'getAll' })
     })
-    .then(res => res.json())
+    .then(res => res.json()) // Antwort verarbeiten
     .then(data => {
         voucherTable.innerHTML = '';
-        data.data.forEach(v => {
+        data.data.forEach(v => { // Status berechnen & HTML-Zeilen erzeugen
             const today = new Date().toISOString().split('T')[0];
             const isExpired = v.expiration_date < today;
             const statusText = v.used ? 'Used' : (isExpired ? 'Expired' : 'Active');
             const statusClass = v.used ? 'secondary' : (isExpired ? 'danger' : 'success');
             const rowClass = isExpired ? 'table-danger' : '';
         
+            // Zeile einfügen
             const row = `
                 <tr class="${rowClass}">
                     <td>${v.code}</td>
@@ -34,11 +38,12 @@ function loadVouchers() {
                         <button class="btn btn-sm btn-outline-danger" onclick="deleteVoucher('${v.code}')">Delete</button>
                     </td>
                 </tr>`;
-            voucherTable.insertAdjacentHTML('beforeend', row);
+            voucherTable.insertAdjacentHTML('beforeend', row); //  neue HTML-Elemente dynamisch "angrenzend" einfügen willst
         });        
     });
 }
 
+// Bearbeiten
 function editVoucher(code, amount, expiration) {
     editMode = true;
     originalCode = code;
@@ -49,6 +54,7 @@ function editVoucher(code, amount, expiration) {
     modal.show();
 }
 
+// Löschen vorbereiten
 let deleteCode = '';
 
 function deleteVoucher(code) {
@@ -58,6 +64,7 @@ function deleteVoucher(code) {
     modal.show();
 }
 
+// Löschen bestätigen
 document.getElementById('confirmDeleteBtn').addEventListener('click', function () {
     fetch('../../backend/api/vouchers-api.php', {
         method: 'POST',
@@ -71,6 +78,7 @@ document.getElementById('confirmDeleteBtn').addEventListener('click', function (
     });
 });
 
+// Zufallscode generieren lassen
 function generateCode() {
     fetch('../../backend/api/vouchers-api.php', {
         method: 'POST',
@@ -85,8 +93,9 @@ function generateCode() {
     });
 }
 
+// Speichern (neu oder bearbeiten)
 voucherForm.addEventListener('submit', function(e) {
-    e.preventDefault();
+    e.preventDefault(); // Verhindert Reload beim Formular-Submit
     const payload = {
         action: editMode ? 'edit' : 'add',
         code: codeInput.value.trim(),
@@ -94,7 +103,9 @@ voucherForm.addEventListener('submit', function(e) {
         expiration_date: dateInput.value
     };
     if (editMode) payload.original_code = originalCode;
+    // Bereitet das Datenpaket für die API vor. Bei Bearbeitung wird auch der alte Code mitgeschickt
 
+    //API aufrufen → Modal schließen → Formular zurücksetzen → Tabelle neu laden
     fetch('../../backend/api/vouchers-api.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -110,4 +121,4 @@ voucherForm.addEventListener('submit', function(e) {
     });
 });
 
-window.addEventListener('DOMContentLoaded', loadVouchers);
+window.addEventListener('DOMContentLoaded', loadVouchers); // Start: Gutscheine automatisch laden

@@ -3,32 +3,36 @@ document.addEventListener("DOMContentLoaded", () => {
     fetch("../../backend/handlers/login-handler.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ action: "check" })
+        body: JSON.stringify({ action: "check" }) // Aktion „check“ an den Handler senden
     })
-    .then(res => res.json())
-    .then(data => {
-        if (data.success) {
-            window.location.href = "../pages/index.php";
-        }
-    });
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                // Wenn bereits eingeloggt → zur Startseite weiterleiten
+                window.location.href = "../pages/index.php";
+            }
+        });
 
+    // Login-Formular absenden
     const form = document.getElementById("loginForm");
     form.addEventListener("submit", async (e) => {
-        e.preventDefault();
+        e.preventDefault(); // Seite nicht neu laden
 
         const login = document.getElementById("login");
         const password = document.getElementById("password");
         const remember = document.getElementById("remember_me").checked;
 
-        // Reset
+        // Vorherige Fehlermarkierungen entfernen
         login.classList.remove("is-invalid");
         password.classList.remove("is-invalid");
 
+        // Daten im x-www-form-urlencoded Format vorbereiten
         const formData = new URLSearchParams();
         formData.append("login", login.value);
         formData.append("password", password.value);
         if (remember) formData.append("remember_me", "1");
 
+        // Daten an PHP-Handler senden
         const res = await fetch("../../backend/handlers/login-handler.php", {
             method: "POST",
             headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -37,17 +41,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const result = await res.json();
 
+
+        // Erfolg → Willkommen anzeigen, Fehler → Felder markieren
         if (result.success) {
             showWelcomeModal();
         } else {
+            // Eingabefelder visuell als fehlerhaft markieren
             if (result.errors.email) login.classList.add("is-invalid");
             if (result.errors.password) password.classList.add("is-invalid");
             if (result.errors.general) showErrorModal(result.errors.general);
         }
     });
 
- function showWelcomeModal() {
-    const html = `
+    // Erfolgsmodal anzeigen (kurz, dann redirect)
+    function showWelcomeModal() {
+        const html = `
         <div class="modal fade" id="welcomeModal" tabindex="-1" style="display: block; background-color: rgba(0,0,0,0.5);">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content text-center">
@@ -61,21 +69,26 @@ document.addEventListener("DOMContentLoaded", () => {
             </div>
         </div>
     `;
-    document.body.insertAdjacentHTML("beforeend", html);
+        // Modal in DOM einfügen
+        document.body.insertAdjacentHTML("beforeend", html);
 
-    const modal = new bootstrap.Modal(document.getElementById("welcomeModal"));
-    modal.show();
+         // Bootstrap Modal anzeigen
+        const modal = new bootstrap.Modal(document.getElementById("welcomeModal"));
+        modal.show();
 
-    setTimeout(() => {
-        window.location.href = "../pages/index.php";
-    }, 1500);
-}
+        // Nach 1.5 Sekunden automatisch weiter zur Startseite
+        setTimeout(() => {
+            window.location.href = "../pages/index.php";
+        }, 1500);
+    }
 
-function showErrorModal(message) {
-    const existing = document.getElementById("errorModal");
-    if (existing) existing.remove();
+    // Fehlermodal bei falschem Login anzeigen
+    function showErrorModal(message) {
+        // Wenn bereits ein Fehler-Modal existiert → entfernen
+        const existing = document.getElementById("errorModal");
+        if (existing) existing.remove();
 
-    const html = `
+        const html = `
         <div class="modal fade" id="errorModal" tabindex="-1" style="display: block; background-color: rgba(0,0,0,0.5);">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content text-center">
@@ -92,10 +105,10 @@ function showErrorModal(message) {
             </div>
         </div>
     `;
-
-    document.body.insertAdjacentHTML("beforeend", html);
-    const modal = new bootstrap.Modal(document.getElementById("errorModal"));
-    modal.show();
-}
+        // In DOM einfügen und anzeigen
+        document.body.insertAdjacentHTML("beforeend", html);
+        const modal = new bootstrap.Modal(document.getElementById("errorModal"));
+        modal.show();
+    }
 
 });

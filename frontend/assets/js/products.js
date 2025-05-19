@@ -1,10 +1,11 @@
 // Führt den Code aus, sobald das DOM geladen ist
 window.addEventListener("DOMContentLoaded", () => {
+    // Grundlegende Elemente holen
     const productContainer = document.getElementById("product-list");
     const categorySelect = document.getElementById("categorySelect");
     const genderSelect = document.getElementById("genderSelect");
 
-    // Produkte vom Server holen (ggf. mit Kategorie oder Suchbegriff)
+    // Produkte vom Server holen (ggf. mit Kategorie/Gender oder Suchbegriff)
     function fetchProducts() {
         let url = "../../backend/api/product-api.php?action=getAll";
         const params = new URLSearchParams();
@@ -44,34 +45,38 @@ window.addEventListener("DOMContentLoaded", () => {
             });
     }
 
-    // Live-Suche beim Tippen im Suchfeld
+    // Live-Search bei Texteingabe im Suchfeld
     const searchInput = document.getElementById("searchInput");
     const urlParams = new URLSearchParams(window.location.search);
     const initialQuery = urlParams.get("search");
 
-// Feld mit Wert aus URL befüllen (damit er sichtbar ist)
+// Feld mit Wert aus URL befüllen (damit er sichtbar ist) / Vorbelegung beim Seitenstart
 if (searchInput && initialQuery) {
     searchInput.value = initialQuery;
 }
 
+// Neue URL schreiben + Produkte neu laden
 if (searchInput) {
-    searchInput.addEventListener("input", () => {
-        const query = searchInput.value.trim();
-        const newParams = new URLSearchParams(window.location.search);
+    searchInput.addEventListener("input", () => { // Reagiert sofort, wenn der User etwas tippt oder löscht
+        const query = searchInput.value.trim(); // Wert aus dem Feld holen
+        const newParams = new URLSearchParams(window.location.search); // Aktuelle URL-Parameter analysieren
 
+        // search in die URL einfügen oder löschen
         if (query) {
-            newParams.set("search", query);
+            newParams.set("search", query); // ?search=deinText setzen
         } else {
             newParams.delete("search");
         }
 
+        // URL im Browser aktualisieren (ohne Reload)
         const newUrl = window.location.pathname + "?" + newParams.toString();
         window.history.replaceState(null, "", newUrl);
 
-        fetchProducts();
+        fetchProducts(); // Produkte neu laden
     });
 }
 
+    // Filter-Events (Category & Gender)
     if (categorySelect) {
         categorySelect.addEventListener("change", fetchProducts);
     }
@@ -101,9 +106,7 @@ if (searchInput) {
         });
     }
     
-
-
-    // Kategorien laden
+    // Kategorien laden und Dropdown befüllen
     fetch("../../backend/api/get-categories.php")
         .then(res => res.json())
         .then(data => {
@@ -120,9 +123,9 @@ if (searchInput) {
         })
         .catch(err => console.error("Fehler beim Laden der Kategorien:", err));
 
-    if (!categorySelect) fetchProducts();
+    if (!categorySelect) fetchProducts(); // Fallback
 
-    // Drop-Ziel dynamisch erstellen
+    // Drop-Ziel dynamisch erstellen (Drop-Zone für Drag & Drop in den Warenkorb)
     const dropZone = document.createElement("div");
     dropZone.id = "customDropZone";
     dropZone.className = "position-fixed end-0 top-50 translate-middle-y p-3 bg-light border rounded shadow text-center";
@@ -162,7 +165,7 @@ if (searchInput) {
         hideDropZone();
     });
 
-    // Drop-Zone Steuerung (ohne Animation)
+    // Drop-Zone Steuerung (ohne Animation) / Globale Steuerung
     window.showDropZone = function () {
         dropZone.style.display = "block";
     };
@@ -233,7 +236,7 @@ function createProductCard(product) {
     return col;
 }
 
-// Bewertung
+// Bewertungssterne berechnen
 function getStars(rating) {
     const validRating = parseFloat(rating);
     if (isNaN(validRating)) return "No rating";
@@ -245,8 +248,7 @@ function getStars(rating) {
     return `${validRating.toFixed(1)} ${stars}`;
 }
 
-
-
+// Produkt zum Warenkorb hinzufügen (AJAX)
 async function addToCart(productId, quantity = 1) {
     try {
         const res = await fetch("../../backend/api/cart-api.php", {
@@ -268,7 +270,7 @@ async function addToCart(productId, quantity = 1) {
 
             // Warenkorb-Zähler in Navbar aktualisieren
             if (typeof window.updateCartCount === "function") {
-                window.updateCartCount();
+                window.updateCartCount(); // Navbar-Zähler updaten
             }
         } else {
             alert("Fehler beim Hinzufügen zum Warenkorb.");
@@ -290,6 +292,8 @@ function showProductModal(product) {
     const modal = new bootstrap.Modal(document.getElementById("productModal"));
     modal.show();
 }
+
+// Toast anzeigen
 function showCartToast(message = "Product has been added to the cart!") {
     const toastEl = document.getElementById('cartToast');
     if (!toastEl) {
@@ -301,7 +305,6 @@ function showCartToast(message = "Product has been added to the cart!") {
     const toast = new bootstrap.Toast(toastEl);
     toast.show();
 }
-
 
 // Warenkorb-Button im Modal
 document.getElementById("addToCartBtn").addEventListener("click", () => {

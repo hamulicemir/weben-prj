@@ -1,3 +1,4 @@
+// Produkte aus dem Warenkorb holen (AJAX)
 async function fetchSummaryCart() {
   const res = await fetch('../../backend/api/cart-api.php', {
     method: 'POST',
@@ -8,20 +9,25 @@ async function fetchSummaryCart() {
   renderSummaryCart(result.products, result.voucher ?? null);
 }
 
+// Funktion zum Darstellen der Zusammenfassung
 function renderSummaryCart(products, voucher) {
+  // HTML-Element mit ID summary-products wird geleert
   const container = document.getElementById('summary-products');
   container.innerHTML = "";
 
+  // Wenn der Warenkorb leer ist
   if (!products || products.length === 0) {
     container.innerHTML = `<div class="alert alert-warning text-center">Cart is empty</div>`;
     return;
   }
 
+  // Zwischensumme berechnen
   let subtotal = 0;
   const listCard = document.createElement("div");
   listCard.className = "card shadow rounded-4 p-4 mb-4";
   listCard.innerHTML = `<h4 class="mb-4">Your Products</h4>`;
 
+  // Alle Produkte durchgehen und anzeigen
   products.forEach(product => {
     const name = product.name ?? 'Product';
     const quantity = product.quantity ?? 1;
@@ -45,11 +51,13 @@ function renderSummaryCart(products, voucher) {
     listCard.appendChild(item);
   });
 
+  // Versand, Rabatt und Gesamtsumme berechnen
   const shipping = 5;
   const voucherAmount = voucher?.amount ? parseFloat(voucher.amount) : 0;
   const discounted = Math.max(0, subtotal - voucherAmount);
   const total = discounted + shipping;
 
+  // Summe und Hinweise anzeigen
   const totalDiv = document.createElement("div");
   totalDiv.className = "text-end mt-4 border-top pt-3";
   totalDiv.innerHTML = `
@@ -61,8 +69,9 @@ function renderSummaryCart(products, voucher) {
     </p>
   `;
 
+  // Alles zusammensetzen und anhängen
   listCard.appendChild(totalDiv);
   container.appendChild(listCard);
 }
 
-document.addEventListener("DOMContentLoaded", fetchSummaryCart);
+document.addEventListener("DOMContentLoaded", fetchSummaryCart); // Alles bei Seitenstart laden

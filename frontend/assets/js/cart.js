@@ -2,22 +2,25 @@
 const apiUrl = '../../backend/api/cart-api.php';
 const voucherApiUrl = '../../backend/api/vouchers-api.php';
 let appliedVoucher = null;
+// Letzter geladener Warenkorb-Stand (z. B. für erneutes Rendern nach Gutschein)
 let lastFetchedProducts = [];
 
 async function fetchCart() {
+    // Anfrage an die API mit Action "get"
     const res = await fetch(apiUrl, {
         method: 'POST',
         body: JSON.stringify({ action: 'get' }),
         headers: { 'Content-Type': 'application/json' }
     });
 
-    const result = await res.json();
-    appliedVoucher = result.voucher || null;
-    lastFetchedProducts = result.products;
-    renderCart(result.products);
-    await saveCart(); 
+    const result = await res.json(); // Antwort als JSON
+    appliedVoucher = result.voucher || null; // Gutschein speichern, falls vorhanden
+    lastFetchedProducts = result.products; // Produkte lokal speichern
+    renderCart(result.products); // Warenkorb anzeigen
+    await saveCart(); // Warenkorb sofort auch speichern
 }
 
+// arenkorb am Server speichern (z. B. nach Änderung oder Gutschein)
 async function saveCart() {
     const res = await fetch(apiUrl, {
         method: 'POST',
@@ -30,10 +33,12 @@ async function saveCart() {
         console.error("❌ Fehler beim Speichern des Warenkorbs!");
     }
 
+     // Wenn es eine globale Funktion `updateCartCount()` gibt, wird sie ausgeführt
     if (typeof window.updateCartCount === "function") {
         window.updateCartCount();
     }
 }
+
 
 async function removeFromCart(productId) {
     const res = await fetch(apiUrl, {
@@ -44,8 +49,8 @@ async function removeFromCart(productId) {
     const result = await res.json();
 
     if (result.status === "ok") {
-        fetchCart(); 
-        await saveCart();
+        fetchCart(); // Warenkorb neu laden
+        await saveCart(); // und speichern
     }
 }
 
@@ -68,6 +73,7 @@ async function updateCart(productId, quantity) {
     }
 }
 
+// Gutschein-Betrag vom Gesamtpreis abziehen
 function calculateDiscountedTotal(subtotal) {
     if (appliedVoucher && appliedVoucher.amount) {
         return Math.max(0, subtotal - parseFloat(appliedVoucher.amount));
@@ -75,6 +81,7 @@ function calculateDiscountedTotal(subtotal) {
     return subtotal;
 }
 
+// Warenkorb anzeigen (Produkte + Zusammenfassung + Gutscheinfeld)
 function renderCart(products) {
     const cartContainer = document.getElementById('cart-container');
     cartContainer.innerHTML = "";
@@ -89,6 +96,7 @@ function renderCart(products) {
     productList.className = "col-md-8";
 
     products.forEach(product => {
+         // Produktdetails extrahieren
         const id = parseInt(product.id);
         const name = product.name || `Produkt #${id}`;
         const quantity = parseInt(product.quantity) || 0;
@@ -98,6 +106,7 @@ function renderCart(products) {
 
         subtotal += parseFloat(sum);
 
+        // Produktkarte (mit Bild, Buttons und Preis)
         const card = document.createElement("div");
         card.className = "card border-0 shadow-sm mb-4"; 
         card.style.minHeight = "120px";
@@ -133,6 +142,7 @@ function renderCart(products) {
         productList.appendChild(card);
     });
 
+    // Zusammenfassung rechts
     const discountedTotal = calculateDiscountedTotal(subtotal);
     const shipping = 5;
     const totalWithShipping = discountedTotal + shipping;
@@ -176,18 +186,21 @@ function renderCart(products) {
         </div>
     `;
 
+     // Zeilen-Container bauen
     const row = document.createElement('div');
     row.className = "row g-4";
     row.appendChild(productList);
     row.appendChild(summaryBox);
     cartContainer.appendChild(row);
 
+    // Button aktivieren
     const voucherBtn = document.getElementById("AddVoucher");
     if (voucherBtn) {
         voucherBtn.addEventListener("click", applyVoucher);
     }
 }
 
+// Gutschein anwenden
 async function applyVoucher() {
     const codeInput = document.getElementById('VoucherCode');
     const code = codeInput.value.trim();
@@ -210,7 +223,7 @@ async function applyVoucher() {
         if (result.status === 'success') {
             appliedVoucher = result.voucher;
             showCartToast(`🎉 Voucher '${appliedVoucher.code}' applied!`);
-            renderCart(lastFetchedProducts);
+            renderCart(lastFetchedProducts); // neu rendern mit Rabatt
             await saveCart();
         } else {
             showCartToast("Voucher invalid or expired.");
@@ -221,6 +234,7 @@ async function applyVoucher() {
     }
 }
 
+// Toast-Nachricht anzeigen
 function showCartToast(message = "Aktion erfolgreich!") {
     const toastEl = document.getElementById('cartToast');
     if (!toastEl) {
@@ -233,4 +247,5 @@ function showCartToast(message = "Aktion erfolgreich!") {
     toast.show();
 }
 
+// Initialer Aufruf beim Laden der Seite
 document.addEventListener("DOMContentLoaded", fetchCart);

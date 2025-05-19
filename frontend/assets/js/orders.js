@@ -1,4 +1,4 @@
-
+// Bestellungen des aktuellen Users laden
 async function loadOrders(sort = "desc") {
     try {
         const res = await fetch("../../backend/api/order-api.php", {
@@ -12,6 +12,7 @@ async function loadOrders(sort = "desc") {
             throw new Error("Fehler beim Serverabruf: " + res.status + " " + res.statusText);
         }
 
+        // JSON-Daten weiterverarbeiten
         const data = await res.json();
         console.log("Antwort-Daten:", data);
 
@@ -19,10 +20,11 @@ async function loadOrders(sort = "desc") {
 
         if (data.status === "success") {
             if (data.orders.length === 0) {
-                document.getElementById("noOrdersMsg").classList.remove("d-none");
+                document.getElementById("noOrdersMsg").classList.remove("d-none");  // Kein Ergebnis → Hinweis anzeigen
                 return;
             }
 
+            // Jede Bestellung als <li>-Element anzeigen
             data.orders.forEach(order => {
                 const li = document.createElement("li");
                 li.className = "list-group-item d-flex justify-content-between align-items-center";
@@ -40,10 +42,9 @@ async function loadOrders(sort = "desc") {
                     € ${parseFloat(order.total_price).toFixed(2).replace('.', ',')}
                 </span>
             `;
-            
-
                 orderList.appendChild(li);
             });
+        // Fehlerbehandlung
         } else {
             throw new Error("Fehlgeschlagene Antwort: " + (data.message || "Unbekannter Fehler"));
         }
@@ -53,23 +54,26 @@ async function loadOrders(sort = "desc") {
     }
 }
 
-
+// formatDate() – ISO-String in deutsches Datum umwandeln
 function formatDate(isoString) {
     const date = new Date(isoString);
     return date.toLocaleDateString('de-DE');
 }
 
+// Sortieren der Bestellungen (per Dropdown)
 document.getElementById("sortSelect").addEventListener("change", (e) => {
     const sort = e.target.value;
     document.getElementById("orderList").innerHTML = ""; // Liste leeren
-    document.getElementById("noOrdersMsg").classList.add("d-none");
-    loadOrders(sort);
+    document.getElementById("noOrdersMsg").classList.add("d-none"); // Hinweis verstecken
+    loadOrders(sort); // Neue Sortierung laden
 });
 
+// Bei Seitenstart: Bestellungen laden
 document.addEventListener("DOMContentLoaded", () => {
-    loadOrders();
+    loadOrders(); // Standardmäßig "desc"
 });
 
+// Einzelne Bestellung anzeigen (Modal)
 function showOrderDetails(orderId) {
     fetch("../../backend/api/order-api.php", {
         method: "POST",
@@ -92,12 +96,12 @@ function showOrderDetails(orderId) {
             });
 
             const modal = new bootstrap.Modal(document.getElementById("orderDetailsModal"));
-            modal.show();
+            modal.show(); // Modal mit Produkten anzeigen
         } else {
             alert("No details found for this order.");
         }
     });
 }
 
-window.showOrderDetails = showOrderDetails;
+window.showOrderDetails = showOrderDetails; // Für globale Verwendung:
 

@@ -1,21 +1,23 @@
+// Wird aufgerufen, sobald die Seite geladen ist
 document.addEventListener("DOMContentLoaded", function () {
     loadCustomers();
 
+    // Setzt den Click-Handler für den Bestätigungsbutton im Deaktivieren-Modal
     document.getElementById("confirmDeactivateBtn").addEventListener("click", function () {
-        const customerId = this.getAttribute("data-id");
-        deactivateCustomer(customerId);
+        const customerId = this.getAttribute("data-id"); // ID aus dem Button-Attribut holen
+        deactivateCustomer(customerId); // Kunde deaktivieren
     });
 
     console.log("Deactivate button clicked. ID:", customerId);
 
 });
 
-// Load all customers
+// Alle Kunden vom Backend laden und anzeigen
 function loadCustomers() {
     fetch("../../backend/api/customers-api.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ action: "getAll" })
+        body: JSON.stringify({ action: "getAll" })  // Anfrage zum Abrufen aller Kunden
     })
         .then(res => res.json())
         .then(data => {
@@ -23,22 +25,27 @@ function loadCustomers() {
 
             if (data.status === "success") {
                 const tbody = document.getElementById("customerTableBody");
-                tbody.innerHTML = "";
+                tbody.innerHTML = ""; // Tabelle leeren
+
+                // Für jeden Kunden eine Tabellenzeile erzeugen
                 data.data.forEach(customer => {
                     const row = document.createElement("tr");
                     let actions = "";
 
+                    // Wenn aktiv → "Details" und "Deactivate"
                     if (parseInt(customer.active) === 1) {
                         actions = `
         <button class="btn btn-outline-primary btn-sm" onclick="showOrders(${customer.id})">Details</button>
         <button class="btn btn-outline-warning btn-sm" onclick="confirmDeactivate(${customer.id})">Deactivate</button>
     `;
                     } else {
+                        // Wenn inaktiv → "Reactivate"
                         actions = `
         <button class="btn btn-outline-success btn-sm" onclick="reactivateCustomer(${customer.id})">Reactivate</button>
     `;
                     }
 
+                    // Zeile mit Kundendaten + Aktionen einfügen
                     row.innerHTML = `
     <td>${customer.username}</td>
     <td>${customer.email}</td>
@@ -48,20 +55,20 @@ function loadCustomers() {
                     tbody.appendChild(row);
                 });
             } else {
-                alert("Error loading customers.");
+                alert("Error loading customers."); // Fehlerbehandlung
             }
         });
 }
 
-// Show confirm deactivate modal
+// Bestätigungs-Modal für Deaktivierung anzeigen
 function confirmDeactivate(customerId) {
     const btn = document.getElementById("confirmDeactivateBtn");
     btn.setAttribute("data-id", customerId);
     const modal = new bootstrap.Modal(document.getElementById("deactivateModal"));
-    modal.show();
+    modal.show(); // Bootstrap-Modal anzeigen
 }
 
-// Deactivate customer
+// Kunde deaktivieren (Backend-Aufruf)
 function deactivateCustomer(customerId) {
     fetch("../../backend/api/customers-api.php", {
         method: "POST",
@@ -72,14 +79,15 @@ function deactivateCustomer(customerId) {
         .then(data => {
             if (data.status === "success") {
                 console.log("Reloading customers...");
-                loadCustomers();
-                bootstrap.Modal.getInstance(document.getElementById("deactivateModal")).hide();
+                loadCustomers(); // Tabelle neu laden
+                bootstrap.Modal.getInstance(document.getElementById("deactivateModal")).hide(); // Modal schließen
             } else {
                 alert("Failed to deactivate customer.");
             }
         });
 }
 
+// Kunde reaktivieren (bei Inaktivem)
 function reactivateCustomer(customerId) {
     fetch("../../backend/api/customers-api.php", {
         method: "POST",
@@ -89,7 +97,7 @@ function reactivateCustomer(customerId) {
         .then(res => res.json())
         .then(data => {
             if (data.status === "success") {
-                loadCustomers();
+                loadCustomers(); // Tabelle aktualisieren
             } else {
                 alert("Failed to reactivate customer.");
             }
@@ -97,7 +105,7 @@ function reactivateCustomer(customerId) {
 }
 
 
-// Show customer's orders
+// Bestellungen eines Kunden anzeigen (in Modal)
 function showOrders(customerId) {
     fetch("../../backend/api/customers-api.php", {
         method: "POST",
@@ -108,8 +116,9 @@ function showOrders(customerId) {
         .then(data => {
             if (data.status === "success") {
                 const tbody = document.getElementById("orderDetailsBody");
-                tbody.innerHTML = "";
+                tbody.innerHTML = ""; // Bestellliste leeren
 
+                // Für jedes Produkt eine Zeile einfügen
                 data.orders.forEach(item => {
                     const row = document.createElement("tr");
                     row.innerHTML = `
@@ -129,8 +138,9 @@ function showOrders(customerId) {
         });
 }
 
-// Remove product from order
+// Produkt aus Bestellung entfernen
 function removeProduct(orderId, productId, customerId) {
+    // Nutzer vorher um Bestätigung fragen
     if (!confirm("Are you sure you want to remove this product from the order?")) return;
 
     fetch("../../backend/api/customers-api.php", {
@@ -142,7 +152,7 @@ function removeProduct(orderId, productId, customerId) {
         .then(data => {
             if (data.status === "success") {
                 alert("Product removed successfully.");
-                showOrders(customerId); // reload orders
+                showOrders(customerId);  // Bestellung neu laden
             } else {
                 alert("Failed to remove product.");
             }

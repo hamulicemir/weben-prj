@@ -1,26 +1,27 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const form = document.getElementById("productForm");
-    const productList = document.getElementById("productList");
-    const actionField = document.getElementById("formAction");
-    const categorySelect = document.getElementById("categorySelect");
+    const form = document.getElementById("productForm"); // Produktformular (für Create/Update)
+    const productList = document.getElementById("productList"); // Container für Produktkarten
+    const actionField = document.getElementById("formAction"); // Verstecktes Feld ("create" oder "update")
+    const categorySelect = document.getElementById("categorySelect"); // Dropdown für Kategorien
 
-    // Kategorien laden
+    // Kategorien aus Backend laden
     fetch("../../backend/api/get-categories.php")
         .then(res => res.json())
         .then(data => {
             data.categories
-                .filter(cat => cat.id !== 0) // Entfernt "All Categories"
+                .filter(cat => cat.id !== 0) // "All Categories" (ID 0) rausfiltern
                 .forEach(cat => {
                     const option = document.createElement("option");
                     option.value = cat.id;
                     option.textContent = cat.name;
-                    categorySelect.appendChild(option);
+                    categorySelect.appendChild(option); // Kategorie einfügen
                 });
         });
 
+    //  Produktformular absenden (Create oder Update)
     form.addEventListener("submit", async function (e) {
-        e.preventDefault();
-        const formData = new FormData(form);
+        e.preventDefault(); // verhindert Seiten-Reload
+        const formData = new FormData(form); // alle Felder + Bild
 
         try {
             const res = await fetch("../../backend/api/product-admin-api.php", {
@@ -33,8 +34,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 alert("Success");
                 loadProducts();
                 form.reset();
-                actionField.value = "create";
-                form.productId.value = "";
+                actionField.value = "create"; // zurück auf "Neues Produkt"
+                form.productId.value = ""; // leere ID
                 document.getElementById("updateBtn").classList.add("d-none");
                 document.getElementById("createBtn").classList.remove("d-none");
             } else {
@@ -46,6 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
+    // Produkte aus Backend laden und in Cards darstellen
     async function loadProducts() {
         try {
             const res = await fetch("../../backend/api/product-api.php?action=getAll");
@@ -70,9 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>
     </div>
 `;
-
-
-                productList.appendChild(col);
+                productList.appendChild(col); // Karte zur Liste hinzufügen
             });
         } catch (err) {
             alert("Error when loading the products");
@@ -80,12 +80,13 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-
+    // Produkt bearbeiten (Formular füllen + Modus „update“ aktivieren)
     window.editProduct = async function (id) {
         try {
             const res = await fetch(`../../backend/api/product-api.php?action=getById&id=${id}`);
             const product = await res.json();
 
+            // Formularfelder mit Produktdaten füllen
             form.productId.value = product.id;
             form.name.value = product.name;
             form.description.value = product.description;
@@ -96,11 +97,15 @@ document.addEventListener("DOMContentLoaded", () => {
             form.stock.value = product.stock;
             actionField.value = "update";
 
+            // Bildvorschau anzeigen
             const preview = document.getElementById("imagePreview");
             preview.src = product.image || "../assets/img/products/no-image-available.jpg";
             preview.style.display = "block";
+
+            // Automatisch zum Formular scrollen
             form.scrollIntoView({ behavior: "smooth" });
 
+            // Button-Toggle
             document.getElementById("updateBtn").classList.remove("d-none");
             document.getElementById("createBtn").classList.add("d-none");
 
@@ -110,7 +115,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     };
 
-
+    // Produkt löschen
     window.deleteProduct = async function (id) {
         if (!confirm("Delete this product?")) return;
 
@@ -126,7 +131,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const result = await res.json();
             if (result.status === "ok") {
-                loadProducts();
+                loadProducts(); // Produktliste aktualisieren
             } else {
                 alert("Error: " + (result.error || "Unknown error"));
             }
@@ -136,5 +141,5 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     };
 
-    loadProducts();
+    loadProducts(); // Initialer Aufruf nach DOM-Ready
 });

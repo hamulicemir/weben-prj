@@ -1,3 +1,4 @@
+// Funktion zum Abrufen der Benutzerdaten (AJAX)
 async function fetchUserData() {
   const res = await fetch('../../backend/api/user-api.php', {
     method: 'POST',
@@ -5,15 +6,17 @@ async function fetchUserData() {
     body: JSON.stringify({ action: 'thisUser' })
   });
 
+  // Ergebnis verarbeiten
   const result = await res.json();
   if (result.status === 'success') {
-    populateUserData(result.user);
-    document.getElementById('userDataView').classList.remove('d-none');
+    populateUserData(result.user); // Benutzerdaten anzeigen
+    document.getElementById('userDataView').classList.remove('d-none'); // Profil-Anzeige sichtbar machen
   } else {
     alert("Fehler beim Laden der Benutzerdaten.");
   }
 }
 
+// Funktion zum Eintragen der Userdaten in HTML-Felder
 function populateUserData(user) {
   document.getElementById('view-salutation').textContent = user.salutation;
   document.getElementById('view-firstName').textContent = user.first_name;
@@ -26,4 +29,4 @@ function populateUserData(user) {
 
 }
 
-window.addEventListener('DOMContentLoaded', fetchUserData);
+window.addEventListener('DOMContentLoaded', fetchUserData); //  Auto-Aufruf beim Laden der Seite
