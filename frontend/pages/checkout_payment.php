@@ -45,7 +45,7 @@ if (!isset($_SESSION['user']) || empty($_SESSION['user'])) {
   <div class="container mb-5" style="max-width: 700px;">
     <h2 class="fw-bold mb-5">PAYMENT & DELIVERY</h2>
 
-    <form action="checkout_summary.php" method="POST">
+    <form action="../../backend/handlers/checkout-payment-handler.php" method="POST">
       <div class="mb-4">
         <h5 class="fw-bold mb-3">HOW WOULD YOU LIKE TO PAY?</h5>
 
