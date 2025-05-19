@@ -40,7 +40,8 @@ switch ($data['action']) {
         break;
 
     case 'viewOrdersByUserID':
-        $response = $service->getOrdersByUserId($data['user_id'] ?? null);
+        $sort = ($data['sort'] ?? 'desc') === 'asc' ? 'ASC' : 'DESC';
+        $response = $service->getOrdersByUserId($data['user_id'] ?? null, $sort);
         break;
 
     case 'deleteOrder':
