@@ -12,17 +12,19 @@ class OrderRepository
     public function save(Order $order)
     {
         $stmt = $this->conn->prepare("
-        INSERT INTO orders (user_id, payment_method, shipping_method, cart, total_price, created_at)
-        VALUES (?, ?, ?, ?, ?, ?)
+        INSERT INTO orders (user_id, payment_method, shipping_method, cart, total_price, created_at, voucher_code, voucher_amount)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     ");
         $stmt->bind_param(
-            "isssds",
+            "isssdsds",
             $order->user_id,
             $order->payment_method,
             $order->shipping_method,
             $order->cart,
             $order->total_price,
-            $order->created_at
+            $order->created_at,
+            $order->voucher_code,
+            $order->voucher_amount
         );
         return $stmt->execute();
     }

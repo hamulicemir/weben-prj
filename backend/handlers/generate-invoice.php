@@ -74,13 +74,31 @@ foreach ($items as $item) {
     $html .= '</tr>';
 }
 
-$tax = $total * 0.20;
-$grandTotal = $total + $tax;
+    $html .= '</table><br>';
 
-$html .= '</table><br>';
-$html .= '<p><strong>Subtotal (net):</strong> € ' . number_format($total, 2, ',', '.') . '<br>';
-$html .= '<strong>Tax (20%):</strong> € ' . number_format($tax, 2, ',', '.') . '<br>';
-$html .= '<strong>Total amount:</strong> € ' . number_format($grandTotal, 2, ',', '.') . '</p>';
+    if (!empty($order['voucher_code'])) {
+    $html .= '<p><strong>Voucher Code:</strong> ' . htmlspecialchars($order['voucher_code']) . '</p>';
+}
 
-$mpdf->WriteHTML($html);
-$mpdf->Output("invoice_{$order['id']}.pdf", \Mpdf\Output\Destination::INLINE);
+    $shipping = 5.00;
+    $voucher = (float)($order['voucher_amount'] ?? 0);
+
+    // Bruttosumme inkl. Steuer
+    $grossTotal = $total + $shipping - $voucher;
+    $grossTotal = max(0, $grossTotal);
+
+    // Netto berechnen
+    $netTotal = $grossTotal / 1.2;
+    $tax = $grossTotal - $netTotal;
+
+    $html .= '<p>';
+    $html .= '<strong>Items Total:</strong> € ' . number_format($total, 2, ',', '.') . '<br>';
+    $html .= '<strong>Shipping:</strong> € ' . number_format($shipping, 2, ',', '.') . '<br>';
+    $html .= '<strong>Voucher:</strong> -€ ' . number_format($voucher, 2, ',', '.')  . '<br>'. '<br>';
+    $html .= '<strong>Subtotal (net):</strong> € ' . number_format($netTotal, 2, ',', '.') . '<br>';
+    $html .= '<strong>Tax (20%):</strong> € ' . number_format($tax, 2, ',', '.') . '<br>';
+    $html .= '<strong>Total (gross):</strong> € ' . number_format($grossTotal, 2, ',', '.') . '</p>';
+
+
+    $mpdf->WriteHTML($html);
+    $mpdf->Output("invoice_{$order['id']}.pdf", \Mpdf\Output\Destination::INLINE);

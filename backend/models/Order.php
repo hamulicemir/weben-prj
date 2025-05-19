@@ -7,6 +7,8 @@ class Order {
     public $cart;
     public $total_price;
     public $created_at;
+    public $voucher_code;
+    public $voucher_amount;
 
     private $productRepo;
 
@@ -20,6 +22,9 @@ class Order {
 
         $voucherAmount = $data['voucher']['amount'] ?? 0;
         $this->total_price = $this->calculateTotal($data['cart'] ?? [], $voucherAmount);
+
+        $this->voucher_code = $data['voucher_code'] ?? null;
+        $this->voucher_amount = $data['voucher_amount'] ?? null;
     }
 
     private function calculateTotal($cart, $voucherAmount = 0) {
