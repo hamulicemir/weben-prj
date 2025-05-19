@@ -16,8 +16,8 @@
             <div class="col-12 col-md-2 col-xl-2 mb-3 text-xl-end">
                 <h6 class="text-uppercase">About</h6>
                 <ul class="list-unstyled mt-2">
-                    <li><a href="../pages/thebrand.php" class="text-decoration-none text-dark mb-1 d-block">The Brand</a></li>
-                    <li><a href="../pages/stores.php" class="text-decoration-none text-dark mb-1 d-block">Stores</a></li>
+                    <li><a class="text-decoration-none text-dark mb-1 d-block">The Brand</></li>
+                    <li><a class="text-decoration-none text-dark mb-1 d-block">Stores</a></li>
                     <li><a href="../pages/jobs.php" class="text-decoration-none text-dark d-block">Jobs</a></li>
                 </ul>
             </div>
@@ -26,10 +26,10 @@
             <div class="col-12 col-md-2 col-xl-2 mb-3 text-xl-end">
                 <h6 class="text-uppercase">Service & Support</h6>
                 <ul class="list-unstyled mt-2">
-                    <li><a href="#" class="text-decoration-none text-dark mb-1 d-block">Size Guide</a></li>
-                    <li><a href="#" class="text-decoration-none text-dark mb-1 d-block">Newsletter</a></li>
-                    <li><a href="../pages/faq.php" class="text-decoration-none text-dark mb-1 d-block">FAQ</a></li>
-                    <li><a href="#" class="text-decoration-none text-dark d-block">Returns</a></li>
+                    <li><a class="text-decoration-none text-dark mb-1 d-block">Size Guide</a></li>
+                    <li><a class="text-decoration-none text-dark mb-1 d-block">Newsletter</a></li>
+                    <li><a class="text-decoration-none text-dark mb-1 d-block">FAQ</a></li>
+                    <li><a class="text-decoration-none text-dark d-block">Returns</a></li>
                 </ul>
             </div>
 
