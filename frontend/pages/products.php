@@ -12,6 +12,7 @@ $searchQuery = isset($_GET['search']) ? htmlspecialchars($_GET['search']) : '';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ICONIQ - Products</title>
     <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/products.css">
     <link rel="shortcut icon" href="../assets/fonts/favicon.ico" type="image/x-icon" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -21,12 +22,24 @@ $searchQuery = isset($_GET['search']) ? htmlspecialchars($_GET['search']) : '';
     <?php include '../components/navbar.php'; ?> <!-- navbar -->
     <main class="py-5" data-search="<?= $searchQuery ?>">
 
-        <div class="container">
-            <select id="categorySelect" class="form-select mb-3" style="max-width: 300px;">
-            </select>
+    <div class="container d-flex justify-content-between flex-wrap align-items-center mb-4" style="gap: 1rem;">
+    <select id="genderSelect" class="filter-select">
+        <option value="">All Genders</option>
+        <option value="men">Men</option>
+        <option value="women">Women</option>
+    </select>
 
-            <div id="product-list" class="row"></div>
-        </div>
+    <select id="categorySelect" class="filter-select">
+        <!-- Kategorien werden dynamisch befüllt -->
+    </select>
+</div>
+
+<div class="container">
+    <div id="product-list" class="row"></div>
+</div>
+
+
+
 
     </main>
 

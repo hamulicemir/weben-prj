@@ -23,12 +23,12 @@
         </div>
         <div class="row">
             <div class="col-md-6 mb-4">
-                <a href="/shop/women">
+                <a href="products.php?gender=women">
                     <img src="../assets/img/products/Index_Women.svg" alt="Shop Women">
                 </a>
             </div>
             <div class="col-md-6 mb-4">
-                <a href="/shop/men">
+                <a href="products.php?gender=men">
                     <img src="../assets/img/products/Index_Men.svg" alt="Shop Men">
                 </a>
             </div>

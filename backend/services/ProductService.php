@@ -19,7 +19,7 @@ class ProductService {
         return $this->repo->getFilteredProducts($search, $categoryId);
     }
 
-    public function getAll($search = null, $categoryId = null) {
+    public function getAll($search = null, $categoryId = null, $gender = null) {
         $query = "SELECT * FROM products WHERE 1=1";
         $params = [];
         $types = "";
@@ -40,6 +40,12 @@ class ProductService {
             $query .= " AND category_id = ?";
             $params[] = $categoryId;
             $types .= "i";
+        }
+
+        if ($gender) {
+            $query .= " AND gender = ?";
+            $params[] = $gender;
+            $types .= "s";
         }
     
         $stmt = $this->conn->prepare($query);

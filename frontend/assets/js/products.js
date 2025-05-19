@@ -2,6 +2,7 @@
 window.addEventListener("DOMContentLoaded", () => {
     const productContainer = document.getElementById("product-list");
     const categorySelect = document.getElementById("categorySelect");
+    const genderSelect = document.getElementById("genderSelect");
 
     // Produkte vom Server holen (ggf. mit Kategorie oder Suchbegriff)
     function fetchProducts() {
@@ -12,9 +13,11 @@ window.addEventListener("DOMContentLoaded", () => {
         // hole Search und Category aus der URL
         const search = new URLSearchParams(window.location.search).get("search");
         const selectedCategory = categorySelect?.value;
+        const selectedGender = genderSelect?.value;
 
         if (search) params.append("search", search);
         if (selectedCategory) params.append("category", selectedCategory);
+        if (selectedGender) params.append("gender", selectedGender);
 
         if ([...params].length > 0) {
             url += "&" + params.toString();
@@ -43,29 +46,62 @@ window.addEventListener("DOMContentLoaded", () => {
 
     // Live-Suche beim Tippen im Suchfeld
     const searchInput = document.getElementById("searchInput");
-    if (searchInput) {
-        searchInput.addEventListener("input", () => {
-            const query = searchInput.value.trim();
+    const urlParams = new URLSearchParams(window.location.search);
+    const initialQuery = urlParams.get("search");
 
-            // URL-Parameter aktualisieren (nur im Speicher)
-            const newParams = new URLSearchParams(window.location.search);
-            if (query) {
-                newParams.set("search", query);
-            } else {
-                newParams.delete("search");
-            }
+// Feld mit Wert aus URL befüllen (damit er sichtbar ist)
+if (searchInput && initialQuery) {
+    searchInput.value = initialQuery;
+}
 
-            // Pfad aktualisieren (kein Reload!)
-            const newUrl = window.location.pathname + "?" + newParams.toString();
-            window.history.replaceState(null, "", newUrl);
+if (searchInput) {
+    searchInput.addEventListener("input", () => {
+        const query = searchInput.value.trim();
+        const newParams = new URLSearchParams(window.location.search);
 
-            fetchProducts(); // Ergebnisse neu laden
-        });
-    }
+        if (query) {
+            newParams.set("search", query);
+        } else {
+            newParams.delete("search");
+        }
+
+        const newUrl = window.location.pathname + "?" + newParams.toString();
+        window.history.replaceState(null, "", newUrl);
+
+        fetchProducts();
+    });
+}
 
     if (categorySelect) {
         categorySelect.addEventListener("change", fetchProducts);
     }
+
+    if (genderSelect) {
+        // Setze das Dropdown auf den Wert aus der URL (beim Seitenstart)
+        const initialGender = new URLSearchParams(window.location.search).get("gender");
+        if (initialGender) {
+            genderSelect.value = initialGender;
+        }
+    
+        // Wenn sich der Filter ändert: Parameter in URL setzen und Produkte neu laden
+        genderSelect.addEventListener("change", () => {
+            const newGender = genderSelect.value;
+            const newParams = new URLSearchParams(window.location.search);
+    
+            if (newGender) {
+                newParams.set("gender", newGender);
+            } else {
+                newParams.delete("gender");
+            }
+    
+            const newUrl = window.location.pathname + "?" + newParams.toString();
+            window.history.replaceState(null, "", newUrl);
+    
+            fetchProducts();
+        });
+    }
+    
+
 
     // Kategorien laden
     fetch("../../backend/api/get-categories.php")

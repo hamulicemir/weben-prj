@@ -1,0 +1,13 @@
+.btn-dark {
+    background-color: #000;
+    color: #fff;
+    border: none;
+    border-radius: var(--border-radius);
+    font-size: var(--font-size-small);
+    padding: 10px 20px;
+    transition: background-color 0.3s;
+}
+
+.btn-dark:hover {
+    background-color: #222;
+}
