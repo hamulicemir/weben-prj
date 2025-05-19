@@ -174,7 +174,6 @@ require_once("../../backend/config/config.php");
                 </div>
             </div>
         </main>
-
     <?php include '../components/footer.php'; ?> <!-- Footer -->
 </body>
 
