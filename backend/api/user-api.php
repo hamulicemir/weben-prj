@@ -54,6 +54,10 @@ switch ($action) {
     case 'thisUser':
         $response = $service->getCurrentUser();
         break;
+    case 'editProfileData':
+        $response = $service->getUserForEditProfile();
+        break;
+
     default:
         http_response_code(400);
         $response = ['status' => 'error', 'message' => 'Unbekannte oder fehlende Aktion'];
