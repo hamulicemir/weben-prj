@@ -21,6 +21,13 @@ class OrderService {
         }
 
         $data['user_id'] = $_SESSION['user']['id'];
+        $voucher = $_SESSION['voucher'] ?? null;
+        
+        if ($voucher && isset($voucher['code'], $voucher['amount'])) {
+            $data['voucher_code'] = $voucher['code'];
+            $data['voucher_amount'] = $voucher['amount'];
+        }
+
         $order = new Order($data, $this->productRepo);
 
         // 1. Hauptbestellung speichern
