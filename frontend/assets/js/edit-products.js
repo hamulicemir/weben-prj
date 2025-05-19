@@ -36,7 +36,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 actionField.value = "create";
                 form.productId.value = "";
                 document.getElementById("updateBtn").classList.add("d-none");
-                document.getElementById("cancelBtn").classList.add("d-none");
                 document.getElementById("createBtn").classList.remove("d-none");
             } else {
                 alert("Error: " + (result.error || "Unknown error"));
@@ -66,8 +65,8 @@ document.addEventListener("DOMContentLoaded", () => {
             <p class="card-text small text-muted">${p.gender === 'men' ? 'For Men' : p.gender === 'women' ? 'For Women' : ''}</p>
             <p class="card-text mb-2"><strong>€${parseFloat(p.price).toFixed(2)}</strong> · ⭐ ${p.rating}</p>
             <p class="card-text small text-muted">Stock: ${p.stock}</p>
-            <button onclick="editProduct(${p.id})" class="btn btn-sm btn-outline-secondary me-2">Edit</button>
-            <button onclick="deleteProduct(${p.id})" class="btn btn-sm btn-outline-danger">Delete</button>
+            <button onclick="editProduct(${p.id})" class="btn btn-sm btn-outline-secondary me-2">Edit Product</button>
+            <button onclick="deleteProduct(${p.id})" class="btn btn-sm btn-outline-danger">Delete Product</button>
         </div>
     </div>
 `;
@@ -103,7 +102,6 @@ document.addEventListener("DOMContentLoaded", () => {
             form.scrollIntoView({ behavior: "smooth" });
 
             document.getElementById("updateBtn").classList.remove("d-none");
-            document.getElementById("cancelBtn").classList.remove("d-none");
             document.getElementById("createBtn").classList.add("d-none");
 
         } catch (err) {
@@ -111,16 +109,6 @@ document.addEventListener("DOMContentLoaded", () => {
             console.error(err);
         }
     };
-
-    document.getElementById("cancelBtn").addEventListener("click", () => {
-        form.reset();
-        form.productId.value = "";
-        actionField.value = "create";
-        document.getElementById("updateBtn").classList.add("d-none");
-        document.getElementById("cancelBtn").classList.add("d-none");
-        document.getElementById("createBtn").classList.remove("d-none");
-        document.getElementById("imagePreview").src = "../assets/img/products/no-image-available.jpg";
-    });
 
 
     window.deleteProduct = async function (id) {

@@ -91,7 +91,6 @@ if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
             <div class="col-12 d-flex gap-2">
                 <button type="submit" id="createBtn" class="btn btn-success">Create Product</button>
                 <button type="submit" id="updateBtn" class="btn btn-warning d-none">Change Product</button>
-                <button type="button" id="cancelBtn" class="btn btn-secondary d-none">Delete Product</button>
             </div>
 
 
