@@ -1,5 +1,7 @@
 README: Projekthinweise zur Inbetriebnahme
 =================================================
+GITHUB REPO: https://github.com/hamulicemir/weben-prj
+
 
 Projektname: ICONIQ
 Ersteller: Emir Hamulic, Jasmin Kerber, Simona Kimbere
@@ -9,7 +11,7 @@ Ersteller: Emir Hamulic, Jasmin Kerber, Simona Kimbere
 a) PHP (getestet mit Version 9.2.12 unter XAMPP)
 b) MySQL
 c) Composer (https://getcomposer.org)
-d) Lokale Serverumgebung (wie XAMPP)
+d) Lokale Serverumgebung (XAMPP)
 
 2. Composer-Abhängigkeiten
 -------------------------------------------------
