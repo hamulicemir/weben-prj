@@ -28,7 +28,7 @@
                 <ul class="list-unstyled mt-2">
                     <li><a class="text-decoration-none text-dark mb-1 d-block">Size Guide</a></li>
                     <li><a class="text-decoration-none text-dark mb-1 d-block">Newsletter</a></li>
-                    <li><a href="../pages/faq.php" class="text-decoration-none text-dark mb-1 d-block">FAQ</a></li>
+                    <li><a class="text-decoration-none text-dark mb-1 d-block">FAQ</a></li>
                     <li><a class="text-decoration-none text-dark d-block">Returns</a></li>
                 </ul>
             </div>
