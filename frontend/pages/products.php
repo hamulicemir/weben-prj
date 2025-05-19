@@ -37,12 +37,7 @@ $searchQuery = isset($_GET['search']) ? htmlspecialchars($_GET['search']) : '';
 <div class="container">
     <div id="product-list" class="row"></div>
 </div>
-
-
-
-
     </main>
-
     <!-- Modal -->
     <div class="modal fade" id="productModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">

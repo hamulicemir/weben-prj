@@ -29,4 +29,24 @@ function populateUserData(user) {
 
 }
 
+function populateEditProfileForm(user) {
+  // Anrede (Radio Buttons)
+  const salutationInput = document.querySelector(`[name="salutation"][value="${user.salutation}"]`);
+  if (salutationInput) salutationInput.checked = true;
+
+  // Input-Felder
+  document.getElementById('first_name').value = user.first_name || '';
+  document.getElementById('last_name').value = user.last_name || '';
+  document.getElementById('email').value = user.email || '';
+  document.getElementById('username').value = user.username || '';
+  document.getElementById('street').value = user.street || '';
+  document.getElementById('no').value = user.no || '';
+  document.getElementById('addressaddition').value = user.address_addition || '';
+  document.getElementById('postal_code').value = user.postal_code || '';
+  document.getElementById('city').value = user.city || '';
+  document.getElementById('country').value = user.country || '';
+  document.getElementById('payment_info').value = user.payment_info || '';
+}
+
+
 window.addEventListener('DOMContentLoaded', fetchUserData); //  Auto-Aufruf beim Laden der Seite
