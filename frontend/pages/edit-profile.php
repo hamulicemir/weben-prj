@@ -1,33 +1,3 @@
-<?php
-require_once("../../backend/config/config.php");
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-
-$userId = $_SESSION['user']['id'] ?? null;
-if (!$userId) {
-    header("Location: login.php");
-    exit;
-}
-
-$stmt = $conn->prepare("SELECT salutation, first_name, last_name, address, postal_code, city, country, email, username, payment_info FROM users WHERE id = ?");
-$stmt->bind_param("i", $userId);
-$stmt->execute();
-$result = $stmt->get_result();
-$user = $result->fetch_assoc();
-
-// Adresse aufsplitten
-$street = $no = $addition = "";
-if (preg_match('/^(.*?)[\s]+(\d+[a-zA-Z]*)[,]*[\s]*(.*)?$/', $user['address'], $matches)) {
-    $street = $matches[1] ?? '';
-    $no = $matches[2] ?? '';
-    $addition = $matches[3] ?? '';
-}
-
-
-
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -44,27 +14,19 @@ if (preg_match('/^(.*?)[\s]+(\d+[a-zA-Z]*)[,]*[\s]*(.*)?$/', $user['address'], $
 <main class="container py-5">
     <h2 class="mb-4">Edit Profile</h2>
 
-    <?php if (isset($_SESSION['errors'])): ?>
-        <div class="alert alert-danger">
-            <ul class="mb-0">
-                <?php foreach ($_SESSION['errors'] as $err): ?>
-                    <li><?= htmlspecialchars($err) ?></li>
-                <?php endforeach; unset($_SESSION['errors']); ?>
-            </ul>
-        </div>
-    <?php endif; ?>
+    <div class="alert alert-danger d-none" id="profileError"></div>
 
     <div class="card shadow-sm">
         <div class="card-body">
             <form action="../../backend/handlers/profile-update-handler.php" method="POST" class="fs-5">
 
-            <h5 class="mt-3">Change Personal Information</h5>
+                <h5 class="mt-3">Change Personal Information</h5>
 
-             <div class="mb-3">
-                    <label class="form-label"></label><br>
+                <div class="mb-3">
+                    <label class="form-label">Salutation</label><br>
                     <?php foreach (["Ms", "Mr", "Other"] as $s): ?>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="salutation" id="salutation_<?= $s ?>" value="<?= $s ?>" <?= $user['salutation'] === $s ? 'checked' : '' ?>>
+                            <input class="form-check-input" type="radio" name="salutation" id="salutation_<?= $s ?>" value="<?= $s ?>">
                             <label class="form-check-label" for="salutation_<?= $s ?>"><?= $s ?></label>
                         </div>
                     <?php endforeach; ?>
@@ -72,66 +34,63 @@ if (preg_match('/^(.*?)[\s]+(\d+[a-zA-Z]*)[,]*[\s]*(.*)?$/', $user['address'], $
 
                 <div class="mb-3">
                     <label class="form-label">First name</label>
-                    <input type="text" name="first_name" class="form-control" value="<?= htmlspecialchars($user['first_name']) ?>" required>
+                    <input type="text" name="first_name" id="first_name" class="form-control" required>
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label">Last name</label>
-                    <input type="text" name="last_name" class="form-control" value="<?= htmlspecialchars($user['last_name']) ?>" required>
+                    <input type="text" name="last_name" id="last_name" class="form-control" required>
                 </div>
 
                 <div class="row">
                     <div class="col-md-8 mb-3">
                         <label class="form-label">Street</label>
-                        <input type="text" name="street" class="form-control" value="<?= htmlspecialchars($street) ?>" required>
+                        <input type="text" name="street" id="street" class="form-control" required>
                     </div>
                     <div class="col-md-4 mb-3">
                         <label class="form-label">No.</label>
-                        <input type="text" name="no" class="form-control" value="<?= htmlspecialchars($no) ?>" required>
+                        <input type="text" name="no" id="no" class="form-control" required>
                     </div>
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label">Address Addition (optional)</label>
-                    <input type="text" name="addressaddition" class="form-control" value="<?= htmlspecialchars($addition) ?>">
+                    <input type="text" name="addressaddition" id="addressaddition" class="form-control">
                 </div>
 
                 <div class="row">
                     <div class="col-md-4 mb-3">
                         <label class="form-label">ZIP Code</label>
-                        <input type="text" name="postal_code" class="form-control" value="<?= htmlspecialchars($user['postal_code']) ?>" required>
+                        <input type="text" name="postal_code" id="postal_code" class="form-control" required>
                     </div>
                     <div class="col-md-8 mb-3">
                         <label class="form-label">City</label>
-                        <input type="text" name="city" class="form-control" value="<?= htmlspecialchars($user['city']) ?>" required>
+                        <input type="text" name="city" id="city" class="form-control" required>
                     </div>
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label">Country</label>
-                    <input type="text" name="country" class="form-control" value="<?= htmlspecialchars($user['country']) ?>" required>
+                    <input type="text" name="country" id="country" class="form-control" required>
                 </div>
-
 
                 <div class="mb-3">
                     <label class="form-label">Email</label>
-                    <input type="email" name="email" class="form-control" value="<?= htmlspecialchars($user['email']) ?>" required>
+                    <input type="email" name="email" id="email" class="form-control" required>
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label">Username</label>
-                    <input type="text" name="username" class="form-control" value="<?= htmlspecialchars($user['username']) ?>" required>
+                    <input type="text" name="username" id="username" class="form-control" required>
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label">Payment Info (IBAN)</label>
-                    <input type="text" name="payment_info" class="form-control" value="<?= htmlspecialchars($user['payment_info']) ?>">
+                    <input type="text" name="payment_info" id="payment_info" class="form-control">
                 </div>
 
                 <hr>
                 <h5 class="mt-4">Change Password</h5>
-
-
 
                 <div class="mb-3 position-relative">
                     <label class="form-label">Current password</label>
@@ -168,13 +127,14 @@ if (preg_match('/^(.*?)[\s]+(\d+[a-zA-Z]*)[,]*[\s]*(.*)?$/', $user['address'], $
                 </div>
 
                 <button type="submit" class="btn btn-dark">Save Changes</button>
-                <aef="user-account.php" class="btn btn-outline-secondary ms-2">Cancel</a>
+                <a href="user-account.php" class="btn btn-outline-secondary ms-2">Cancel</a>
             </form>
         </div>
     </div>
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../assets/js/edit-profile.js"></script>
 <script>
 function togglePassword(id, show) {
     const input = document.getElementById(id);

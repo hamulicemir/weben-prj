@@ -59,4 +59,42 @@ class UserService {
             ['status' => 'success'] :
             ['status' => 'error', 'message' => 'Löschen fehlgeschlagen'];
     }
+
+
+    public function getUserForEditProfile() {
+    if (!isset($_SESSION['user']['id'])) {
+        return ['status' => 'error', 'message' => 'Nicht eingeloggt'];
+    }
+
+    $user = $this->repo->findById($_SESSION['user']['id']);
+
+    if (!$user) {
+        return ['status' => 'error', 'message' => 'Benutzer nicht gefunden'];
+    }
+
+    // Adresse aufsplitten
+    [$street, $no, $addition] = $this->splitAddress($user['address'] ?? '');
+
+    // Neue Felder einfügen
+    $user['street'] = $street;
+    $user['no'] = $no;
+    $user['address_addition'] = $addition;
+
+    // Optional: Passwort nicht mitsenden
+    unset($user['password_hash']);
+
+    return ['status' => 'success', 'user' => $user];
+}
+
+
+private function splitAddress($address) {
+    $street = $no = $addition = "";
+    if (preg_match('/^(.*?)[\s]+(\d+[a-zA-Z]*)[,]*[\s]*(.*)?$/', $address, $matches)) {
+        $street = $matches[1] ?? '';
+        $no = $matches[2] ?? '';
+        $addition = $matches[3] ?? '';
+    }
+    return [$street, $no, $addition];
+}
+
 }
